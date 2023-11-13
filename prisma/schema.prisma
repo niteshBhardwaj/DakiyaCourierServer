@@ -10,35 +10,521 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String    @unique
-  title    String
-  body     String
-  author   User      @relation(fields: [authorId], references: [id])
-  authorId String    @db.ObjectId
-  comments Comment[]
-}
-
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String   @unique
-  name    String?
-  address Address?
-  posts   Post[]
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  email    String @unique
+
+  // Phone number
+  phone        String @unique
+  phoneCountry String
+
+  // Password
+  passwordHash String
+  passwordSalt String
+
+  // Social login
+  socialLogin SocialLogin
+
+  //refresh tokens
+  refreshTokens RefreshToken[]
+  // Roles
+  roles         Role           @default(USER)
+
+  // User photo
+  photo     String
+  thumbnail String
+
+  // Activation status
+  active Boolean @default(false)
+
+  // User type
+  userType UserType @default(STANDARD)
+
+  // Created date
+  createdAt      DateTime         @default(now())
+  OTP            OTP[]
+  Wallet         Wallet[]
+  Ticket         Ticket[]
+  UserKYC        UserKYC[]
+  AccountDetails AccountDetails[]
 }
 
-model Comment {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  comment String
-  post    Post   @relation(fields: [postId], references: [id])
-  postId  String @db.ObjectId
+type SocialLogin {
+  googleProvider     String
+  googleProviderId   String
+  facebookProvider   String
+  facebookProviderId String
 }
 
-// Address is an embedded document
-type Address {
-  street String
-  city   String
-  state  String
-  zip    String
+enum UserType {
+  STANDARD
+  PREMIUM
+  ADMIN
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+type RefreshToken {
+  // id String @id @default(auto()) @map("_id") @db.ObjectId
+  // user User @relation(fields: [userId], references: [id])
+  // userId String @db.ObjectId
+  token     String
+  createdAt DateTime @default(now())
+}
+
+model UserKYC {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // User ID
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  // KYC status
+  kycStatus KYCStatus @default(Pending)
+
+  // Full name
+  fullName String
+
+  // Date of birth
+  dateOfBirth DateTime
+
+  // Address
+  address String
+
+  // Phone number
+  phoneNumber String
+
+  // Government ID type
+  governmentIdType GovernmentIdType
+
+  // Government ID number
+  governmentIdNumber String
+
+  // Government ID photo
+  governmentIdPhoto String
+
+  // Selfie photo
+  selfiePhoto String
+
+  // Rejected reason
+  rejectedReason String?
+
+  // Created at
+  createdAt DateTime @default(now())
+
+  // Updated at
+  updatedAt DateTime @default(now())
+}
+
+enum KYCStatus {
+  Pending
+  Approved
+  Rejected
+}
+
+enum GovernmentIdType {
+  AadhaarCard
+  PANCard
+  DrivingLicense
+  Passport
+  Other
+}
+
+model AccountDetails {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // User ID
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String      @db.ObjectId
+  // Account type
+  accountType AccountType @default(Standard)
+
+  // Account holder name
+  accountHolderName String
+
+  // Account number
+  accountNumber String
+
+  // Bank name
+  bankName String
+
+  // IFSC code
+  IFSCCode String
+
+  // UPI ID
+  UPIId String?
+
+  // Created at
+  createdAt DateTime @default(now())
+
+  // Updated at
+  updatedAt DateTime @default(now())
+}
+
+enum AccountType {
+  Standard
+  Premium
+  Business
+}
+
+model OTP {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // User ID
+  user   User?  @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  // OTP code
+  otpCode String
+
+  // Expiration time
+  expirationTime DateTime
+
+  // Maximum allowed OTP request attempts
+  maxAttempts Int @default(3)
+
+  // Number of OTP request attempts made
+  attempts Int @default(0)
+
+  // Timestamp of the last OTP request
+  lastRequestTime DateTime @default(now())
+
+  // User's IP address during the last OTP request
+  lastRequestIP String
+}
+
+model Order {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  pickupAddress PickupAddress @relation(fields: [pickupId], references: [id])
+  pickupId      String        @db.ObjectId
+  dropAddress   DropAddress   @relation(fields: [pickupId], references: [id])
+  dropId        String        @db.ObjectId
+  // Payment mode
+  paymentMode   String
+
+  // Shipping mode
+  shippingMode String
+
+  // Weight
+  weight Int
+
+  // Is fragile?
+  isFragile Boolean?
+
+  // Box height
+  boxHeight Int
+
+  // Box width
+  boxWidth Int
+
+  // Box length
+  boxLength Int
+
+  // COD amount
+  codAmount Int
+
+  // Waybill number
+  waybill String
+
+  // Total amount
+  totalAmount Int
+
+  //products
+  products Products[]
+
+  expectedDeliveryDate DateTime?
+
+  reverseInTransit Boolean @default(false)
+
+  currentStatus CurrentStatus
+
+  tracking TrackingStates[]
+  Ticket   Ticket[]
+}
+
+type Products {
+  name     String
+  quantity Int
+  category String
+  amount   Int
+}
+
+model PickupAddress {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  phone         String
+  city          String
+  name          String
+  pincode       Int
+  address       String
+  country       String
+  email         String
+  returnAddress ReturnAddress?
+  createdOn     String[]
+  Order         Order[]
+}
+
+type ReturnAddress {
+  address String
+  pincode Int
+  city    String
+  state   String
+  country String
+}
+
+model DropAddress {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  phone   String
+  city    String
+  name    String
+  pincode Int
+  address String
+  country String
+  email   String
+  Order   Order[]
+}
+
+type CurrentStatus {
+  remarks        String?
+  status         String?
+  statusDateTime DateTime?
+  statusType     String?
+}
+
+type TrackingStates {
+  location      String
+  scan          String
+  scanDateTime  String
+  scanNslRemark String
+  scanType      String
+}
+
+model Wallet {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // User ID
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  // Balance
+  balance Int @default(0)
+
+  // Currency
+  currency String @default("INR")
+
+  // Wallet type
+  walletType WalletType @default(Personal)
+
+  // Wallet status
+  walletStatus WalletStatus @default(Active)
+
+  // Transaction history
+  transactions Transaction[]
+
+  // Notes
+  notes String?
+}
+
+enum WalletType {
+  Personal
+  Business
+}
+
+enum WalletStatus {
+  Active
+  Inactive
+  Blocked
+}
+
+model Transaction {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Wallet ID
+  wallet   Wallet @relation(fields: [walletId], references: [id])
+  walletId String @db.ObjectId
+
+  // Amount
+  amount Int
+
+  // Transaction type
+  transactionType TransactionType @default(Debit)
+
+  // Transaction date
+  transactionDate DateTime @default(now())
+
+  // Description
+  description String?
+
+  reason TransationReason
+}
+
+enum TransactionType {
+  Credit
+  Debit
+  Transfer
+}
+
+type TransationReason {
+  type      String
+  id        String
+  provider  String?
+  extraInfo String?
+}
+
+model Ticket {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // User ID
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  // User ID
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String @db.ObjectId
+
+  // Ticket status
+  ticketStatus TicketStatus @default(OPEN)
+
+  // Ticket priority
+  ticketPriority TicketPriority @default(Medium)
+
+  // Ticket type
+  ticketType TicketType @default(General)
+
+  // Subject
+  subject String
+
+  // Description
+  description String
+
+  // Attachments
+  attachments Attachment[]
+
+  // Assigned to
+  assignedTo String?
+
+  // Notes
+  notes String?
+
+  // Channel
+  channel ChannelType @default(IN_APP)
+
+  // Due date
+  dueDate DateTime?
+
+  // Customer satisfaction rating
+  customerSatisfactionRating Int?
+
+  // Agent feedback
+  agentFeedback String?
+
+  // Created at
+  createdAt DateTime @default(now())
+
+  // Updated at
+  updatedAt DateTime @default(now())
+}
+
+enum ChannelType {
+  IN_APP
+  PHONE
+  EMAIL
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  Low
+  Medium
+  High
+}
+
+enum TicketType {
+  General
+  Shipment
+  Payment
+  Account
+  Other
+}
+
+type Attachment {
+  // File name
+  fileName String
+
+  // File size
+  fileSize Int
+
+  // File type
+  fileType String
+
+  // File content``
+  fileContent String
+}
+
+
+model RateCard {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Service type
+  serviceType ServiceType @default(Surface)
+
+  // Weight range
+  weightRange WeightRange
+
+  // Distance range
+  distanceRange DistanceRange
+
+  // Price
+  price Int
+
+  // COD charges
+  CODCharges Int
+
+  // international Zone
+  internatinoalZone InternationalZone @default(Domestic)
+
+  // Zone
+  zone Zone @default(ZoneA)
+
+  // Created at
+  createdAt DateTime @default(now())
+
+  // Updated at
+  updatedAt DateTime @default(now())
+}
+
+enum ServiceType {
+  Surface
+  Air
+}
+
+type WeightRange {
+  minWeight Int
+  maxWeight Int
+}
+
+type DistanceRange {
+  minDistance Int
+  maxDistance Int
+}
+
+enum InternationalZone {
+  Domestic
+  International
+}
+
+enum Zone {
+  ZoneA // within the same city
+  ZoneB // a parcel within the same state
+  ZoneC // When pick-up and delivery are done in metro cities
+  ZoneD // When any or both pick-up and delivery is done in Rest of India except the North East and Jammu & Kashmir
+  ZoneE // When any or both of pick-up and delivery is done in the North East region or Jammu and Kashmir
 }
