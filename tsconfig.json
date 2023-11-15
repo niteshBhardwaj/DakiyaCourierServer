@@ -20,14 +20,14 @@
     ],
     "baseUrl": "./src",
     "paths": {
-      "constants": ["./constants"],
       "datasource": ["./datasource"],
       "graphql": ["./grahpql"],
-      "jwt": ["./jwt"],
       "query": ["./prisma-query"],
       "utils": ["./utils"],
-      "validations": ["./validations"],
-      "yoga": ["./yoga"]
+      "@constants": ["./constants"],
+      "middlewares": ["./middlewares"],
+      "dtos": ["./grahpql/dtos"],
+      "subscribers": ["./subscribers"]
     }
   }
 }
