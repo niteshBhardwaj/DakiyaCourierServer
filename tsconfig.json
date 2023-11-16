@@ -26,6 +26,7 @@
       "utils": ["./utils"],
       "@constants": ["./constants"],
       "middlewares": ["./middlewares"],
+      "services": ["./services"],
       "dtos": ["./grahpql/dtos"],
       "subscribers": ["./subscribers"]
     }

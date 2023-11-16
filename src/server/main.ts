@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import yogaInit from "yoga";
 
 async function main() {
@@ -14,8 +15,7 @@ async function main() {
   );
 }
 
-main()
-.catch((e) => {
+main().catch((e) => {
   console.log(e);
   process.exit();
-})
+});
