@@ -1,3 +1,3 @@
 type Query {
-  getCurrentUser(request: LoginInput): AuthPayload!
+  getCurrentUser(request: LoginInput): AuthPayload! @auth
 }

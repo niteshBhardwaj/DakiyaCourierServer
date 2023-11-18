@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "bun --hot run src/server/main.ts",
     "devw": "bun --watch run src/server/main.ts",
+    "dev-inspect": "bun --inspect-brk run src/server/main.ts",
     "generate": "bunx prisma generate",
     "studio": "bunx prisma studio"
   },
@@ -25,6 +26,7 @@
     "graphql-constraint-directive": "^5.3.0",
     "graphql-yoga": "^5.0.0",
     "inversify": "^6.0.2",
+    "keygen": "^0.4.0",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0"
   }
