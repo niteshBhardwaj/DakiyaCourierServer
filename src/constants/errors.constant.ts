@@ -1,7 +1,7 @@
 export const AUTH_ERROR_KEYS = {
   WRONG_TOKEN: 'Wrong authentication token',
   MISSING_TOKEN: 'Authentication token missing',
-  INVALID_PERMISSION: 'You don\'t have persmission to access.'
+  INVALID_PERMISSION: 'You don\'t have permission to access.'
 };
 
 export const CONFIG_ERROR_KEYS = {

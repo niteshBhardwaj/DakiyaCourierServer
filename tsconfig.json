@@ -1,34 +1,44 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "composite": true,
-    "strict": true,
-    "downlevelIteration": true,
-    "skipLibCheck": true,
-    "jsx": "react-jsx",
+    "target": "ESNEXT",
+    "lib": ["es2018", "esnext.asynciterable"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "pretty": true,
+    "sourceMap": true,
+    "outDir": "build",
+    "baseUrl": "src",
+    "skipLibCheck": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "types": [
-      "bun-types" // add Bun global
-    ],
-    "baseUrl": "./src",
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "strictPropertyInitialization": false,
     "paths": {
-      "datasource": ["./datasource"],
-      "graphql": ["./grahpql"],
-      "query": ["./prisma-query"],
-      "utils": ["./utils"],
-      "@constants": ["./constants"],
-      "middlewares": ["./middlewares"],
-      "services": ["./services"],
-      "dtos": ["./grahpql/dtos"],
-      "subscribers": ["./subscribers"]
+      "@/*": ["*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@plugins/*": ["plugins/*"],
+      "@models/*": ["models/*"],
+      "@graphql/*": ["graphql/*"],
+      "@typedefs/*": ["graphql/typedefs/*"],
+      "@resolvers/*": ["graphql/resolvers/*"],
+      "@dtos/*": ["graphql/dtos/*"],
+      "@subscribers/*": ["subscribers/*"],
+      "@decorators/*": ["decorators/*"],
+      "@exceptions/*": ["exceptions/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@constants/*": ["constants/*"]
     }
-  }
+  },
+  "ts-node": {
+    "esm": true,
+    "require": ["tsconfig-paths/register"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
