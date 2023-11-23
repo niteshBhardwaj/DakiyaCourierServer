@@ -7,8 +7,11 @@ import Container from 'typedi';
 import { MSG_SERVER_STARTUP } from '@/constants';
 import { formatError } from '@middlewares/error.middleware';
 import { apolloContext } from '@/middlewares/user.middleware';
-import fastifyApollo, { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations/fastify';
+import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastify';
 import { ApolloServer } from '@apollo/server';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export default async (app: FastifyInstance) => {
   const schema = await buildSchema({
@@ -46,7 +49,7 @@ export default async (app: FastifyInstance) => {
   // Starts the server.
   await apollo.start();
   await app.register(fastifyApollo(apollo), {
-    context: apolloContext
+    context: apolloContext,
   });
   return apollo;
 };

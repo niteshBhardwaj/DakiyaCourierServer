@@ -1,6 +1,5 @@
 {
   "name": "DakiyaCourierServer",
-  "version": "1.0",
   "description": "Dakiya node js server",
   "scripts": {
     "lint": "eslint .",

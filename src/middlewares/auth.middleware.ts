@@ -1,6 +1,6 @@
 import { HTTP_CODE, AUTH_ERROR_KEYS } from '@/constants';
 import { Container } from 'typedi';
-import { AuthChecker } from 'type-graphql';
+import { type AuthChecker } from 'type-graphql';
 import { HttpException } from '@exceptions/HttpException';
 import { AuthContext, ContextInvalidToken, UserContext } from '@interfaces/auth.interface';
 import LoggerInstance from '@/plugins/logger';
@@ -26,11 +26,11 @@ export const authMiddleware = async (req: FastifyRequest) => {
 
 // Checks if a user is authenticated.
 export const authChecker: AuthChecker<AuthContext> = async (
-  { context },
+  { context: user },
   roles,
 ) => {
-  const { userId, userType } = context as UserContext;
-  const { invalidToken } = context as ContextInvalidToken;
+  const { userId, userType } = user as UserContext;
+  const { invalidToken } = user as ContextInvalidToken;
   // throw incase of invalid token
   if (invalidToken) throw new HttpException(HTTP_CODE[401], AUTH_ERROR_KEYS.WRONG_TOKEN);
   // throw error if token not found
