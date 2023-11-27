@@ -12,8 +12,8 @@ datasource db {
 
 model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
-  username String @unique
-  email    String @unique
+  fullname String?
+  email    String? @unique
 
   // Phone number
   phone        String @unique
@@ -24,7 +24,7 @@ model User {
   passwordSalt String
 
   // Social login
-  socialLogin SocialLogin
+  socialLogin SocialLogin?
 
   //refresh tokens
   refreshTokens RefreshToken[]
@@ -32,8 +32,8 @@ model User {
   roles         Role           @default(USER)
 
   // User photo
-  photo     String
-  thumbnail String
+  photo     String?
+  thumbnail String?
 
   // Activation status
   active Boolean @default(false)
@@ -43,7 +43,7 @@ model User {
 
   // Created date
   createdAt      DateTime         @default(now())
-  OTP            OTP[]
+  Otp            Otp[]
   Wallet         Wallet[]
   Ticket         Ticket[]
   UserKYC        UserKYC[]
@@ -171,18 +171,21 @@ enum AccountType {
   Business
 }
 
-model OTP {
+model Otp {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
   user   User?  @relation(fields: [userId], references: [id])
-  userId String @db.ObjectId
+  userId String? @db.ObjectId
 
   // OTP code
-  otpCode String
+  code String
+
+  // Contact identifier
+  contactIdentifier String
 
   // Expiration time
-  expirationTime DateTime
+  expirationTime DateTime // minutes
 
   // Maximum allowed OTP request attempts
   maxAttempts Int @default(3)
@@ -193,8 +196,18 @@ model OTP {
   // Timestamp of the last OTP request
   lastRequestTime DateTime @default(now())
 
+  // Is verified
+  isVerified Boolean @default(false)
+
   // User's IP address during the last OTP request
   lastRequestIP String
+
+  verificationType VerificationType @default(PHONE)
+}
+
+enum VerificationType {
+  EMAIL
+  PHONE
 }
 
 model Order {

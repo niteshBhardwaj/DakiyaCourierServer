@@ -1,9 +1,9 @@
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { Inject, Service } from 'typedi';
-import keygen from 'keygen';
 import jwt, { verify } from 'jsonwebtoken';
 import LoggerInstance from '@/plugins/logger';
 import { DataStoredInToken } from '@/interfaces/auth.interface';
+import { User } from '@prisma/client';
 
 @Service()
 export default class TokenService {
@@ -13,24 +13,17 @@ export default class TokenService {
   ) {
   }
   private secretKey = 'config.jwtSecret';
-  // Generates a unique token.
-  public uniqueToken() {
-    return keygen.url()
-  }
 
   // Generates a token for the given user record.
-  public generateToken(userRecord: UserType) {
+  public generateToken(userRecord: Pick<User, "id"|"userType">) {
     const today = new Date();
     const exp = new Date(today);
     //const partnerVerifiedState = !!userRecord.partnerFields?.isDocumentVerified;
     exp.setDate(today.getDate() + 60);
-    this.logger.silly(`Sign JWT for userId: ${userRecord._id}`);
+    this.logger.silly(`Sign JWT for userId: ${userRecord.id}`);
     return jwt.sign(
       {
-        _id: userRecord._id, // We are gonna use this in the middleware 'isAuth'
-        //_v: +partnerVerifiedState,
-        _c: +userRecord.isConsumer,
-        _p: +userRecord.isPartner,
+        _id: userRecord.id, // We are gonna use this in the middleware 'isAuth'
         _t: userRecord.userType,
         exp: exp.getTime() / 1000,
       },

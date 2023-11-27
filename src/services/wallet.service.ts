@@ -1,6 +1,5 @@
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { ObjectID } from '@/utils';
 import LoggerInstance from '@/plugins/logger';
 import { UserContext } from '@/interfaces/auth.interface';
 import { WalletResponse } from '@/graphql/typedefs/wallet.type';
@@ -13,7 +12,7 @@ export default class WalletService {
   ) {}
 
   public async getWalletInfo({ userId }: UserContext ) {
-    return await walletModel.find({ userId: ObjectID(userId) }) as unknown as WalletResponse;
+    return await walletModel.find({ userId: userId }) as unknown as WalletResponse;
   }   
   
   public async create({ userId, partnerId }: Pick<WalletType, "userId" | "partnerId">) {

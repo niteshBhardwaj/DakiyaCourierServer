@@ -1,11 +1,11 @@
-import { HTTP_CODE, AUTH_ERROR_KEYS } from '@/constants';
+import { HTTP_CODE, AUTH_ERROR_KEYS, ERROR_CODE } from '@/constants';
 import { Container } from 'typedi';
 import { type AuthChecker } from 'type-graphql';
-import { HttpException } from '@exceptions/HttpException';
-import { AuthContext, ContextInvalidToken, UserContext } from '@interfaces/auth.interface';
+import { AuthContext, ContextInvalidToken, UserContext } from '@/interfaces/auth.interface';
 import LoggerInstance from '@/plugins/logger';
 import TokenService from '@/services/token.service';
 import { FastifyRequest } from 'fastify';
+import { badRequestException } from '@/utils/exceptions.util';
 
 // Verify a user's token.
 export const authMiddleware = async (req: FastifyRequest) => {
@@ -32,11 +32,11 @@ export const authChecker: AuthChecker<AuthContext> = async (
   const { userId, userType } = user as UserContext;
   const { invalidToken } = user as ContextInvalidToken;
   // throw incase of invalid token
-  if (invalidToken) throw new HttpException(HTTP_CODE[401], AUTH_ERROR_KEYS.WRONG_TOKEN);
+  if (invalidToken) throw badRequestException(AUTH_ERROR_KEYS.WRONG_TOKEN, ERROR_CODE.UNAUTHENTICATED);
   // throw error if token not found
-  if (!userId) throw new HttpException(HTTP_CODE[401], AUTH_ERROR_KEYS.MISSING_TOKEN);
+  if (!userId) throw badRequestException(AUTH_ERROR_KEYS.MISSING_TOKEN, ERROR_CODE.UNAUTHENTICATED);
   if (roles && roles.length && !roles.includes(userType)) {
-    throw new HttpException(HTTP_CODE[401], AUTH_ERROR_KEYS.INVALID_PERMISSION);
+    throw badRequestException(AUTH_ERROR_KEYS.INVALID_PERMISSION, ERROR_CODE.UNAUTHENTICATED);
   }
   return true;
 };

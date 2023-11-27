@@ -1,12 +1,11 @@
 import Container, { Service, Inject } from 'typedi';
 import { IUser } from '@/interfaces/user.interface';
+import { MailerInstance } from '@/plugins/mailer';
+import { createOtpOptionForMailer } from '@/utils';
 
 @Service()
 export default class MailerService {
-  constructor(
-    @Inject('emailClient') private emailClient: any,
-    @Inject('emailDomain') private emailDomain: any,
-  ) { }
+  constructor(@Inject('mailer') private emailClient: MailerInstance) {}
 
   public async SendWelcomeEmail(email: string) {
     /**
@@ -17,13 +16,13 @@ export default class MailerService {
       from: 'Excited User <me@samples.mailgun.org>',
       to: [email],
       subject: 'Hello',
-      text: 'Testing some Mailgun awesomness!'
+      text: 'Testing some Mailgun awesomness!',
     };
     try {
       this.emailClient.messages.create(this.emailDomain, data);
       return { delivered: 1, status: 'ok' };
-    } catch(e) {
-      return  { delivered: 0, status: 'error' };
+    } catch (e) {
+      return { delivered: 0, status: 'error' };
     }
   }
   public StartEmailSequence(sequence: string, user: Partial<IUser>) {
@@ -39,6 +38,14 @@ export default class MailerService {
     // the pattern Chain of Responsibility can help here.
     return { delivered: 1, status: 'ok' };
   }
-}
 
-export const mailServiceInstance = Container.get(MailerService);
+  public async sendOtp(email: string, code: number) {
+    const options = createOtpOptionForMailer({ to: email, code });
+    try {
+      const info = await this.emailClient.sendMail(options);
+      return info;
+    } catch(e) {
+      console.log(e)
+    }
+  }
+}

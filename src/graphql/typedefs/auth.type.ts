@@ -13,3 +13,9 @@ export class OtpResp {
   @Field()
   otpToken: string;
 }
+
+@ObjectType() 
+export class CreateAccountType {
+  @Field()
+  success: boolean;
+}

@@ -1,3 +1,7 @@
+export enum ERROR_CODE {
+  UNAUTHENTICATED = 'UNAUTHENTICATED',
+}
+
 export const AUTH_ERROR_KEYS = {
   WRONG_TOKEN: 'Wrong authentication token',
   MISSING_TOKEN: 'Authentication token missing',
@@ -18,7 +22,7 @@ export const USER_ERROR_KEYS = {
     INVALID_REQUEST: 'Invalid request. Please try again with right inputs',
     INVALID_PASSWORD: 'username and password combination incorrect.',
     PHOTO_UPLOAD_ERROR: 'Photo upload error!',
-    DOCS_UPLOAD_ERROR: 'Docs upload error!',
+    INVALID_OTP: 'Enter valid otp.'
 }
 
 export const REQUIRE_FELID = {

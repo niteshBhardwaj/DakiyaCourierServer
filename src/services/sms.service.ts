@@ -3,8 +3,9 @@ import { UploadResponseType } from '@interfaces/upload.interface';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { envConfig, SMS_SENDER, SMS_URL } from '@/constants';
+import { SMS_SENDER, SMS_URL } from '@/constants';
 import { getOtpMessage } from '@/utils';
+import { config } from '@/plugins/config';
 
 @Service()
 export default class SMSService {
@@ -17,7 +18,7 @@ export default class SMSService {
   public async sendMessage({ numbers, message }: { numbers : string; message: string; }): Promise<UploadResponseType> {
     let url;
     try {
-        url = `${SMS_URL}&apikey=${envConfig.SMS_API_KEY}&numbers=${numbers}&message=${message}&sender=${SMS_SENDER}` 
+        url = `${SMS_URL}&apikey=${config.SMS_API_KEY}&numbers=${numbers}&message=${message}&sender=${SMS_SENDER}` 
         const data = await httpPost(url, {}) as { status: string, message: string; };
         if(data.status !== 'success') throw data;
         return data;

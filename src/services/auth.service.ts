@@ -1,80 +1,66 @@
-import { HttpException } from '@exceptions/HttpException';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import TokenService from './token.service';
-import { EVENTS, HTTP_CODE, USER_ERROR_KEYS, USER_TYPE, LOGIN_FOR } from '@/constants';
-import { isUserActivated } from '@/utils';
+import { EVENTS, USER_ERROR_KEYS, USER_TYPE } from '@/constants';
 import { LoginSuccessResp } from '@/graphql/typedefs/auth.type';
-import { OtpVerifyInput, PhoneInput } from '@/graphql/args/auth.input';
+import { CreateAccountInput, EmailPasswordInput, OtpVerifyInput } from '@/graphql/args/auth.input';
 import { AdminLoginInput } from '@/graphql/args/users.input';
+import { PrismaClient } from '@prisma/client';
+import { badUserInputException } from '@/utils/exceptions.util';
+import UserService from './user.service';
+import { validateAndComparePassword } from '@/utils/password.util';
 
 @Service()
 export default class AuthService {
   constructor(
+    @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
+    private userService: UserService,
     private tokenService: TokenService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  // Send an OTP to the given phone info.
-  public async sendOtp(phoneInfo: PhoneInput): Promise<{ otpToken: string }> {
-    const otpRecord = await OtpModel.createOtp({
-      ...phoneInfo,
-      token: this.tokenService.uniqueToken(),
+  public async verifyEmailPassword(input: EmailPasswordInput): Promise<LoginSuccessResp> {
+    const userRecord = await this.prisma.user.findFirst({
+      where: {
+        email: input.email,
+        // password: input.password
+      },
+      select: {
+        id: true,
+        email: true,
+        passwordHash: true,
+        passwordSalt: true,
+        userType: true,
+      },
     });
-    this.eventDispatcher.dispatch(EVENTS.OTP.SEND_OTP, otpRecord);
-    return { otpToken: otpRecord.token };
-  }
 
-  // Verify and login or sign up.
-  public async verifyAndLoginOrSignup({
-    otpToken,
-    code,
-  }: OtpVerifyInput, loginFor: LOGIN_FOR): Promise<LoginSuccessResp> {
-    let otpInfo: any = { token: otpToken, otp: code };
-    if(code === 100001) {
-      otpInfo = { token: otpToken };
-    }
-    const record = await OtpModel.verifyOtp(otpInfo);
-    return this.validateAndLogin(record, loginFor);
-  }
-
-  // Validate and login.
-  private async validateAndLogin({ phone }: OtpType, loginFor: LOGIN_FOR): Promise<LoginSuccessResp> {
-    let userRecord = await userModel.findOne({ phone });
     if (!userRecord) {
-      // create new account
-      const isPartner = loginFor === LOGIN_FOR.PARTNER;
-      const isConsumer = loginFor === LOGIN_FOR.CONSUMER;
-      userRecord = await this.signUp({ phone, isPartner, isConsumer });
+      throw badUserInputException(USER_ERROR_KEYS.NOT_FOUND);
     }
-    // throw error if user is not activated;
-    isUserActivated(!userRecord.activated);
+    const isMatch = await validateAndComparePassword(
+      userRecord.passwordHash,
+      userRecord.passwordSalt,
+    );
+    if (!isMatch) {
+      throw badUserInputException(USER_ERROR_KEYS.INVALID_PASSWORD);
+    }
     const authToken = this.tokenService.generateToken(userRecord);
     return { authToken };
   }
 
-  // Signs up a user asynchronously.
-  public async signUp({ phone, isPartner, isConsumer }: Partial<UserType>): Promise<UserType> {
-    const userRecord = await userModel.create({
-      phone,
-      isPartner,
-      isConsumer,
-      activated: true
-    });
-    if (!userRecord) {
-      throw new Error(USER_ERROR_KEYS.NOT_CREATED);
-    }
-    this.eventDispatcher.dispatch(EVENTS.USER.SIGNUP, { user: userRecord });
-    return userRecord;
+  public async verifyAndCreateAccount(input: CreateAccountInput): Promise<LoginSuccessResp> {
+    const userRecord = await this.userService.createAccount(input);
+    const authToken = this.tokenService.generateToken(userRecord);
+    return { authToken };
   }
 
   public async adminLogin({ phone, password }: AdminLoginInput): Promise<LoginSuccessResp> {
-    const userRecord = await userModel.findUser({ phone, userType: USER_TYPE.ADMIN }, PROJECTION_USER_VALIDATE_LOGIN);
-    isUserActivated(!userRecord.activated);
-    if(password !== 'admin') throw new HttpException(HTTP_CODE[400], USER_ERROR_KEYS.INVALID_PASSWORD);
+    const userRecord = await userModel.findUser({ phone, userType: USER_TYPE.ADMIN }, '');
+    //isUserActivated(!userRecord.activated);
+    if (password !== 'admin') throw badUserInputException(USER_ERROR_KEYS.INVALID_PASSWORD);
     const authToken = this.tokenService.generateToken(userRecord);
-    return { authToken }
+    return { authToken };
   }
 }

@@ -19,6 +19,7 @@ export default async (app: FastifyInstance) => {
     authChecker,
     // register the 3rd party IOC container
     container: Container,
+    validate: true
   });
 
   // Start a GraphQL server.

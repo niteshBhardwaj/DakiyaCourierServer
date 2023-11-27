@@ -7,7 +7,8 @@ export const EVENTS = {
     CREATED: 'onPartnerCreated',
   },
   OTP: {
-    SEND_OTP: "onOtpSend"
+    ON_PHONE: 'ON_PHONE_OTP',
+    ON_EMAIL: 'ON_EMAIL_OTP'
   },
   PACKAGE: {
     CREATED: 'onCreated',
@@ -20,16 +21,16 @@ export const EVENTS = {
     ASSIGN_PARTNER: 'onAssignPartner',
     PICKUP: 'onPickup',
     DELIVERY: 'onDelivery',
-    DELIVERED: 'onDelivered'
+    DELIVERED: 'onDelivered',
   },
   QUEUE: {
     PROCESS: 'PROCESS',
-    COMPLETED: 'COMPLETED'
+    COMPLETED: 'COMPLETED',
   },
   TIMER: {
     CREATE: 'CREATE',
     CANCEL: 'CANCEL',
-    WORK_CALL_TIMEOUT: "WORK_CALL_TIMEOUT",
-    TIMEOUT_CALL: 'TIMEOUT_CALL'
-  }
+    WORK_CALL_TIMEOUT: 'WORK_CALL_TIMEOUT',
+    TIMEOUT_CALL: 'TIMEOUT_CALL',
+  },
 };

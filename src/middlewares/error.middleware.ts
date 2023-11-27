@@ -1,16 +1,16 @@
 import { GraphQLFormattedError } from 'graphql';
 import { unwrapResolverError } from '@apollo/server/errors';
 
-import LoggerInstance from '@/plugins/logger';
 import { GraphQLResponse } from '@apollo/server';
 
 export const formatError = (formattedError: GraphQLFormattedError, error: unknown) => {
   // Don't give the specific errors to the client.
-  LoggerInstance.error(error);
+  console.log(error);
   // Don't give the specific errors to the client.
-  if (unwrapResolverError(error)) {
-    return { message: 'Internal server error' };
-  }
+
+  // if (unwrapResolverError(error)) {
+  //   return { message: 'Internal server error' };
+  // }
 
   // Strip `Validation: ` prefix and use `extensions.code` instead
   if (formattedError.message.startsWith('Validation:')) {

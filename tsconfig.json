@@ -27,7 +27,7 @@
       "@graphql/*": ["graphql/*"],
       "@typedefs/*": ["graphql/typedefs/*"],
       "@resolvers/*": ["graphql/resolvers/*"],
-      "@dtos/*": ["graphql/dtos/*"],
+      "@input/*": ["graphql/args/*"],
       "@subscribers/*": ["subscribers/*"],
       "@decorators/*": ["decorators/*"],
       "@exceptions/*": ["exceptions/*"],

@@ -3,7 +3,7 @@ import { UploadResponseType, UploadFileType } from '@interfaces/upload.interface
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { envConfig } from '@/constants';
+import config from '@/plugins/config';
 
 @Service()
 export default class UploadService {
@@ -14,7 +14,7 @@ export default class UploadService {
 
   // Uploads a file.
   public async uploadFile(params: UploadFileType): Promise<UploadResponseType> {
-    const url = envConfig.processImage;
+    const url = config.processImage;
     try {
         const data = await httpPost(url, { body: params }) as UploadResponseType;
         if(!data.error) {

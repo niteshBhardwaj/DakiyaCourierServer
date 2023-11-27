@@ -13,6 +13,8 @@ declare namespace NodeJS {
       API_PORT: number;
       DATABASE_URL: string;
       SMS_API_KEY: string;
+      MAILER_PASSWORD: string;
+      MAILER_EMAIL: string;
       LOG_LEVEL: string;
     }
   }
