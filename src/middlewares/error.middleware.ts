@@ -13,7 +13,7 @@ export const formatError = (formattedError: GraphQLFormattedError, error: unknow
   // }
 
   // Strip `Validation: ` prefix and use `extensions.code` instead
-  if (formattedError.message.startsWith('Validation:')) {
+  if (formattedError?.message?.startsWith('Validation:')) {
     return {
       ...formattedError,
       message: formattedError.message.replace(/^Validation: /, ''),

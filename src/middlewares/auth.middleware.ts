@@ -10,11 +10,11 @@ import { badRequestException } from '@/utils/exceptions.util';
 // Verify a user's token.
 export const authMiddleware = async (req: FastifyRequest) => {
   try {
-    const Authorization = req?.headers?.authorization?.split('Bearer ')[1];
-    if (Authorization) {
+    const authorization = req?.headers?.authorization?.split('Bearer ')[1];
+    if (authorization) {
       const tokenService = Container.get(TokenService);
-      const {_id, _v, _t} = await tokenService.verifyToken(Authorization)
-      return { userId: _id, verified: !!_v, userType: _t }
+      const {id: userId, t: userType} = await tokenService.verifyToken(authorization)
+      return { userId, userType }
     }
     return {};
   } catch (error) {
@@ -25,8 +25,8 @@ export const authMiddleware = async (req: FastifyRequest) => {
 
 
 // Checks if a user is authenticated.
-export const authChecker: AuthChecker<AuthContext> = async (
-  { context: user },
+export const authChecker: AuthChecker<{user : AuthContext }> = async (
+  { context: { user } },
   roles,
 ) => {
   const { userId, userType } = user as UserContext;

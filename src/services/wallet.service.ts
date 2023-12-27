@@ -3,6 +3,7 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import LoggerInstance from '@/plugins/logger';
 import { UserContext } from '@/interfaces/auth.interface';
 import { WalletResponse } from '@/graphql/typedefs/wallet.type';
+import { getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '@/utils/kyc.util';
 
 @Service()
 export default class WalletService {
@@ -12,8 +13,19 @@ export default class WalletService {
   ) {}
 
   public async getWalletInfo({ userId }: UserContext ) {
-    return await walletModel.find({ userId: userId }) as unknown as WalletResponse;
-  }   
+    // return await walletModel.find({ userId: userId }) as unknown as WalletResponse;
+    // await sendAadhaarOtpRequest({ aadhaarNumber: "262060607149" });
+    // await submitAadhaarOtp({
+    //   otp: 123456,
+    //   shareCode: '1234',
+    //   transactionId: 'c929135f-655f-4134-9d52-b2bc89a59053',
+    // });
+    await getGstinDetail({
+      gstin: '21AAXXXXXXXXXXX',
+      consent: 'Y',
+    });
+    return { totalEarn: 0 }
+  }
   
   public async create({ userId, partnerId }: Pick<WalletType, "userId" | "partnerId">) {
     return walletModel.create({

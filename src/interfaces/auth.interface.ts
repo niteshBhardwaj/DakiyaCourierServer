@@ -1,8 +1,8 @@
 import { USER_TYPE } from '@/constants';
 export interface DataStoredInToken {
-  _id: string;
-  _v: number;
-  _t: USER_TYPE;
+  id: string;
+  v: number;
+  t: USER_TYPE;
 }
 
 export interface TokenData {

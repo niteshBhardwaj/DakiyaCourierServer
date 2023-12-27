@@ -1,9 +1,10 @@
+import { Identifier } from './../graphql/args/auth.input';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { EVENTS, USER_ERROR_KEYS } from '@/constants';
 import { Otp, PrismaClient, VerificationType } from '@prisma/client';
-import { generateOTP, getOtpExpirationTime } from '@/utils';
+import { generateOTP, getOtpExpirationTime, getPreviousTimeInMinutes } from '@/utils';
 import { badUserInputException } from '@/utils/exceptions.util';
 
 @Service()
@@ -15,65 +16,110 @@ export default class OtpService {
   ) {}
 
   // Send an OTP to the givenphone info.
-  public async sendPhoneOtp(data: { phone: string }): Promise<{ otpToken: string }> {
+  public async sendPhoneOtp({contactIdentifier, userId, usedFor }: Pick<Otp, 'contactIdentifier' | 'userId' | 'usedFor'>): Promise<Identifier> {
     const otp = await this.create({
-      contactIdentifier: data.phone,
+      userId,
+      contactIdentifier,
       verificationType: VerificationType.PHONE,
       lastRequestIP: '',
+      usedFor,
     });
     this.eventDispatcher.dispatch(EVENTS.OTP.ON_PHONE, otp);
     return {
-      otpToken: otp.id,
+      identifier: otp.id,
     };
   }
 
   // Send an OTP to the givenphone info.
-  public async sendEmailOtp(data: { email: string }): Promise<{ otpToken: string }> {
+  public async sendEmailOtp({ contactIdentifier, userId, usedFor }: Pick<Otp, 'contactIdentifier' | 'userId' | 'usedFor'>): Promise<Identifier> {
     const otp = await this.create({
-      contactIdentifier: data.email,
+      userId,
+      contactIdentifier,
       lastRequestIP: '',
       verificationType: VerificationType.EMAIL,
+      usedFor
     });
     console.log(otp);
-    this.eventDispatcher.dispatch(EVENTS.OTP.ON_EMAIL, { email: data.email, code: otp.code });
+    this.eventDispatcher.dispatch(EVENTS.OTP.ON_EMAIL, { email: contactIdentifier, code: otp.code });
     return {
-      otpToken: otp.id,
+      identifier: otp.id,
     };
   }
 
-  public async verifyOtp({id, code }: Pick<Otp, "id"|"code">) {
-    const otp = await this.prisma.otp.update({
-      where: {
-        id,
-        code,
-        isVerified: false,
-        expirationTime: {
-          lt: String(Date.now()),
+  public async verifyOtp({
+    id,
+    code,
+    ...others
+  }: Partial<Otp>): Promise<Identifier> {
+    try {
+      const otp = await this.prisma.otp.update({
+        where: {
+          id,
+          code,
+          isVerified: false,
+          expirationTime: {
+            gt: new Date(),
+          },
+          ...others
         },
-      },
-      data: {
-        isVerified: true,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if(!otp) {
-        throw badUserInputException(USER_ERROR_KEYS.INVALID_OTP)
-    }
-    return {
-        id: otp.id
+        data: {
+          isVerified: true,
+          // lastRequestTime: new Date(),
+          // userId: '65673a13d0b1badd5f06a5f4',
+        },
+        select: {
+          id: true,
+        },
+      });
+      return {
+        identifier: otp.id,
+      };
+    } catch (e) {
+      throw badUserInputException(USER_ERROR_KEYS.INVALID_OTP);
     }
   }
 
+  public async verifyIdentifier({
+    id,
+    contactIdentifier,
+    usedFor,
+  }: Pick<Otp, 'id' | 'contactIdentifier' | 'usedFor'>): Promise<Identifier> {
+    try {
+      const otp = await this.prisma.otp.findFirst({
+        where: {
+          id,
+          contactIdentifier,
+          isVerified: true,
+          expirationTime: {
+            gte: getPreviousTimeInMinutes(),
+          },
+          usedFor,
+        },
+        select: {
+          id: true,
+        },
+      });
+      if(!otp) {
+        throw new Error(USER_ERROR_KEYS.INVALID_REQUEST);
+      }
+      return {
+        identifier: otp.id,
+      };
+    } catch (e) {
+      console.log(e);
+      throw badUserInputException(USER_ERROR_KEYS.INVALID_REQUEST);
+    }
+  }
 
-  private async create(data: Pick<Otp, 'contactIdentifier' | 'lastRequestIP' | 'verificationType'>): Promise<Otp> {
+  private async create(
+    data: Pick<Otp, 'contactIdentifier' | 'lastRequestIP' | 'verificationType'>,
+  ): Promise<Otp> {
     return this.prisma.otp.create({
       data: {
         code: generateOTP(),
         expirationTime: getOtpExpirationTime(),
         lastRequestTime: new Date(),
-        ...data
+        ...data,
       },
     });
   }

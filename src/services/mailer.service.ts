@@ -1,6 +1,6 @@
-import Container, { Service, Inject } from 'typedi';
+import { Service, Inject } from 'typedi';
 import { IUser } from '@/interfaces/user.interface';
-import { MailerInstance } from '@/plugins/mailer';
+import { type MailerInstance } from '@/plugins/mailer';
 import { createOtpOptionForMailer } from '@/utils';
 
 @Service()
@@ -19,7 +19,7 @@ export default class MailerService {
       text: 'Testing some Mailgun awesomness!',
     };
     try {
-      this.emailClient.messages.create(this.emailDomain, data);
+      this.emailClient.sendMail(data);
       return { delivered: 1, status: 'ok' };
     } catch (e) {
       return { delivered: 0, status: 'error' };

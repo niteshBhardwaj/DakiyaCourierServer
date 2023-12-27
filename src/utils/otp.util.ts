@@ -1,5 +1,5 @@
 import otpGenerator from 'otp-generator';
-import { OTP_CONFIG, OTP_EXPIRE_TIME, OTP_LENGTH } from '@/constants';
+import { OTP_CONFIG, OTP_EXPIRE_TIME, OTP_IDENTIFIER_TIME, OTP_LENGTH } from '@/constants';
 
 // Generates an OTP.
 export const generateOTP = (digit = OTP_LENGTH, options = OTP_CONFIG) => {
@@ -12,5 +12,9 @@ export const getOtpMessage = ({ otp }) => {
 }
 
 export const getOtpExpirationTime = (minutes = OTP_EXPIRE_TIME) => {
-  return new Date(Date.now() + minutes * 60);
+  return new Date(Date.now() + minutes * 60000);
+};
+
+export const getPreviousTimeInMinutes = (minutes = OTP_IDENTIFIER_TIME) => {
+  return new Date(Date.now() - minutes * 60000);
 };

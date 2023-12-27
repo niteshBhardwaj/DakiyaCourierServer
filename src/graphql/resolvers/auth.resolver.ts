@@ -1,11 +1,14 @@
+import { type UserContext } from '@/interfaces/auth.interface';
+import UserService from '@/services/user.service';
 import { Inject, Service } from 'typedi';
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { AdminLoginInput } from '@/graphql/args/users.input';
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import AuthService from '@/services/auth.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
-import { CreateAccountType, LoginSuccessResp, OtpResp } from '../typedefs/auth.type';
-import { CreateAccountInput, EmailInput, EmailPasswordInput, PhoneInput } from '../args/auth.input';
+import { LoginSuccessResp, OtpResp } from '../typedefs/auth.type';
+import { CreateAccountInput, Identifier, InitEmailRequest, InitPhoneRequest, InitPhoneType, LoginRequest } from '../args/auth.input';
 import OtpService from '@/services/otp.service';
+import { OtpVerifyInput } from '../args/otp.input';
+import { UsedForType } from '@prisma/client';
 
 @Service()
 @Resolver()
@@ -14,52 +17,67 @@ export class authResolver {
   authService: AuthService;
   @Inject()
   otpService: OtpService;
+  @Inject()
+  userService: UserService;
 
+  /* login */
   @Mutation(() => LoginSuccessResp, {
     description: QUERY_DESC.INIT_AUTH,
   })
-  async emailLogin(@Arg(REQUEST) args: EmailPasswordInput): Promise<LoginSuccessResp> {
-    return await this.authService.verifyEmailPassword(args);
+  async login(@Arg(REQUEST) args: LoginRequest): Promise<LoginSuccessResp> {
+    return await this.authService.verifyAndLogin(args);
   }
 
-  @Mutation(() => CreateAccountType, {
+  /* create account */
+  @Mutation(() => LoginSuccessResp, {
     description: QUERY_DESC.INIT_AUTH,
   })
-  async createAccount(@Arg(REQUEST) args: CreateAccountInput): Promise<LoginSuccessResp> {
-    return await this.authService.verifyAndCreateAccount(args);
+  async createAccount(
+    @Arg(REQUEST) args: CreateAccountInput,
+    @Arg('identifiers') { identifier }: Identifier,
+  ): Promise<LoginSuccessResp> {
+    return this.authService.verifyAndCreateAccount(args, identifier);
   }
 
   // Send a phone verification call
   @Mutation(() => OtpResp, {
     description: QUERY_DESC.INIT_AUTH,
   })
-  async initPhone(@Arg(REQUEST) phoneInfo: PhoneInput): Promise<OtpResp> {
-    return await this.otpService.sendPhoneOtp(phoneInfo);
+  async initPhone(@Arg(REQUEST) { phone, type }: InitPhoneRequest): Promise<OtpResp> {
+    if (type === String(InitPhoneType.CREATE_ACCOUNT)) {
+      await this.authService.isAccountExist({ phone });
+    }
+    return await this.otpService.sendPhoneOtp({
+      contactIdentifier: phone.toString(),
+      userId: null,
+      usedFor: InitPhoneType.CREATE_ACCOUNT,
+    });
   }
 
+  /* send email otp */
+  @Authorized()
   @Mutation(() => OtpResp, {
     description: QUERY_DESC.INIT_AUTH,
   })
-  async initEmail(@Arg(REQUEST) emailInfo: EmailInput): Promise<OtpResp> {
-    console.log(this.otpService.sendEmailOtp);
-    return this.otpService.sendEmailOtp(emailInfo);
+  async initEmail(
+    @Arg(REQUEST) { email, type }: InitEmailRequest,
+    @Ctx() { userId }: UserContext,
+  ): Promise<OtpResp> {
+    if (type === String(InitPhoneType.CREATE_ACCOUNT)) {
+      await this.authService.isAccountExist({ email });
+    }
+    return this.otpService.sendEmailOtp({ contactIdentifier: email, userId, usedFor: UsedForType.CREATE_ACCOUNT });
   }
 
-  @Query(() => LoginSuccessResp, {
-    description: QUERY_DESC.ADMIN_LOGIN,
+  /* verify otp */
+  @Mutation(() => OtpResp, {
+    description: QUERY_DESC.VERIFY_OTP_LOGIN,
   })
-  async adminLogin(@Arg(REQUEST) adminInfo: AdminLoginInput): Promise<LoginSuccessResp> {
-    return await this.authService.adminLogin(adminInfo);
+  async verifyOtp(@Arg(REQUEST) otpInfo: OtpVerifyInput): Promise<OtpResp> {
+    const otp = await this.otpService.verifyOtp({
+      id: otpInfo.identifier,
+      code: String(otpInfo.code),
+    });
+    return otp;
   }
-
-  // Log out a user.
-  // @Authorized()
-  // @Mutation(() => User, {
-  //   description: QUERY_DESC.LOGOUT,
-  // })
-  // async logout(@Ctx('user') userData: any): Promise<any> {
-  //   //const user = await this.userLogOut(userData);
-  //   //return user;
-  //   return { success: true };
-  // }
 }

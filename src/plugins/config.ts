@@ -1,4 +1,4 @@
-import { CONFIG_ERROR_KEYS } from './../constants/errors.constant';
+import { CONFIG_ERRORS } from './../constants/errors.constant';
 import "dotenv/config";
 import fp from "fastify-plugin";
 import { FastifyPluginAsync } from "fastify";
@@ -36,10 +36,7 @@ const configPlugin: FastifyPluginAsync = async (server) => {
   const validate = ajv.compile(ConfigSchema);
   const valid = validate(process.env);
   if (!valid) {
-    throw new Error(
-      CONFIG_ERROR_KEYS.ENV_VALIDATION +
-        JSON.stringify(validate.errors, null, 2)
-    );
+    throw new Error(CONFIG_ERRORS.ENV_VALIDATION + JSON.stringify(validate.errors, null, 2));
   }
   server.decorate("config", process.env);
 };

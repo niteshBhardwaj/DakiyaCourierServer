@@ -14,6 +14,7 @@
     "pretest": "npm run build",
     "generate": "npx prisma generate",
     "studio": "npx prisma studio",
+    "rebuild-bcrypt": "npm rebuild bcrypt",
     "test": "NODE_ENV=test tap",
     "test:watch": "NODE_ENV=test tap -w"
   },

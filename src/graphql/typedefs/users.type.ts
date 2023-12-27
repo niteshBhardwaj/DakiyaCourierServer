@@ -21,3 +21,17 @@ export class User {
   @Field({ nullable: true })
   activated: boolean;
 }
+
+@ObjectType()
+export class CurrentState {
+  @Field()
+  isRequired: boolean;
+  @Field()
+  state: string;
+}
+
+@ObjectType()
+export class NextStateType {
+  @Field(() => CurrentState) // Explicitly specify the type of the array
+  currentState: CurrentState | null;
+}

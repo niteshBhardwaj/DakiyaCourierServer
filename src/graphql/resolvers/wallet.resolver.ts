@@ -11,7 +11,7 @@ export class walletResolver {
   @Inject()
   walletService: WalletService;
 
-  @Authorized()
+  // @Authorized()
   @Query(() => WalletResponse, {
     description: QUERY_DESC.GET_WALLET_INFO,
   })

@@ -1,15 +1,16 @@
+import { Identifier } from './../graphql/args/auth.input';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import TokenService from './token.service';
-import { EVENTS, USER_ERROR_KEYS, USER_TYPE } from '@/constants';
+import { USER_ERROR_KEYS } from '@/constants';
 import { LoginSuccessResp } from '@/graphql/typedefs/auth.type';
-import { CreateAccountInput, EmailPasswordInput, OtpVerifyInput } from '@/graphql/args/auth.input';
-import { AdminLoginInput } from '@/graphql/args/users.input';
-import { PrismaClient } from '@prisma/client';
+import { CreateAccountInput, LoginRequest } from '@/graphql/args/auth.input';
+import { PrismaClient, UsedForType, User } from '@prisma/client';
 import { badUserInputException } from '@/utils/exceptions.util';
 import UserService from './user.service';
 import { validateAndComparePassword } from '@/utils/password.util';
+import OtpService from './otp.service';
 
 @Service()
 export default class AuthService {
@@ -17,50 +18,68 @@ export default class AuthService {
     @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
     private userService: UserService,
+    private otpService: OtpService,
     private tokenService: TokenService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  public async verifyEmailPassword(input: EmailPasswordInput): Promise<LoginSuccessResp> {
+  public async verifyAndLogin({ identifier, password }: LoginRequest): Promise<LoginSuccessResp> {
+    const search: Partial<Pick<User, 'active' | 'email' | 'phone'>> = {
+      // active: true,
+    };
+    if (isNaN(Number(identifier))) {
+      search.email = identifier;
+    } else {
+      search.phone = identifier;
+    }
+    console.log(search);
     const userRecord = await this.prisma.user.findFirst({
-      where: {
-        email: input.email,
-        // password: input.password
-      },
+      where: search,
       select: {
         id: true,
         email: true,
         passwordHash: true,
-        passwordSalt: true,
         userType: true,
+        currentState: true,
       },
     });
-
     if (!userRecord) {
-      throw badUserInputException(USER_ERROR_KEYS.NOT_FOUND);
+      throw badUserInputException(USER_ERROR_KEYS.INVALID_CREDENTIAL);
     }
-    const isMatch = await validateAndComparePassword(
-      userRecord.passwordHash,
-      userRecord.passwordSalt,
-    );
+    const isMatch = await validateAndComparePassword(password, userRecord.passwordHash);
     if (!isMatch) {
-      throw badUserInputException(USER_ERROR_KEYS.INVALID_PASSWORD);
+      throw badUserInputException(USER_ERROR_KEYS.INVALID_CREDENTIAL);
     }
     const authToken = this.tokenService.generateToken(userRecord);
-    return { authToken };
+    return { authToken, currentState: userRecord.currentState };
   }
 
-  public async verifyAndCreateAccount(input: CreateAccountInput): Promise<LoginSuccessResp> {
+  public async isAccountExist({ email, phone }: { email?: string; phone?: string }) {
+    const options = phone ? { phone } : { email };
+    const user = await this.prisma.user.findFirst({
+      where: options,
+    });
+    if (user) {
+      throw badUserInputException(USER_ERROR_KEYS.ACCOUNT_EXISTS);
+    }
+  }
+
+  public async verifyAndCreateAccount(input: CreateAccountInput, identifier: string): Promise<LoginSuccessResp> {
+    await this.otpService.verifyIdentifier({
+      id: identifier,
+      contactIdentifier: input.phone,
+      usedFor: UsedForType.CREATE_ACCOUNT,
+    });
     const userRecord = await this.userService.createAccount(input);
     const authToken = this.tokenService.generateToken(userRecord);
-    return { authToken };
+    return { authToken, currentState: userRecord.currentState };
   }
 
-  public async adminLogin({ phone, password }: AdminLoginInput): Promise<LoginSuccessResp> {
-    const userRecord = await userModel.findUser({ phone, userType: USER_TYPE.ADMIN }, '');
-    //isUserActivated(!userRecord.activated);
-    if (password !== 'admin') throw badUserInputException(USER_ERROR_KEYS.INVALID_PASSWORD);
-    const authToken = this.tokenService.generateToken(userRecord);
-    return { authToken };
-  }
+  // public async adminLogin({ phone, password }: AdminLoginInput): Promise<LoginSuccessResp> {
+  //   const userRecord = await userModel.findUser({ phone, userType: USER_TYPE.ADMIN }, '');
+  //   //isUserActivated(!userRecord.activated);
+  //   if (password !== 'admin') throw badUserInputException(USER_ERROR_KEYS.INVALID_PASSWORD);
+  //   const authToken = this.tokenService.generateToken(userRecord);
+  //   return { authToken };
+  // }
 }

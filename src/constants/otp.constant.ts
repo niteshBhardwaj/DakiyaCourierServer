@@ -1,5 +1,6 @@
 export const OTP_LENGTH = 6;
 export const OTP_EXPIRE_TIME = 10 * 60;
+export const OTP_IDENTIFIER_TIME = 10 * 60;
 export const OTP_CONFIG = {
   lowerCaseAlphabets: false,
   upperCaseAlphabets: false,

@@ -23,8 +23,8 @@ export default class TokenService {
     this.logger.silly(`Sign JWT for userId: ${userRecord.id}`);
     return jwt.sign(
       {
-        _id: userRecord.id, // We are gonna use this in the middleware 'isAuth'
-        _t: userRecord.userType,
+        id: userRecord.id, // We are gonna use this in the middleware 'isAuth'
+        t: userRecord.userType,
         exp: exp.getTime() / 1000,
       },
       this.secretKey, //TODO: get from config file;

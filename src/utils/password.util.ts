@@ -2,14 +2,10 @@ import bcrypt from 'bcrypt';
 import keygen from 'keygen';
 const saltRounds = 10; // Number of salt rounds
 
-const createSalt = async (rounds = saltRounds) => {
-  return bcrypt.genSalt(rounds);
-};
-
 // Function to generate a salt and hash a password
-const createHashPassword = async (password: string, salt: string) => {
+const createHashPassword = async (password: string) => {
   try {
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
   } catch (error) {
     console.log(error);
@@ -28,19 +24,16 @@ const comparePassword = async (password: string, hashedPassword: string) => {
 };
 
 export const createHashPaswordAndSalt = async (plainPassword: string) => {
-  const passwordSalt = await createSalt();
   return {
-    passwordSalt,
-    passwordHash: await createHashPassword(plainPassword, passwordSalt),
+    passwordHash: await createHashPassword(plainPassword),
   };
 };
 
-export const validateAndComparePassword = async (plainPassword: string, passwordsalt: string) => {
+export const validateAndComparePassword = async (plainPassword: string, passwordHash: string) => {
   try {
-    const hashPassword = await createHashPassword(plainPassword, passwordsalt);
-    return comparePassword(plainPassword, hashPassword);
+    return comparePassword(plainPassword, passwordHash);
   } catch (e) {
-    console.error('password comparsion error', e);
+    console.error('password comparision error', e);
     return false;
   }
 };

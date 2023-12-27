@@ -9,9 +9,6 @@ import { formatError } from '@middlewares/error.middleware';
 import { apolloContext } from '@/middlewares/user.middleware';
 import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastify';
 import { ApolloServer } from '@apollo/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 export default async (app: FastifyInstance) => {
   const schema = await buildSchema({

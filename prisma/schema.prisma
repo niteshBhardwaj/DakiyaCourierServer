@@ -21,7 +21,6 @@ model User {
 
   // Password
   passwordHash String
-  passwordSalt String
 
   // Social login
   socialLogin SocialLogin?
@@ -41,15 +40,28 @@ model User {
   // User type
   userType UserType @default(STANDARD)
 
+  currentState CurrentState?
   // Created date
   createdAt      DateTime         @default(now())
   Otp            Otp[]
   Wallet         Wallet[]
   Ticket         Ticket[]
-  UserKYC        UserKYC[]
+  UserKYC        UserKYC[]        @relation("user")
+  UserVerified   UserKYC[]         @relation("verifiedUser")
   AccountDetails AccountDetails[]
 }
 
+type CurrentState {
+  isRequired Boolean
+  state CurrentStateType
+}
+
+enum CurrentStateType {
+  PHONE
+  EMAIL
+  KYC
+  ACCOUNT_DETAILS
+}
 type SocialLogin {
   googleProvider     String
   googleProviderId   String
@@ -80,38 +92,52 @@ model UserKYC {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId
+  user   User   @relation("user", fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId @unique
 
   // KYC status
-  kycStatus KYCStatus @default(Pending)
+  status KYCStatus @default(Pending)
 
   // Full name
-  fullName String
+  fullName String?
 
   // Date of birth
-  dateOfBirth DateTime
+  dateOfBirth DateTime?
 
   // Address
-  address String
+  address String?
 
   // Phone number
-  phoneNumber String
+  phoneNumber String?
 
   // Government ID type
   governmentIdType GovernmentIdType
 
   // Government ID number
-  governmentIdNumber String
+  governmentIdNumber String?
 
   // Government ID photo
-  governmentIdPhoto String
+  governmentIdPhoto String?
 
   // Selfie photo
-  selfiePhoto String
+  selfiePhoto String?
 
   // Rejected reason
   rejectedReason String?
+
+  kycDocuments  KycDocument?
+
+  // Maximum allowed request attempts
+  maxAttempts Int @default(2)
+
+  // Number of OTP request attempts made
+  attempts Int @default(0)
+
+  request Json?
+  response Json?
+
+  verifiedUser User?   @relation("verifiedUser", fields: [verifiedBy], references: [id], onDelete: Cascade)
+  verifiedBy   String? @db.ObjectId
 
   // Created at
   createdAt DateTime @default(now())
@@ -120,6 +146,12 @@ model UserKYC {
   updatedAt DateTime @default(now())
 }
 
+type KycDocument {
+  idType1 GovernmentIdType
+  url1 String
+  idType2 GovernmentIdType
+  url2 String
+}
 enum KYCStatus {
   Pending
   Approved
@@ -131,7 +163,8 @@ enum GovernmentIdType {
   PANCard
   DrivingLicense
   Passport
-  Other
+  GSTIN
+  Offline
 }
 
 model AccountDetails {
@@ -200,9 +233,17 @@ model Otp {
   isVerified Boolean @default(false)
 
   // User's IP address during the last OTP request
-  lastRequestIP String
+  lastRequestIP String?
 
   verificationType VerificationType @default(PHONE)
+
+  usedFor UsedForType?
+}
+
+enum UsedForType {
+  KYC
+  CREATE_ACCOUNT
+  LOGIN
 }
 
 enum VerificationType {

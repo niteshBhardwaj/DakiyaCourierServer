@@ -11,6 +11,7 @@ declare namespace NodeJS {
       REDIS_PASSWORD: string;
       API_HOST: string;
       API_PORT: number;
+      KYC_API_KEY: string;
       DATABASE_URL: string;
       SMS_API_KEY: string;
       MAILER_PASSWORD: string;
