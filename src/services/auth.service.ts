@@ -1,4 +1,3 @@
-import { Identifier } from './../graphql/args/auth.input';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';

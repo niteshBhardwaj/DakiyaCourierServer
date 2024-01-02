@@ -24,7 +24,9 @@ export const USER_ERROR_KEYS = {
   PHOTO_UPLOAD_ERROR: 'Error uploading photo',
   INVALID_OTP: 'Enter a valid OTP',
   INVALID_KYC_REQUEST: 'Invalid kyc request.',
-  OFFLINE_KYC_ONLY: "Maximum attempts exceed. Please choose offline kyc."
+  OFFLINE_KYC_ONLY: 'Maximum attempts exceed. Please choose offline kyc.',
+  INVALID_CREDENTIAL: 'Invalid credentials. Please try again',
+  ACCOUNT_EXISTS: "Account already exists",
 };
 
 export const REQUIRED_FIELDS = {
