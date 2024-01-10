@@ -63,9 +63,9 @@ export default class AuthService {
     }
   }
 
-  public async verifyAndCreateAccount(input: CreateAccountInput, identifier: string): Promise<LoginSuccessResp> {
+  public async verifyAndCreateAccount(input: CreateAccountInput): Promise<LoginSuccessResp> {
     await this.otpService.verifyIdentifier({
-      id: identifier,
+      id: input.token,
       contactIdentifier: input.phone,
       usedFor: UsedForType.CREATE_ACCOUNT,
     });

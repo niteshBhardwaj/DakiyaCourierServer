@@ -34,9 +34,8 @@ export class authResolver {
   })
   async createAccount(
     @Arg(REQUEST) args: CreateAccountInput,
-    @Arg('identifiers') { identifier }: Identifier,
   ): Promise<LoginSuccessResp> {
-    return this.authService.verifyAndCreateAccount(args, identifier);
+    return this.authService.verifyAndCreateAccount(args);
   }
 
   // Send a phone verification call

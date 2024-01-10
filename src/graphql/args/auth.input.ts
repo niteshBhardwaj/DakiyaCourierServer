@@ -81,6 +81,11 @@ export class CreateAccountInput extends PhoneInput {
   @IsNotEmpty()
   @MaxLength(50)
   password: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(50)
+  token: string;
 }
 
 @InputType()
