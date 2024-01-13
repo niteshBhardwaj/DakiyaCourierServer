@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi';
-import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import OtpService from '@/services/otp.service';
 import UserService from '@/services/user.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
@@ -8,7 +8,7 @@ import { UserContext } from '@/interfaces/auth.interface';
 import { GovernmentIdType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
 import { MessageResp } from '../typedefs/common.type';
-import { NextStateType } from '../typedefs/users.type';
+import { NextStateType, UserType } from '../typedefs/users.type';
 
 @Service()
 @Resolver()
@@ -17,6 +17,15 @@ export class userResolver {
   otpService: OtpService;
   @Inject()
   userService: UserService;
+
+  /* get user info */
+  @Authorized()
+  @Query(() => UserType, {
+    description: QUERY_DESC.VERIFY_OTP_LOGIN,
+  })
+  async getUserInfo(@Ctx() { user: { userId } }: { user: UserContext }): Promise<UserType> {
+    return this.userService.getUserInfo({ userId });
+  }
 
   /* verify email */
   @Authorized()

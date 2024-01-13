@@ -1,4 +1,3 @@
-import { CurrentState } from '@prisma/client';
 import { CurrentStateType, User, UserKYC } from '@prisma/client';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
@@ -8,6 +7,9 @@ import { CreateAccountInput } from '@/graphql/args/auth.input';
 import { PrismaClient } from '@prisma/client';
 import { findNextState } from '@/utils/user.util';
 import KycService from './kyc.service';
+import { badUserInputException } from '@/utils/exceptions.util';
+import { USER_ERROR_KEYS } from '@/constants';
+import { UserType } from '@/graphql/typedefs/users.type';
 
 @Service()
 export default class UserService {
@@ -18,6 +20,30 @@ export default class UserService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
+  public async getUserInfo({ userId }: { userId: string; }): Promise<UserType> {
+    const user = this.prisma.user.findFirst({ 
+      where: {
+        id: userId
+      }, 
+      select: {
+        id: true,
+        fullname: true,
+        phone: true,
+        phoneCountry: true,
+        email: true,
+        currentState: true,
+        UserKYC: {
+          select: {
+            status: true
+          }
+        }
+      }
+    })
+    if(!user) {
+      throw badUserInputException(USER_ERROR_KEYS.INVALID_REQUEST);
+    }
+    return user as unknown as UserType;
+  }
   /**
    * Creates a new user account.
    * @param input - The account creation input data.
