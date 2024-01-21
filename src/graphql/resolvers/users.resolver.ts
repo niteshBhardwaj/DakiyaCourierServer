@@ -5,7 +5,7 @@ import UserService from '@/services/user.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
 import { KycAadhaarInput, KycGstinInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
 import { UserContext } from '@/interfaces/auth.interface';
-import { GovernmentIdType } from '@prisma/client';
+import { GovernmentIdType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
 import { MessageResp } from '../typedefs/common.type';
 import { NextStateType, UserType } from '../typedefs/users.type';
@@ -36,14 +36,15 @@ export class userResolver {
     @Arg(REQUEST) otpInfo: OtpVerifyInput,
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<NextStateType> {
-    await this.otpService.verifyOtp({
+    const {contactIdentifier} = await this.otpService.verifyOtp({
       id: otpInfo.identifier,
       code: String(otpInfo.code),
+      verificationType: VerificationType.EMAIL
     });
 
     return await this.userService.updateEmail({
       id: userId,
-      email: otpInfo.identifier,
+      email: contactIdentifier,
     });
   }
 

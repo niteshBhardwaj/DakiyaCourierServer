@@ -1,14 +1,13 @@
-import { CurrentStateType, User, UserKYC } from '@prisma/client';
+import { CurrentStateType, User, UserKYC, PrismaClient } from '@prisma/client';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { createHashPaswordAndSalt } from '@/utils/password.util';
 import { CreateAccountInput } from '@/graphql/args/auth.input';
-import { PrismaClient } from '@prisma/client';
 import { findNextState } from '@/utils/user.util';
 import KycService from './kyc.service';
-import { badUserInputException } from '@/utils/exceptions.util';
-import { USER_ERROR_KEYS } from '@/constants';
+import { badRequestException, badUserInputException } from '@/utils/exceptions.util';
+import { ERROR_CODE, USER_ERROR_KEYS } from '@/constants';
 import { UserType } from '@/graphql/typedefs/users.type';
 
 @Service()
@@ -21,13 +20,13 @@ export default class UserService {
   ) {}
 
   public async getUserInfo({ userId }: { userId: string; }): Promise<UserType> {
-    const user = this.prisma.user.findFirst({ 
+    const user = await this.prisma.user.findFirst({ 
       where: {
         id: userId
       }, 
       select: {
         id: true,
-        fullname: true,
+        fullName: true,
         phone: true,
         phoneCountry: true,
         email: true,
@@ -40,9 +39,9 @@ export default class UserService {
       }
     })
     if(!user) {
-      throw badUserInputException(USER_ERROR_KEYS.INVALID_REQUEST);
+      throw badRequestException(USER_ERROR_KEYS.NOT_FOUND, ERROR_CODE.UNAUTHENTICATED);
     }
-    return user as unknown as UserType;
+    return user as UserType;
   }
   /**
    * Creates a new user account.
@@ -51,11 +50,12 @@ export default class UserService {
    */
   public async createAccount(input: CreateAccountInput) {
     const { passwordHash } = await createHashPaswordAndSalt(input.password);
+    console.log('ceate account', input);
     const userRecord = await this.prisma.user.create({
       data: {
-        fullname: input.fullname,
+        fullName: input.fullName,
         phone: input.phone,
-        phoneCountry: '+91',
+        phoneCountry: '91',
         passwordHash,
         currentState: findNextState(CurrentStateType.PHONE)
       },

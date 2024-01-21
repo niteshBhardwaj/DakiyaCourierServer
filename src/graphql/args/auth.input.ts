@@ -75,7 +75,7 @@ export class CreateAccountInput extends PhoneInput {
   @Field()
   @IsNotEmpty()
   @MaxLength(50)
-  fullname: string;
+  fullName: string;
 
   @Field()
   @IsNotEmpty()

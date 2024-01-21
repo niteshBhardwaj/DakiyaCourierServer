@@ -16,7 +16,7 @@ export const CONFIG_ERRORS = {
 
 export const USER_ERROR_KEYS = {
   NOT_CREATED: 'User creation failed',
-  NOT_FOUND: 'User not found',
+  NOT_FOUND: 'Invalid Request. User not found',
   DATABASE_FAILED_USER: 'Something went wrong. Please refresh your app',
   NOT_ACTIVATED: 'User ID is not activated',
   INVALID_REQUEST: 'Invalid request. Please try again with correct inputs',

@@ -77,6 +77,8 @@ export class authResolver {
       id: otpInfo.identifier,
       code: String(otpInfo.code),
     });
-    return otp;
+    return {
+      identifier: otp.id
+    };
   }
 }
