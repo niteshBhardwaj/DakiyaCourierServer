@@ -54,7 +54,7 @@
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "@as-integrations/fastify": "^2.1.1",
-    "@prisma/client": "^5.6.0",
+    "@prisma/client": "^5.8.1",
     "@sinclair/typebox": "^0.31.26",
     "@types/nodemailer": "^6.4.14",
     "ajv": "^8.12.0",
@@ -70,7 +70,6 @@
     "graphql": "^16.8.1",
     "jsonwebtoken": "^9.0.2",
     "keygen": "^0.4.0",
-    "node-fetch": "2.6.7",
     "nodemailer": "^6.9.7",
     "otp-generator": "^4.0.1",
     "prisma": "^5.6.0",
