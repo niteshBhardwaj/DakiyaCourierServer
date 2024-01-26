@@ -5,7 +5,7 @@ export const KYC_URL_TEST = {
   GSTIN_DETAILS: 'https://stoplight.io/mocks/gridlines/gridlines-api-docs/133154717/gstin-api/fetch-detailed'
 };
 
-export const KYC_COMMON_ERROR = "We cannot process request. Please try different methods for KYC";
+export const KYC_COMMON_ERROR = "We cannot process the request. Please try different methods for KYC";
 
 export const AADHAAR_KYC_CODE = {
   [1001]: 'OTP sent to your Registered Mobile number. Check your mobile.',
