@@ -59,7 +59,7 @@ export default class AuthService {
       where: options,
     });
     if (user) {
-      throw badUserInputException(USER_ERROR_KEYS.ACCOUNT_EXISTS);
+      throw badUserInputException(USER_ERROR_KEYS.EMAIL_EXISTS_ERROR);
     }
   }
 

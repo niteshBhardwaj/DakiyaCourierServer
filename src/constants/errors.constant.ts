@@ -27,6 +27,7 @@ export const USER_ERROR_KEYS = {
   OFFLINE_KYC_ONLY: 'Maximum attempts exceed. Please choose offline kyc.',
   INVALID_CREDENTIAL: 'Invalid credentials. Please try again',
   ACCOUNT_EXISTS: "Account already exists",
+  EMAIL_EXISTS_ERROR: "Email already in use. Please try a different email",
 };
 
 export const REQUIRED_FIELDS = {
