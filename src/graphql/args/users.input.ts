@@ -3,8 +3,10 @@ import {
   PhoneLocalAlias,
 } from '@/constants';
 import { OtpLength } from '@/utils';
-import { IsMobilePhone, MaxLength, Validate } from 'class-validator';
+import { GovernmentIdType } from '@prisma/client';
+import { IsEnum, IsMobilePhone, MaxLength, Validate, isEnum } from 'class-validator';
 import { InputType, Field } from 'type-graphql';
+
 
 @InputType()
 export class KycAadhaarInput {
@@ -36,45 +38,19 @@ export class VerifyGstinInput {
   code: number;
 }
 
+
+@InputType()
+class OfflineTypeInput {
+  @Field()
+  @IsEnum(GovernmentIdType)
+  type: string;
+
+  @Field()
+  value: number;
+}
+
 @InputType()
 export class kycOfflineInput {
-  @Field()
-  docType1: string;
-
-  @Field()
-  docUrl1: string;
-
-  @Field()
-  docType2: string;
-
-  @Field()
-  docUrl2: string;
-}
-
-@InputType()
-export class AdminUploadDocsInput {
-
-  @Field()
-  userId: string;
-
-  @Field()
-  docType: string;
-
-  @Field()
-  state: string;
-
-  @Field()
-  @MaxLength(100)
-  message: string;
-}
-@InputType()
-export class AdminLoginInput {
-  @Field()
-  @IsMobilePhone(PhoneLocalAlias.IN, undefined, {
-    message: VALIDATION_MSG.PHONE_NO,
-  })
-  phone: string;
-
-  @Field()
-  password: string;
+  @Field(type => [OfflineTypeInput])
+  documents: OfflineTypeInput[];
 }

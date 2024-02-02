@@ -1,6 +1,6 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { GovernmentIdType, KYCStatus, PrismaClient, UsedForType, UserKYC } from '@prisma/client';
+import { GovernmentIdType, KYCDocumentType, KYCStatus, PrismaClient, UsedForType, UserKYC } from '@prisma/client';
 import { badUserInputException } from '@/utils/exceptions.util';
 import { USER_ERROR_KEYS } from '@/constants';
 import { getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '@/utils/kyc.util';
@@ -25,11 +25,11 @@ export default class KycService {
    * @returns void
    */
   public async preKycValidation(
-    { userId, governmentIdType }: Pick<UserKYC, 'governmentIdType' | 'userId'>,
+    { userId, kycType }: Pick<UserKYC, 'kycType' | 'userId'>,
     isVerification: boolean,
   ) {
     // Check if the government ID type is offline
-    const isOffline = governmentIdType === GovernmentIdType.Offline;
+    const isOffline = kycType === KYCDocumentType.Offline;
   
     // Set the options for the query
     const options = { userId };
@@ -54,7 +54,7 @@ export default class KycService {
       throw badUserInputException(USER_ERROR_KEYS.OFFLINE_KYC_ONLY);
     }
 
-    if (isVerification && kyc.governmentIdType !== governmentIdType) {
+    if (isVerification && kyc.kycType !== kycType) {
       throw badUserInputException(USER_ERROR_KEYS.INVALID_KYC_REQUEST);
     } 
     return kyc;
@@ -68,15 +68,15 @@ export default class KycService {
    */
   public async inititiateKyc({
     governmentIdNumber,
-    governmentIdType,
-  }: Pick<UserKYC, 'governmentIdType' | 'userId' | 'governmentIdNumber'>) {
-    if (governmentIdType === GovernmentIdType.AadhaarCard) {
+    kycType,
+  }: Pick<UserKYC, 'kycType' | 'userId' | 'governmentIdNumber'>) {
+    if (kycType === KYCDocumentType.AadhaarCard) {
       // Send Aadhaar OTP request
       return sendAadhaarOtpRequest({
         aadhaarNumber: governmentIdNumber as string,
         consent: 'Y',
       });
-    } else if (governmentIdType === GovernmentIdType.GSTIN) {
+    } else if (kycType === KYCDocumentType.GSTIN) {
       // Get GSTIN details
       return getGstinDetail({
         gstin: governmentIdNumber as string,
@@ -92,7 +92,7 @@ export default class KycService {
    * @returns The identifier for the eKYC record
    */
   public async createEkyc(
-    input: Pick<UserKYC, 'governmentIdType' | 'userId' | 'governmentIdNumber'>,
+    input: Pick<UserKYC, 'kycType' | 'userId' | 'governmentIdNumber'>,
   ) {
     // Initialize the KYC request
     const request = await this.inititiateKyc(input);
@@ -103,9 +103,9 @@ export default class KycService {
       response: null,
     };
   
-    const { governmentIdNumber, governmentIdType, userId } = input;
+    const { governmentIdNumber, kycType, userId } = input;
   
-    if (input.governmentIdType === GovernmentIdType.GSTIN) {
+    if (input.kycType === KYCDocumentType.GSTIN) {
       // Send GST OTP
       const otpResponse = await this.otpService.sendPhoneOtp({
         userId,
@@ -128,13 +128,13 @@ export default class KycService {
       },
       update: {
         governmentIdNumber,
-        governmentIdType,
+        kycType,
         updatedAt: new Date(),
         ...createData,
       },
       create: {
         governmentIdNumber,
-        governmentIdType,
+        kycType,
         updatedAt: new Date(),
         userId,
         ...createData,
@@ -152,14 +152,14 @@ export default class KycService {
    * @returns An object with the identifier.
    */
   public async verifykyc(
-    input: { code: string; } & Pick<UserKYC, 'governmentIdType' | 'userId'>,
+    input: { code: string; } & Pick<UserKYC, 'kycType' | 'userId'>,
     kycInfo: UserKYC | undefined
   ) {
     let data = null;
-    const { userId, governmentIdType, code } = input;
+    const { userId, kycType, code } = input;
     const requestData = kycInfo?.request;
     // Verify eKYC for Aadhaar Card
-    if (governmentIdType === GovernmentIdType.AadhaarCard) {
+    if (kycType === GovernmentIdType.AadhaarCard) {
       const aadharData = await submitAadhaarOtp({
         otp: Number(input.code),
         shareCode: requestData?.code,

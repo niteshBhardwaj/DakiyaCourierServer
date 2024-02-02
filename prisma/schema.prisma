@@ -110,8 +110,8 @@ model UserKYC {
   // Phone number
   phoneNumber String?
 
-  // Government ID type
-  governmentIdType GovernmentIdType
+  // KYC type
+  kycType KYCDocumentType
 
   // Government ID number
   governmentIdNumber String?
@@ -125,10 +125,10 @@ model UserKYC {
   // Rejected reason
   rejectedReason String?
 
-  kycDocuments  KycDocument?
+  kycDocuments  KycDocument[]
 
   // Maximum allowed request attempts
-  maxAttempts Int @default(2)
+  maxAttempts Int @default(6)
 
   // Number of OTP request attempts made
   attempts Int @default(0)
@@ -146,14 +146,19 @@ model UserKYC {
   updatedAt DateTime @default(now())
 }
 
+enum KYCDocumentType {
+  AadhaarCard
+  GSTIN
+  Offline
+}
+
 type KycDocument {
-  idType1 GovernmentIdType
-  url1 String
-  idType2 GovernmentIdType
-  url2 String
+  type GovernmentIdType
+  url String
 }
 enum KYCStatus {
   Pending
+  Verifying
   Approved
   Rejected
 }
@@ -163,8 +168,6 @@ enum GovernmentIdType {
   PANCard
   DrivingLicense
   Passport
-  GSTIN
-  Offline
 }
 
 model AccountDetails {

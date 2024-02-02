@@ -5,7 +5,7 @@ import UserService from '@/services/user.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
 import { KycAadhaarInput, KycGstinInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
 import { UserContext } from '@/interfaces/auth.interface';
-import { GovernmentIdType, VerificationType } from '@prisma/client';
+import { KYCDocumentType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
 import { MessageResp } from '../typedefs/common.type';
 import { NextStateType, UserType } from '../typedefs/users.type';
@@ -58,7 +58,7 @@ export class userResolver {
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<MessageResp> {
     await this.userService.createKyc({
-      governmentIdType: GovernmentIdType.AadhaarCard,
+      kycType: KYCDocumentType.AadhaarCard,
       governmentIdNumber: args.aadharNo,
       userId,
     });
@@ -77,7 +77,7 @@ export class userResolver {
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<NextStateType> {
     return this.userService.verifyKyc({
-      governmentIdType: GovernmentIdType.AadhaarCard,
+      kycType: KYCDocumentType.AadhaarCard,
       code: String(args.code),
       userId,
     });
@@ -93,7 +93,7 @@ export class userResolver {
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<MessageResp> {
     await this.userService.createKyc({
-      governmentIdType: GovernmentIdType.GSTIN,
+      kycType: KYCDocumentType.GSTIN,
       governmentIdNumber: args.gstinNo,
       userId,
     });
@@ -112,17 +112,17 @@ export class userResolver {
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<NextStateType> {
     return this.userService.verifyKyc({
-      governmentIdType: GovernmentIdType.GSTIN,
+      kycType: KYCDocumentType.GSTIN,
       code: String(args.code),
       userId,
     });
   }
 
-  //   @Authorized()
-  //   @Mutation(() => LoginSuccessResp, {
-  //     description: QUERY_DESC.INIT_AUTH,
-  //   })
-  //   async offlineKyc(@Arg(REQUEST) args: any): Promise<any> {
+    // @Authorized()
+    // @Mutation(() => NextStateType, {
+    //   description: QUERY_DESC.INIT_AUTH,
+    // })
+    // async offlineKyc(@Arg(REQUEST) args: any): Promise<any> {
 
-  //   }
+    // }
 }

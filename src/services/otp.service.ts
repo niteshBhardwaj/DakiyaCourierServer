@@ -50,7 +50,7 @@ export default class OtpService {
     id,
     code,
     ...others
-  }: Partial<Otp>): Promise<Partial<Otp>> {
+  }: Partial<Otp>): Promise<Pick<Otp, "id" | "contactIdentifier">> {
     try {
       const otp = await this.prisma.otp.update({
         where: {
@@ -72,7 +72,7 @@ export default class OtpService {
           contactIdentifier: true
         },
       });
-      return otp
+      return otp;
     } catch (e) {
       throw badUserInputException(USER_ERROR_KEYS.INVALID_OTP);
     }

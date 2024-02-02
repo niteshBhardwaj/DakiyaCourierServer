@@ -86,7 +86,7 @@ export default class UserService {
    * @returns The created KYC record.
    */
   public async createKyc(
-    props: Pick<UserKYC, 'governmentIdNumber' | 'governmentIdType' | 'userId'>,
+    props: Pick<UserKYC, 'governmentIdNumber' | 'kycType' | 'userId'>,
   ) {
     await this.kycService.preKycValidation(props, false);
     return this.kycService.createEkyc(props);
@@ -98,7 +98,7 @@ export default class UserService {
    * @returns The updated user record.
    */
   public async verifyKyc(
-    props: Pick<UserKYC, 'governmentIdType' | 'userId'> & { code: string }
+    props: Pick<UserKYC, 'kycType' | 'userId'> & { code: string }
   ) {
     const kycInfo = await this.kycService.preKycValidation(props, true);
     await this.kycService.verifykyc(props, kycInfo);
