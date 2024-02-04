@@ -3,12 +3,14 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import OtpService from '@/services/otp.service';
 import UserService from '@/services/user.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
-import { KycAadhaarInput, KycGstinInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
+import { KycAadhaarInput, KycGstinInput, KycOfflineInput, SelfieKycInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
 import { UserContext } from '@/interfaces/auth.interface';
 import { KYCDocumentType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
 import { MessageResp } from '../typedefs/common.type';
 import { NextStateType, UserType } from '../typedefs/users.type';
+import { KYC_MESSAGE } from '@/constants/messages.contant';
+import KycService from '@/services/kyc.service';
 
 @Service()
 @Resolver()
@@ -17,6 +19,8 @@ export class userResolver {
   otpService: OtpService;
   @Inject()
   userService: UserService;
+  @Inject()
+  kycService: KycService;
 
   /* get user info */
   @Authorized()
@@ -46,6 +50,45 @@ export class userResolver {
       id: userId,
       email: contactIdentifier,
     });
+  }
+
+
+  
+
+  /* aadhar kyc */
+  @Authorized()
+  @Mutation(() => MessageResp, {
+    description: QUERY_DESC.INIT_AUTH,
+  })
+  async skipKyc(
+    @Ctx() { user: { userId } }: { user: UserContext },
+  ): Promise<MessageResp> {
+    await this.kycService.skipKyc({
+      userId,
+    });
+    return {
+      message: 'KYC skipped successfully',
+    };
+  }
+
+  
+
+  /* aadhar kyc */
+  @Authorized()
+  @Mutation(() => MessageResp, {
+    description: QUERY_DESC.INIT_AUTH,
+  })
+  async selfieKyc(
+    @Arg(REQUEST) { selfiePhoto }: SelfieKycInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+  ): Promise<MessageResp> {
+    await this.userService.selfieKycUpload({
+      selfiePhoto,
+      userId,
+    });
+    return {
+      message: 'Selfie Uploaded successfully.',
+    };
   }
 
   /* aadhar kyc */
@@ -118,11 +161,20 @@ export class userResolver {
     });
   }
 
-    // @Authorized()
-    // @Mutation(() => NextStateType, {
-    //   description: QUERY_DESC.INIT_AUTH,
-    // })
-    // async offlineKyc(@Arg(REQUEST) args: any): Promise<any> {
-
-    // }
+    @Authorized()
+    @Mutation(() => MessageResp, {
+      description: QUERY_DESC.INIT_AUTH,
+    })
+    async submitOfflineKyc(@Arg(REQUEST) args: KycOfflineInput,     
+    @Ctx() { user: { userId } }: { user: UserContext },
+    ): Promise<MessageResp> {
+      await this.userService.submitOfflineKyc({
+        documents: args.documents,
+        kycType: KYCDocumentType.Offline,
+        userId
+      });
+      return {
+        message: KYC_MESSAGE.SUBMITTED_OFFLINE_KYC,
+      }
+    }
 }

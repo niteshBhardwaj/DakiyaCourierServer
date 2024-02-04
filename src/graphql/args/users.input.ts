@@ -2,10 +2,10 @@ import {
   VALIDATION_MSG,
   PhoneLocalAlias,
 } from '@/constants';
-import { OtpLength } from '@/utils';
+import { KycDocuments, OtpLength } from '@/utils';
 import { GovernmentIdType } from '@prisma/client';
-import { IsEnum, IsMobilePhone, MaxLength, Validate, isEnum } from 'class-validator';
-import { InputType, Field } from 'type-graphql';
+import { IsEmpty, IsEnum, IsMobilePhone, IsNotEmpty, MaxLength, Validate, isEnum, maxLength } from 'class-validator';
+import { InputType, Field, InputType } from 'type-graphql';
 
 
 @InputType()
@@ -41,16 +41,31 @@ export class VerifyGstinInput {
 
 @InputType()
 class OfflineTypeInput {
-  @Field()
+  @Field({ description: `Choose: ${Object.values(GovernmentIdType).join(" | ")}` })
   @IsEnum(GovernmentIdType)
   type: string;
 
-  @Field()
-  value: number;
+  @Field() //TODO: need to validate file url
+  @IsEmpty({
+    message: VALIDATION_MSG.PHOTO_URL,
+  })
+  @MaxLength(100)
+  file: string;
 }
 
 @InputType()
-export class kycOfflineInput {
+export class KycOfflineInput {
   @Field(type => [OfflineTypeInput])
+  @Validate(KycDocuments)
   documents: OfflineTypeInput[];
+}
+
+@InputType() 
+export class SelfieKycInput {
+  @Field() //TODO: need to validate file url
+  @IsEmpty({
+    message: VALIDATION_MSG.PHOTO_URL,
+  })
+  @MaxLength(100)
+  selfiePhoto: string;
 }

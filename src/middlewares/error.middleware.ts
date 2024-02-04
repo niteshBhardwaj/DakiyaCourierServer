@@ -5,7 +5,7 @@ import { GraphQLResponse } from '@apollo/server';
 
 export const formatError = (formattedError: GraphQLFormattedError, error: unknown) => {
   // Don't give the specific errors to the client.
-  console.log(error);
+  // console.log(error);
   // Don't give the specific errors to the client.
 
   // if (unwrapResolverError(error)) {

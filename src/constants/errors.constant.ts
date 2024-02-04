@@ -29,6 +29,7 @@ export const USER_ERROR_KEYS = {
   ACCOUNT_EXISTS: "Account already exists",
   EMAIL_EXISTS_ERROR: "Email address already in use.",
   PHONE_EXISTS_ERROR: "Phone number already in use.",
+  UPLOAD_FAILED: "Upload failed. Please try again",
 };
 
 export const REQUIRED_FIELDS = {

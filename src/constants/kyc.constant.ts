@@ -28,3 +28,9 @@ export const AADHAAR_SUBMIT_OTP = {
 export const GSTIN_KYC_CODE = {
     [1005]: 'GSTIN does not exists.'
 } as Record<string, string>
+
+export enum KYC_PRE_VALIDATION {
+  VERIFICAITON = 'VERIFICAITON',
+  SKIP = 'SKIP',
+  SELFIE = 'SELFIE'
+}

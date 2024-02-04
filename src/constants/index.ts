@@ -8,4 +8,5 @@ export * from './http.constant';
 export * from './wallet.constant';
 export * from './payment.constant';
 export * from './kyc.constant';
-export * from './events.constant'
+export * from './events.constant';
+export * from './messages.contant';

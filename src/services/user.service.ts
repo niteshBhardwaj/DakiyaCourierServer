@@ -1,4 +1,4 @@
-import { CurrentStateType, User, UserKYC, PrismaClient } from '@prisma/client';
+import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType } from '@prisma/client';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
@@ -7,8 +7,11 @@ import { CreateAccountInput } from '@/graphql/args/auth.input';
 import { findNextState } from '@/utils/user.util';
 import KycService from './kyc.service';
 import { badRequestException, badUserInputException } from '@/utils/exceptions.util';
-import { ERROR_CODE, USER_ERROR_KEYS } from '@/constants';
+import { ERROR_CODE, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '@/constants';
 import { UserType } from '@/graphql/typedefs/users.type';
+import { KycOfflineInput } from '@/graphql/args/users.input';
+import UploadService from './upload.service';
+import { getDocsUploadParams, getPhotoUploadParams } from '@/utils';
 
 @Service()
 export default class UserService {
@@ -16,6 +19,7 @@ export default class UserService {
     @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
     @Inject() private kycService: KycService,
+    @Inject() private uploadService: UploadService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
@@ -41,6 +45,7 @@ export default class UserService {
     if(!user) {
       throw badRequestException(USER_ERROR_KEYS.NOT_FOUND, ERROR_CODE.UNAUTHENTICATED);
     }
+    console.log(user);
     return user as UserType;
   }
   /**
@@ -57,7 +62,7 @@ export default class UserService {
         phone: input.phone,
         phoneCountry: '91',
         passwordHash,
-        currentState: findNextState(CurrentStateType.PHONE)
+        currentState: findNextState(CurrentStateType.PHONE),
       },
     });
 
@@ -80,6 +85,18 @@ export default class UserService {
     return userRecord;
   }
 
+  public async selfieKycUpload(
+    { userId, selfiePhoto }: Pick<UserKYC,  | 'selfiePhoto' | 'userId'>,
+  ) {
+    await this.kycService.preKycValidation({ userId, kycType: null }, KYC_PRE_VALIDATION.SELFIE);
+    const photoUpload = getPhotoUploadParams(selfiePhoto as string, userId);
+    const {url: selfiePhotoUrl} = await this.uploadService.uploadFile(photoUpload, userId, true);
+    return this.kycService.updateSelfiePhoto({
+      userId,
+      selfiePhoto: selfiePhotoUrl
+    });
+  }
+
   /**
    * Creates a new KYC (Know Your Customer) record.
    * @param props - The KYC data.
@@ -88,7 +105,7 @@ export default class UserService {
   public async createKyc(
     props: Pick<UserKYC, 'governmentIdNumber' | 'kycType' | 'userId'>,
   ) {
-    await this.kycService.preKycValidation(props, false);
+    await this.kycService.preKycValidation(props);
     return this.kycService.createEkyc(props);
   }
 
@@ -100,7 +117,7 @@ export default class UserService {
   public async verifyKyc(
     props: Pick<UserKYC, 'kycType' | 'userId'> & { code: string }
   ) {
-    const kycInfo = await this.kycService.preKycValidation(props, true);
+    const kycInfo = await this.kycService.preKycValidation(props, KYC_PRE_VALIDATION.VERIFICAITON);
     await this.kycService.verifykyc(props, kycInfo);
     const userRecord = await this.prisma.user.update({
       where: { id: props.userId },
@@ -110,5 +127,22 @@ export default class UserService {
     return {
       currentState: userRecord.currentState,
     };
+  }
+
+  
+  public async submitOfflineKyc(props: Pick<UserKYC, 'kycType' | 'userId'> & { documents: KycOfflineInput['documents'] }) {
+    const { documents, userId } = props;
+    await this.kycService.preKycValidation(props);
+    const uploadDocs = documents.map(doc => getDocsUploadParams(doc.file, userId));
+    const files = await this.uploadService.uploadFileMultiple(uploadDocs, userId, true);
+    console.log(files, 'response')
+    const kycDocuments = files.map((image, i) => ({
+      type: documents[i].type as GovernmentIdType,
+      file: image.url,
+    }))
+    return this.kycService.submitOfflineKyc({
+      ...props,
+      kycDocuments
+    });
   }
 }

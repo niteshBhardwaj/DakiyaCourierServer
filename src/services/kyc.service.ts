@@ -3,10 +3,9 @@ import { Service, Inject } from 'typedi';
 import { GovernmentIdType, KYCDocumentType, KYCStatus, PrismaClient, UsedForType, UserKYC } from '@prisma/client';
 import { badUserInputException } from '@/utils/exceptions.util';
 import { USER_ERROR_KEYS } from '@/constants';
-import { getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '@/utils/kyc.util';
+import { checkForSkipStatus, getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '@/utils/kyc.util';
 import OtpService from './otp.service';
-import { KYC_COMMON_ERROR } from '@/constants/kyc.constant';
-import { isMobilePhone } from 'class-validator';
+import { KYC_COMMON_ERROR, KYC_PRE_VALIDATION } from '@/constants/kyc.constant';
 
 @Service()
 export default class KycService {
@@ -15,7 +14,7 @@ export default class KycService {
     @Inject('logger') private logger: typeof LoggerInstance,
     private otpService: OtpService,
   ) {}
-
+  
   /**
    * Performs pre-KYC validation for a user.
    * @param userId - The ID of the user.
@@ -26,8 +25,11 @@ export default class KycService {
    */
   public async preKycValidation(
     { userId, kycType }: Pick<UserKYC, 'kycType' | 'userId'>,
-    isVerification: boolean,
+    usedFor?: KYC_PRE_VALIDATION
   ) {
+    const isVerification = usedFor === KYC_PRE_VALIDATION.VERIFICAITON
+    const isSkip = usedFor === KYC_PRE_VALIDATION.SKIP;
+    const isSelfiePhoto = usedFor = KYC_PRE_VALIDATION.SELFIE;
     // Check if the government ID type is offline
     const isOffline = kycType === KYCDocumentType.Offline;
   
@@ -41,16 +43,28 @@ export default class KycService {
       },
     });
     
-    if(!kyc && !isVerification) {
+    // check if user is skip
+    if(isSkip) {
+      return checkForSkipStatus(kyc);
+    }
+
+    // check if user upload selfiePhoto
+    if(isSelfiePhoto) {
+      return checkForSelfiePhone(kyc);
+    }
+
+    // if user make a first request to create a kyc record or request for offline kyc, so skip further validation
+    if(!kyc && !isVerification || isOffline && kyc?.status !== KYCStatus.Approved) {
       return;
     }
+    console.log('reached here', isOffline, kyc?.status)
     // Check if the KYC record is not found, already approved, or if it's a verification and there is no request
     if (!kyc || kyc.status === KYCStatus.Approved || (isVerification && !kyc.request)) {
       throw badUserInputException(USER_ERROR_KEYS.INVALID_KYC_REQUEST);
     }
   
     // Check if the KYC status is pending, maximum attempts reached, and not offline
-    if (kyc.status === KYCStatus.Pending && kyc.attempts === kyc.maxAttempts && !isOffline) {
+    if (kyc.status === KYCStatus.Pending && kyc.attempts === kyc.maxAttempts) {
       throw badUserInputException(USER_ERROR_KEYS.OFFLINE_KYC_ONLY);
     }
 
@@ -197,4 +211,59 @@ export default class KycService {
     // Return the identifier
     return;
   }
+
+  public async submitOfflineKyc({ userId, kycType, kycDocuments }: Pick<UserKYC, 'kycType' | 'userId' | 'kycDocuments'>) {
+    const kyc = await this.prisma.userKYC.upsert({
+      where: {
+        userId,
+      },
+      update: {
+        kycType,
+        kycDocuments,
+        status: KYCStatus.Verifying,
+        updatedAt: new Date(),
+      },
+      create: {
+        kycType,
+        kycDocuments,
+        status: KYCStatus.Verifying,
+        updatedAt: new Date(),
+        userId,
+      }
+    });
+    return kyc;
+  }
+
+  public async skipKyc({ userId }: Pick<UserKYC, 'userId'>) {
+    await  this.preKycValidation({ userId, kycType: null }, KYC_PRE_VALIDATION.SKIP);
+    return this.prisma.userKYC.upsert({
+      where: {
+        userId,
+      },
+      update: {
+        status: KYCStatus.Skipped,
+      },
+      create: {
+        userId,
+        status: KYCStatus.Skipped,
+      }
+    });
+  }
+
+  public async updateSelfiePhoto({ userId, selfiePhoto }: Pick<UserKYC, 'userId' | 'selfiePhoto'>) {
+    return this.prisma.userKYC.upsert({
+      where: {
+        userId,
+      },
+      update: {
+        selfiePhoto
+      },
+      create: {
+        userId,
+        selfiePhoto      
+      },
+    });
+  }
+
+  
 }

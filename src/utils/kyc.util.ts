@@ -2,6 +2,8 @@ import { AADHAAR_KYC_CODE, AADHAAR_SUBMIT_OTP, GSTIN_KYC_CODE, KYC_COMMON_ERROR,
 import { httpPost } from './http.util';
 import { badUserInputException } from './exceptions.util';
 import { isMobilePhone } from 'class-validator';
+import { KYCStatus, UserKYC } from '@prisma/client';
+import { USER_ERROR_KEYS } from '@/constants';
 
 const URL = KYC_URL_TEST;
 
@@ -160,4 +162,18 @@ export const getGstinDetail = async ({ gstin, consent = 'Y' }: { gstin: string; 
     // If no specific error code is found, throw a generic bad user input exception
     throw badUserInputException(KYC_COMMON_ERROR);
   }
+}
+
+export const checkForSkipStatus = (kyc?: UserKYC) => {
+  if(!kyc || kyc && kyc.status === KYCStatus.Pending) {
+    return kyc;
+  }
+  throw badUserInputException(USER_ERROR_KEYS.INVALID_KYC_REQUEST);
+}
+
+export const checkForSelfiePhone = (kyc?: UserKYC) => {
+  if(!kyc || kyc && (kyc.status === KYCStatus.Skipped || kyc.status === KYCStatus.Pending) {
+    return kyc;
+  }
+  throw badUserInputException(USER_ERROR_KEYS.INVALID_KYC_REQUEST);
 }

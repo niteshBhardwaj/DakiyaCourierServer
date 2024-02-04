@@ -17,5 +17,7 @@ declare namespace NodeJS {
       MAILER_PASSWORD: string;
       MAILER_EMAIL: string;
       LOG_LEVEL: string;
+      ASSET_HOST: string;
+      FILE_UPLOAD_HOST: string;
     }
   }

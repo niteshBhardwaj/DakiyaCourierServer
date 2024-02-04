@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
   fullName String?
   email    String? @unique
 
@@ -40,20 +40,21 @@ model User {
   // User type
   userType UserType @default(STANDARD)
 
-  currentState CurrentState?
+  currentState   CurrentState?
   // Created date
   createdAt      DateTime         @default(now())
   Otp            Otp[]
   Wallet         Wallet[]
   Ticket         Ticket[]
   UserKYC        UserKYC[]        @relation("user")
-  UserVerified   UserKYC[]         @relation("verifiedUser")
+  UserVerified   UserKYC[]        @relation("verifiedUser")
   AccountDetails AccountDetails[]
+  UploadedFiles  UploadedFiles[]
 }
 
 type CurrentState {
   isRequired Boolean
-  state CurrentStateType
+  state      CurrentStateType
 }
 
 enum CurrentStateType {
@@ -62,6 +63,7 @@ enum CurrentStateType {
   KYC
   ACCOUNT_DETAILS
 }
+
 type SocialLogin {
   googleProvider     String
   googleProviderId   String
@@ -93,7 +95,7 @@ model UserKYC {
 
   // User ID
   user   User   @relation("user", fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @unique
+  userId String @unique @db.ObjectId
 
   // KYC status
   status KYCStatus @default(Pending)
@@ -111,7 +113,7 @@ model UserKYC {
   phoneNumber String?
 
   // KYC type
-  kycType KYCDocumentType
+  kycType KYCDocumentType?
 
   // Government ID number
   governmentIdNumber String?
@@ -125,7 +127,7 @@ model UserKYC {
   // Rejected reason
   rejectedReason String?
 
-  kycDocuments  KycDocument[]
+  kycDocuments KycDocument[]
 
   // Maximum allowed request attempts
   maxAttempts Int @default(6)
@@ -133,7 +135,7 @@ model UserKYC {
   // Number of OTP request attempts made
   attempts Int @default(0)
 
-  request Json?
+  request  Json?
   response Json?
 
   verifiedUser User?   @relation("verifiedUser", fields: [verifiedBy], references: [id], onDelete: Cascade)
@@ -154,10 +156,12 @@ enum KYCDocumentType {
 
 type KycDocument {
   type GovernmentIdType
-  url String
+  file String
 }
+
 enum KYCStatus {
   Pending
+  Skipped
   Verifying
   Approved
   Rejected
@@ -168,6 +172,27 @@ enum GovernmentIdType {
   PANCard
   DrivingLicense
   Passport
+}
+
+model UploadedFiles {
+  id           String            @id @default(auto()) @map("_id") @db.ObjectId
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String            @db.ObjectId
+  isPrivate    Boolean
+  fileId       String
+  name         String
+  size         Int
+  filePath     String
+  url          String
+  fileType     String
+  height       Int?
+  width        Int?
+  thumbnailUrl String?
+  service      UploadServiceType @default(IMAGEKIT)
+}
+
+enum UploadServiceType {
+  IMAGEKIT
 }
 
 model AccountDetails {
@@ -211,7 +236,7 @@ model Otp {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
-  user   User?  @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id])
   userId String? @db.ObjectId
 
   // OTP code
@@ -525,7 +550,6 @@ type Attachment {
   // File content``
   fileContent String
 }
-
 
 model RateCard {
   id String @id @default(auto()) @map("_id") @db.ObjectId

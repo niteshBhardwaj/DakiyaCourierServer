@@ -1,4 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
+import { UserKycType } from './kyc.type';
 
 @ObjectType()
 export class NextStateType {
@@ -18,6 +19,8 @@ export class UserType extends NextStateType {
   phone?: string;
   @Field()
   phoneCountry?: string;
+  @Field({ nullable: true })
+  UserKYC?: UserKycType
 }
 
 @ObjectType()
