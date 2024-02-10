@@ -1,10 +1,11 @@
 import { Field, ObjectType } from 'type-graphql';
 import { UserKycType } from './kyc.type';
+import GraphQLJSON from 'graphql-type-json';
 
 @ObjectType()
 export class NextStateType {
-  @Field(() => CurrentState) // Explicitly specify the type of the array
-  currentState: CurrentState | null;
+  @Field(() => CurrentStateType) // Explicitly specify the type of the array
+  currentState: CurrentStateType | null;
 }
 
 @ObjectType()
@@ -19,14 +20,14 @@ export class UserType extends NextStateType {
   phone?: string;
   @Field()
   phoneCountry?: string;
-  @Field({ nullable: true })
-  UserKYC?: UserKycType
 }
 
 @ObjectType()
-export class CurrentState {
+export class CurrentStateType {
   @Field()
   isRequired: boolean;
   @Field()
   state: string;
+  @Field(type => GraphQLJSON, { nullable: true })
+  data: Object;
 }

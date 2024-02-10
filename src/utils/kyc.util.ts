@@ -164,15 +164,15 @@ export const getGstinDetail = async ({ gstin, consent = 'Y' }: { gstin: string; 
   }
 }
 
-export const checkForSkipStatus = (kyc?: UserKYC) => {
+export const checkForSkipStatus = (kyc: UserKYC| null) => {
   if(!kyc || kyc && kyc.status === KYCStatus.Pending) {
     return kyc;
   }
   throw badUserInputException(USER_ERROR_KEYS.INVALID_KYC_REQUEST);
 }
 
-export const checkForSelfiePhone = (kyc?: UserKYC) => {
-  if(!kyc || kyc && (kyc.status === KYCStatus.Skipped || kyc.status === KYCStatus.Pending) {
+export const checkForSelfiePhone = (kyc: UserKYC | null) => {
+  if(!kyc || kyc && (kyc.status === KYCStatus.Skipped || kyc.status === KYCStatus.Pending)) {
     return kyc;
   }
   throw badUserInputException(USER_ERROR_KEYS.INVALID_KYC_REQUEST);

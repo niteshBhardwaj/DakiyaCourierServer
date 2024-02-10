@@ -9,6 +9,7 @@ import { formatError } from '@middlewares/error.middleware';
 import { apolloContext } from '@/middlewares/user.middleware';
 import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastify';
 import { ApolloServer } from '@apollo/server';
+import GraphQLJSON from 'graphql-type-json';
 
 export default async (app: FastifyInstance) => {
   const schema = await buildSchema({
@@ -16,7 +17,8 @@ export default async (app: FastifyInstance) => {
     authChecker,
     // register the 3rd party IOC container
     container: Container,
-    validate: true
+    validate: true,
+    scalarsMap: [{ type: Object, scalar: GraphQLJSON }],
   });
 
   // Start a GraphQL server.

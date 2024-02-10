@@ -5,7 +5,7 @@ import {
 import { KycDocuments, OtpLength } from '@/utils';
 import { GovernmentIdType } from '@prisma/client';
 import { IsEmpty, IsEnum, IsMobilePhone, IsNotEmpty, MaxLength, Validate, isEnum, maxLength } from 'class-validator';
-import { InputType, Field, InputType } from 'type-graphql';
+import { InputType, Field } from 'type-graphql';
 
 
 @InputType()
@@ -63,9 +63,9 @@ export class KycOfflineInput {
 @InputType() 
 export class SelfieKycInput {
   @Field() //TODO: need to validate file url
-  @IsEmpty({
-    message: VALIDATION_MSG.PHOTO_URL,
-  })
   @MaxLength(100)
+  // @IsEmpty({
+  //   message: VALIDATION_MSG.PHOTO_URL,
+  // })
   selfiePhoto: string;
 }

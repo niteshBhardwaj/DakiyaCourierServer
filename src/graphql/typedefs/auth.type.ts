@@ -1,12 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-
-@ObjectType() 
-export class CurrentStateType {
-  @Field()
-  isRequired: boolean;
-  @Field()
-  state: string;
-}
+import { CurrentStateType } from "./users.type";
 
 @ObjectType()
 export class LoginSuccessResp {

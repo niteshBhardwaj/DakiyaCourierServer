@@ -157,6 +157,13 @@ enum KYCDocumentType {
 type KycDocument {
   type GovernmentIdType
   file String
+  status KycDocumentStatus @default(Pending)
+}
+
+enum KycDocumentStatus {
+  Pending
+  Approved
+  Rejected
 }
 
 enum KYCStatus {

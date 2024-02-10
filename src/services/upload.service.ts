@@ -19,8 +19,9 @@ export default class UploadService {
 
   // Uploads a file.
   public async uploadFile(file: UploadFileType, userId: string, isPrivate = false): Promise<{url: string}> {
-    const url = `${config.UPLOAD_URL}/image/process`;
+    const url = `${config.FILE_UPLOAD_HOST}/image/process`;
     try {
+      console.log('url', url)
       const data = await httpPost(url, { body: file }) as UploadResponseType;
       const response = data?.response as UploadFileResponseType;
       if (!data.error) {

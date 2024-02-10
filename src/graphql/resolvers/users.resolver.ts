@@ -11,6 +11,7 @@ import { MessageResp } from '../typedefs/common.type';
 import { NextStateType, UserType } from '../typedefs/users.type';
 import { KYC_MESSAGE } from '@/constants/messages.contant';
 import KycService from '@/services/kyc.service';
+import { UserKycType } from '../typedefs/kyc.type';
 
 @Service()
 @Resolver()
@@ -57,7 +58,7 @@ export class userResolver {
 
   /* aadhar kyc */
   @Authorized()
-  @Mutation(() => MessageResp, {
+  @Query(() => MessageResp, {
     description: QUERY_DESC.INIT_AUTH,
   })
   async skipKyc(
@@ -82,6 +83,7 @@ export class userResolver {
     @Arg(REQUEST) { selfiePhoto }: SelfieKycInput,
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<MessageResp> {
+    console.log(selfiePhoto);
     await this.userService.selfieKycUpload({
       selfiePhoto,
       userId,
@@ -161,6 +163,7 @@ export class userResolver {
     });
   }
 
+  /* submit offline kyc */
     @Authorized()
     @Mutation(() => MessageResp, {
       description: QUERY_DESC.INIT_AUTH,
@@ -176,5 +179,15 @@ export class userResolver {
       return {
         message: KYC_MESSAGE.SUBMITTED_OFFLINE_KYC,
       }
+    }
+
+    @Authorized()
+    @Query(() => UserKycType, {
+      description: QUERY_DESC.INIT_AUTH
+    })
+    async getUserKyc(@Ctx() { user: { userId } }: { user: UserContext }): Promise<UserKycType> {
+      return this.kycService.getUserKyc({
+        userId
+      });
     }
 }

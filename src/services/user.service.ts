@@ -1,4 +1,4 @@
-import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType } from '@prisma/client';
+import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma } from '@prisma/client';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
@@ -23,31 +23,56 @@ export default class UserService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  public async getUserInfo({ userId }: { userId: string; }): Promise<UserType> {
+  public async getUserCurrentStateData(currentState: UserType['currentState'], userId: string) {
+    const isKyc = currentState?.state === CurrentStateType.KYC;
+    if (currentState && isKyc) {
+      currentState.data = await this.kycService.getUserKyc({ userId, select: {
+        status: true,
+      } }) || {};
+    }
+    return currentState;
+  } 
+
+  public async getUserInfo({ userId, select }: { userId: string; select?: Prisma.UserSelect }): Promise<UserType> {
     const user = await this.prisma.user.findFirst({ 
       where: {
         id: userId
       }, 
-      select: {
+      select: select ?? {
         id: true,
         fullName: true,
         phone: true,
         phoneCountry: true,
         email: true,
         currentState: true,
-        UserKYC: {
-          select: {
-            status: true
-          }
-        }
       }
-    })
+    }) as UserType
     if(!user) {
       throw badRequestException(USER_ERROR_KEYS.NOT_FOUND, ERROR_CODE.UNAUTHENTICATED);
     }
-    console.log(user);
+    if(user.currentState) {
+      user.currentState = await this.getUserCurrentStateData(user.currentState, userId)
+    }
     return user as UserType;
   }
+
+  public async updateAndGetCurrentState({ userId, type }: { userId: string; type: CurrentStateType  }) {
+    const user = await this.prisma.user.update({
+      where: { id: userId },
+      data: { currentState: findNextState(type) },
+      select: { currentState: true },
+    }) as UserType;
+
+    if(!user) {
+      throw badRequestException(USER_ERROR_KEYS.NOT_FOUND, ERROR_CODE.UNAUTHENTICATED);
+    }
+
+    if(user.currentState) {
+      user.currentState = await this.getUserCurrentStateData(user.currentState, userId)
+    }
+
+    return user;
+  } 
   /**
    * Creates a new user account.
    * @param input - The account creation input data.
@@ -55,7 +80,6 @@ export default class UserService {
    */
   public async createAccount(input: CreateAccountInput) {
     const { passwordHash } = await createHashPaswordAndSalt(input.password);
-    console.log('ceate account', input);
     const userRecord = await this.prisma.user.create({
       data: {
         fullName: input.fullName,
@@ -90,7 +114,9 @@ export default class UserService {
   ) {
     await this.kycService.preKycValidation({ userId, kycType: null }, KYC_PRE_VALIDATION.SELFIE);
     const photoUpload = getPhotoUploadParams(selfiePhoto as string, userId);
+    console.log(photoUpload, 'photoUpload');
     const {url: selfiePhotoUrl} = await this.uploadService.uploadFile(photoUpload, userId, true);
+    console.log(selfiePhotoUrl, 'selfiePhotoUrl');
     return this.kycService.updateSelfiePhoto({
       userId,
       selfiePhoto: selfiePhotoUrl
@@ -117,16 +143,9 @@ export default class UserService {
   public async verifyKyc(
     props: Pick<UserKYC, 'kycType' | 'userId'> & { code: string }
   ) {
-    const kycInfo = await this.kycService.preKycValidation(props, KYC_PRE_VALIDATION.VERIFICAITON);
+    const kycInfo = await this.kycService.preKycValidation(props, KYC_PRE_VALIDATION.VERIFICAITON) as UserKYC;
     await this.kycService.verifykyc(props, kycInfo);
-    const userRecord = await this.prisma.user.update({
-      where: { id: props.userId },
-      data: { currentState: findNextState(CurrentStateType.KYC) },
-      select: { currentState: true },
-    });
-    return {
-      currentState: userRecord.currentState,
-    };
+    return this.updateAndGetCurrentState({ userId: props.userId, type: CurrentStateType.KYC })
   }
 
   
