@@ -6,7 +6,7 @@
     "lint:fix": "eslint . --fix",
     "check:types": "tsc --noEmit",
     "build": "tsc && tsc-alias",
-    "build-i": "npm i && npm run generate && tsc && tsc-alias",
+    "build-i": "yarn install && yarn generate && tsc && tsc-alias",
     "build:docker:prod": "docker build . -t my-fastify-app --build-arg APP_ENV=production",
     "start": "node build/app",
     "dev": "nodemon | pino-pretty --colorize",

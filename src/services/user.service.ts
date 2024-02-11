@@ -3,13 +3,13 @@ import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { createHashPaswordAndSalt } from '@/utils/password.util';
-import { CreateAccountInput } from '@/graphql/args/auth.input';
+import { CreateAccountInput } from '@graphql/args/auth.input';
 import { findNextState } from '@/utils/user.util';
 import KycService from './kyc.service';
 import { badRequestException, badUserInputException } from '@/utils/exceptions.util';
 import { ERROR_CODE, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '@/constants';
-import { UserType } from '@/graphql/typedefs/users.type';
-import { KycOfflineInput } from '@/graphql/args/users.input';
+import { UserType } from '@graphql/typedefs/users.type';
+import { KycOfflineInput } from '@graphql/args/users.input';
 import UploadService from './upload.service';
 import { getDocsUploadParams, getPhotoUploadParams } from '@/utils';
 

@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { buildSchema } from 'type-graphql';
-import resolvers from '@/graphql/resolvers';
+import resolvers from '@graphql/resolvers';
 import { authChecker } from '@/middlewares/auth.middleware';
 import Container from 'typedi';
 import { MSG_SERVER_STARTUP } from '@/constants';
