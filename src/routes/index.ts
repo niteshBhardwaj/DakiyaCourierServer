@@ -9,7 +9,7 @@ GET.opts = {
   schema: {
     response: {
       200: Type.Object({
-        hello: Type.String(),
+        PING: Type.String(),
       }),
     },
   },

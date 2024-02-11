@@ -1,5 +1,5 @@
 {
-  "name": "DakiyaCourierServer",
+  "name": "dakiya-courier-server",
   "description": "Dakiya node js server",
   "scripts": {
     "lint": "eslint .",
