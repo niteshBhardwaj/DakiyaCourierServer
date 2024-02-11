@@ -1,4 +1,4 @@
-import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma } from '@prisma/client';
+import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma, KycDocumentStatus } from '@prisma/client';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
@@ -158,6 +158,7 @@ export default class UserService {
     const kycDocuments = files.map((image, i) => ({
       type: documents[i].type as GovernmentIdType,
       file: image.url,
+      status: KycDocumentStatus.Pending,
     }))
     return this.kycService.submitOfflineKyc({
       ...props,
