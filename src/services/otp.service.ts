@@ -18,6 +18,7 @@ export default class OtpService {
   // Send an OTP to the givenphone info.
   public async sendPhoneOtp({contactIdentifier, userId, usedFor }: Pick<Otp, 'contactIdentifier' | 'userId' | 'usedFor'>): Promise<Identifier> {
     const otp = await this.create({
+      //@ts-ignore
       userId,
       contactIdentifier,
       verificationType: VerificationType.PHONE,
@@ -33,6 +34,7 @@ export default class OtpService {
   // Send an OTP to the givenphone info.
   public async sendEmailOtp({ contactIdentifier, userId, usedFor }: Pick<Otp, 'contactIdentifier' | 'userId' | 'usedFor'>): Promise<Identifier> {
     const otp = await this.create({
+      //@ts-ignore
       userId,
       contactIdentifier,
       lastRequestIP: '',

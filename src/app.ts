@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import fastify from 'fastify';
+import fastify, { FastifyInstance } from 'fastify';
 import { config } from '@plugins/config';
 import loaders from "@plugins/loaders";
 
@@ -17,8 +17,8 @@ const fastifyOption: any = {
 };
 
 const startApp = async () => {
-  const app = fastify(fastifyOption);
-  await loaders({ app, config });
+  const app = fastify(fastifyOption) as unknown as FastifyInstance;
+  await loaders({ app });
   await app.ready();
 
   if (process.env.NODE_ENV !== 'test') {

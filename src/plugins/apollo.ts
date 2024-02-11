@@ -1,5 +1,5 @@
 import LoggerInstance from '@/plugins/logger';
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyRequest } from 'fastify';
 import { buildSchema } from 'type-graphql';
 import resolvers from '@/graphql/resolvers';
 import { authChecker } from '@/middlewares/auth.middleware';
@@ -11,8 +11,9 @@ import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastif
 import { ApolloServer } from '@apollo/server';
 import GraphQLJSON from 'graphql-type-json';
 
-export default async (app: FastifyInstance) => {
+export default async (app: FastifyInstance) => { 
   const schema = await buildSchema({
+    //@ts-ignore
     resolvers,
     authChecker,
     // register the 3rd party IOC container
@@ -31,16 +32,6 @@ export default async (app: FastifyInstance) => {
         async serverWillStart() {
           LoggerInstance.info(MSG_SERVER_STARTUP);
         },
-        // requestDidStart() {
-        //   return {
-        //     willSendResponse,
-        //   };
-        // }
-        // async requestDidStart() {
-        //   return {
-        //     willSendResponse,
-        //   };
-        // },
       },
     ],
     introspection: true, //config.NODE_ENV !== 'production'
@@ -49,6 +40,7 @@ export default async (app: FastifyInstance) => {
   // Starts the server.
   await apollo.start();
   await app.register(fastifyApollo(apollo), {
+    //@ts-ignore
     context: apolloContext,
   });
   return apollo;

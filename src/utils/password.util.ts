@@ -1,3 +1,4 @@
+//@ts-ignore
 import bcrypt from 'bcrypt';
 import keygen from 'keygen';
 const saltRounds = 10; // Number of salt rounds

@@ -29,5 +29,5 @@ export class CurrentStateType {
   @Field()
   state: string;
   @Field(type => GraphQLJSON, { nullable: true })
-  data: Object;
+  data?: Object;
 }

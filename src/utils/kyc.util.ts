@@ -25,7 +25,7 @@ export const sendAadhaarOtpRequest = async ({
 }: {
   aadhaarNumber: string;
   consent?: string;
-}): Promise<void> => {
+}): Promise<unknown> => {
   try {
     const response = await httpPost(URL.AADHAAR_GENERATE_OTP, {
       body: {
@@ -33,10 +33,11 @@ export const sendAadhaarOtpRequest = async ({
         consent,
       },
       headers: getHeader(),
-    });
-    const { data, error, status } = response;
+    }) as { data: unknown; error: unknown; status: string };
+    const { error, status } = response;
+    const data = response.data as { code?: string };
     if (data && data?.code !== '1001') {
-      throw { error: data };
+      throw { error: data } as { code?: string };
     } else if (error) {
       throw { error };
     } else if (!data) {
@@ -45,7 +46,7 @@ export const sendAadhaarOtpRequest = async ({
       };
     }
     return data;
-  } catch (error) {
+  } catch (error: any) {
     if (error?.code) {
       const message = AADHAAR_KYC_CODE[error.code];
       if (message) {
@@ -84,7 +85,7 @@ export const submitAadhaarOtp = async ({
         'X-Transaction-ID': transactionId,
         ...getHeader(),
       },
-    });
+    }) as { data: any; error: { code?: string } ; status: string };
     const { data, error, status } = response;
 
     if (data && data.code !== '1002') {
@@ -97,7 +98,7 @@ export const submitAadhaarOtp = async ({
       };
     }
     return data;
-  } catch (error) {
+  } catch (error: any) {
     if (error.code) {
       const message = AADHAAR_SUBMIT_OTP[error.code];
 
@@ -126,7 +127,7 @@ export const getGstinDetail = async ({ gstin, consent = 'Y' }: { gstin: string; 
         consent,
       },
       headers: getHeader(),
-    });
+    }) as { data: any; error: any; status: string };
     const { data, error, status } = response;
     console.log(data, error);
     // If data is present and code is not '1000', throw an error
@@ -151,7 +152,7 @@ export const getGstinDetail = async ({ gstin, consent = 'Y' }: { gstin: string; 
     }
     
     return data.gstin_data;
-  } catch (error) {
+  } catch (error: any) {
     if (error?.code) {
       const message = GSTIN_KYC_CODE[error?.code as string];
       // If there is a message for the error code, throw a bad user input exception

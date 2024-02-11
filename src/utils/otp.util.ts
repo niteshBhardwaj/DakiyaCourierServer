@@ -7,7 +7,7 @@ export const generateOTP = (digit = OTP_LENGTH, options = OTP_CONFIG) => {
   return String(code);
 };
 
-export const getOtpMessage = ({ otp }) => {
+export const getOtpMessage = ({ otp }: { otp: string }) => {
   return `OTP ${otp} for your Dakiya service request, valid for next 10 minutes. Do not share the OTP with anyone including Dakiya Executives. %n %nTeam Dakiya.`
 }
 

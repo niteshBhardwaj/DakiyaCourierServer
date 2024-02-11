@@ -6,6 +6,7 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import { SMS_SENDER, SMS_URL } from '@/constants';
 import { getOtpMessage } from '@/utils';
 import { config } from '@/plugins/config';
+import { Otp } from '@prisma/client';
 
 @Service()
 export default class SMSService {
@@ -29,9 +30,9 @@ export default class SMSService {
     return { error: 'error', message: `Send SMS failed!`, }
   }
 
-  public async sendOtp({ phone, otp }: Pick<OtpType, "phone" | "otp">): Promise<void> {
-    const message = getOtpMessage({ otp });
-    //this.sendMessage({ numbers: phone, message });
+  public async sendOtp({ phone, otp }: { phone: string; otp: number;}): Promise<void> {
+    const message = getOtpMessage({ otp: String(otp) });
+    this.sendMessage({ numbers: phone, message });
   }
 
   

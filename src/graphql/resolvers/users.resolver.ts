@@ -8,7 +8,7 @@ import { UserContext } from '@/interfaces/auth.interface';
 import { KYCDocumentType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
 import { MessageResp } from '../typedefs/common.type';
-import { NextStateType, UserType } from '../typedefs/users.type';
+import { CurrentStateType, NextStateType, UserType } from '../typedefs/users.type';
 import { KYC_MESSAGE } from '@/constants/messages.contant';
 import KycService from '@/services/kyc.service';
 import { UserKycType } from '../typedefs/kyc.type';

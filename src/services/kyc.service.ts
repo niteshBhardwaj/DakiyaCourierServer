@@ -181,7 +181,7 @@ export default class KycService {
   ) {
     let data = null;
     const { userId, kycType, code } = input;
-    const requestData = kycInfo?.request;
+    const requestData = kycInfo?.request as Record<string, string>;
     // Verify eKYC for Aadhaar Card
     if (kycType === GovernmentIdType.AadhaarCard) {
       const aadharData = await submitAadhaarOtp({

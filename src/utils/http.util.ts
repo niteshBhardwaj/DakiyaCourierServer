@@ -1,6 +1,4 @@
 import { METHOD } from '@/constants';
-import fetch from 'node-fetch';
-
 // interface RequestData {
 //     body?: Record<string, string>;
 //     headers?: Record<string, string>;

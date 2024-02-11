@@ -1,9 +1,6 @@
 import { Inject, Service } from 'typedi';
-import { Resolver, Query, Authorized, Mutation, Arg } from 'type-graphql';
-import { User } from '@typedefs/users.type';
-import { QUERY_DESC, USER_TYPE } from '@/constants';
+import { Resolver } from 'type-graphql';
 import UserService from '@/services/user.service';
-import { AdminUploadDocsDto } from '../args/users.input';
 
 @Service()
 @Resolver()
