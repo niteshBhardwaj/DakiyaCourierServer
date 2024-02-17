@@ -31,7 +31,6 @@ export default class AuthService {
     } else {
       search.phone = identifier;
     }
-    console.log(search);
     const userRecord = await this.prisma.user.findFirst({
       where: search,
       select: {
