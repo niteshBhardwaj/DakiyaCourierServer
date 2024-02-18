@@ -17,8 +17,8 @@ export default class OtpSubscriber {
   }
 
   @On(EVENTS.OTP.ON_PHONE)
-  public sendPhoneOtp({ phone, otp }: { phone: number; otp: number; }) {
-    this.smsService.sendOtp({ phone: `${CountryCode.IN}${phone}`, otp });
+  public sendPhoneOtp({ phone, code }: { phone: number; code: string; }) {
+    this.smsService.sendOtp({ phone: `${CountryCode.IN}${phone}`, code });
   }
 
   @On(EVENTS.OTP.ON_EMAIL)

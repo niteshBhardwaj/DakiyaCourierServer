@@ -20,7 +20,9 @@ export default class SMSService {
     let url;
     try {
         url = `${SMS_URL}&apikey=${config.SMS_API_KEY}&numbers=${numbers}&message=${message}&sender=${SMS_SENDER}` 
+        console.log(url);
         const data = await httpPost(url, {}) as { status: string, message: string; };
+        console.log('success data', data);
         if(data.status !== 'success') throw data;
         return data;
     } catch(e) {
@@ -30,8 +32,8 @@ export default class SMSService {
     return { error: 'error', message: `Send SMS failed!`, }
   }
 
-  public async sendOtp({ phone, otp }: { phone: string; otp: number;}): Promise<void> {
-    const message = getOtpMessage({ otp: String(otp) });
+  public async sendOtp({ phone, code }: { phone: string; code: string;}): Promise<void> {
+    const message = getOtpMessage({ code });
     this.sendMessage({ numbers: phone, message });
   }
 

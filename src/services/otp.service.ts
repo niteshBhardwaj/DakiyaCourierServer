@@ -25,7 +25,8 @@ export default class OtpService {
       lastRequestIP: '',
       usedFor,
     });
-    this.eventDispatcher.dispatch(EVENTS.OTP.ON_PHONE, otp);
+    console.log(otp);
+    this.eventDispatcher.dispatch(EVENTS.OTP.ON_PHONE, { phone: otp.contactIdentifier, code: otp.code });
     return {
       identifier: otp.id,
     };
