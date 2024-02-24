@@ -50,7 +50,7 @@ export class userResolver {
     return await this.userService.updateEmail({
       id: userId,
       email: contactIdentifier,
-    });
+    }) as NextStateType;
   }
 
 

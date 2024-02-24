@@ -26,6 +26,11 @@
     "fastify",
     "typescript"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check:types"
+    }
+  },
   "peerDependencies": {
     "graphql": "^16.8.1"
   },
@@ -41,6 +46,7 @@
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^9.0.11",
     "nodemon": "^3.0.1",
     "pino-pretty": "^10.2.3",
     "prettier": "^3.1.0",

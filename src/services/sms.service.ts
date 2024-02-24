@@ -34,7 +34,8 @@ export default class SMSService {
 
   public async sendOtp({ phone, code }: { phone: string; code: string;}): Promise<void> {
     const message = getOtpMessage({ code });
-    this.sendMessage({ numbers: phone, message });
+    // TODO:// skipping for now util the OTP service is ready
+    //this.sendMessage({ numbers: phone, message });
   }
 
   
