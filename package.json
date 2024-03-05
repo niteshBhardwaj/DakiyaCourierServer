@@ -1,6 +1,9 @@
 {
   "name": "dakiya-courier-server",
   "description": "Dakiya node js server",
+  "prisma": {
+    "seed": "ts-node prisma/seed"
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -13,7 +16,7 @@
     "dev-inspect": "npm run build && node --inspect build/app",
     "pretest": "npm run build",
     "generate": "npx prisma generate",
-    "studio": "npx prisma studio",
+    "studio": "npx prisma studio --port 5000 --browser none",
     "rebuild-bcrypt": "npm rebuild bcrypt",
     "test": "NODE_ENV=test tap",
     "test:watch": "NODE_ENV=test tap -w"

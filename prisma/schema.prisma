@@ -155,8 +155,8 @@ enum KYCDocumentType {
 }
 
 type KycDocument {
-  type GovernmentIdType
-  file String
+  type   GovernmentIdType
+  file   String
   status KycDocumentStatus @default(Pending)
 }
 
@@ -615,4 +615,49 @@ enum Zone {
   ZoneC // When pick-up and delivery are done in metro cities
   ZoneD // When any or both pick-up and delivery is done in Rest of India except the North East and Jammu & Kashmir
   ZoneE // When any or both of pick-up and delivery is done in the North East region or Jammu and Kashmir
+}
+
+model PincodeList {
+  pincode            String               @id @map("_id")
+  countryCode        String
+  admin1Name         String?
+  admin1Code         String?
+  admin2Name         String?
+  admin2Code         String?
+  admin3Name         String?
+  admin3Code         String?
+  area               Area[]
+  pincodeAvailablity PincodeAvailablity[]
+}
+
+model Area {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  latitude    Float?
+  longitude   Float?
+  accuracy    Int?
+  pincodeList PincodeList @relation(fields: [pincode], references: [pincode])
+  pincode     String
+}
+
+model PincodeAvailablity {
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  isPrepaid        Boolean?
+  isCash           Boolean?
+  isCod            Boolean? // cash on develivery
+  isOda            Boolean? //Out of Delivery Area
+  maxWeight        Float?
+  maxAmount        Float?
+  remarks          String?
+  pincodeList      PincodeList     @relation(fields: [pincode], references: [pincode])
+  pincode          String
+  courierPartners  CourierPartners @relation(fields: [courierParnterId], references: [id])
+  courierParnterId String          @db.ObjectId
+  center           Json?
+}
+
+model CourierPartners {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  pincodeAvailablity PincodeAvailablity[]
 }
