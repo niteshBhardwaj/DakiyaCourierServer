@@ -641,23 +641,46 @@ model Area {
 }
 
 model PincodeAvailablity {
-  id               String          @id @default(auto()) @map("_id") @db.ObjectId
-  isPrepaid        Boolean?
-  isCash           Boolean?
-  isCod            Boolean? // cash on develivery
-  isOda            Boolean? //Out of Delivery Area
-  maxWeight        Float?
-  maxAmount        Float?
-  remarks          String?
-  pincodeList      PincodeList     @relation(fields: [pincode], references: [pincode])
-  pincode          String
-  courierPartners  CourierPartners @relation(fields: [courierParnterId], references: [id])
-  courierParnterId String          @db.ObjectId
-  center           Json?
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  isPrepaid      Boolean?
+  isCash         Boolean?
+  isCod          Boolean? // cash on develivery
+  isOda          Boolean? //Out of Delivery  Area
+  maxWeight      Float?
+  maxAmount      Float?
+  remarks        String?
+  pincodeList    PincodeList    @relation(fields: [pincode], references: [pincode])
+  pincode        String
+  courierPartner CourierPartner @relation(fields: [courierId], references: [id])
+  courierId      String         @db.ObjectId
+  center         Json?
 }
 
-model CourierPartners {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+model CourierPartner {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  status             Boolean              @default(true) // Active or inactive
+  authSecret         String
+  apiConfigs         ApiConfig[]
   pincodeAvailablity PincodeAvailablity[]
+}
+
+model ApiConfig {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  type           ApiType
+  endpoint       String
+  method         String
+  auth_type      String
+  sequence       Int            @default(1)
+  auth_details   Json           @map("auth")
+  request_map    Json           @map("request_mapping")
+  response_map   Json           @map("response_mapping")
+  courierPartner CourierPartner @relation(fields: [courierId], references: [id])
+  courierId      String         @db.ObjectId
+}
+
+enum ApiType {
+  PincodeList
+  Order
+  Tracking
 }
