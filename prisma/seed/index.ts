@@ -1,12 +1,13 @@
-import { addApiConfig, addCourierPartners } from "./add-courier-partners";
+import { addApiConfig, addCourierPartners } from "./add-courier-partners.seed";
 import { prisma } from "./config";
-import { loadPincode } from "./load-pincode";
+import { loadPincode } from "./load-pincode.seed";
 
 async function main() {
 
     await loadPincode();
     await addCourierPartners();
     await addApiConfig();
+
 }
 main()
   .then(async () => {

@@ -50,6 +50,7 @@ model User {
   UserVerified   UserKYC[]        @relation("verifiedUser")
   AccountDetails AccountDetails[]
   UploadedFiles  UploadedFiles[]
+  Order          Order[]
 }
 
 type CurrentState {
@@ -290,16 +291,16 @@ model Order {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   pickupAddress PickupAddress @relation(fields: [pickupId], references: [id])
   pickupId      String        @db.ObjectId
-  dropAddress   DropAddress   @relation(fields: [pickupId], references: [id])
+  dropAddress   DropAddress   @relation(fields: [dropId], references: [id])
   dropId        String        @db.ObjectId
   // Payment mode
-  paymentMode   String
+  paymentMode   PaymentMode
 
   // Shipping mode
-  shippingMode String
+  shippingMode ShippingMode @default(Surface)
 
   // Weight
-  weight Int
+  weight Float
 
   // Is fragile?
   isFragile Boolean?
@@ -329,10 +330,37 @@ model Order {
 
   reverseInTransit Boolean @default(false)
 
-  currentStatus CurrentStatus
+  status             OrderStatus
+  currentStatusExtra CurrentStatusExtra
+
+  courierResponseJson Json?
 
   tracking TrackingStates[]
   Ticket   Ticket[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  courierId      String         @db.ObjectId
+  courierPartner CourierPartner @relation(fields: [courierId], references: [id])
+}
+
+enum OrderStatus {
+  Manifested
+  InTransit
+  OutOfDelivery
+  Delivered
+  Cancelled
+}
+
+enum PaymentMode {
+  Prepaid
+  CashOnDelivery
+}
+
+enum ShippingMode {
+  Air
+  Surface
 }
 
 type Products {
@@ -376,7 +404,7 @@ model DropAddress {
   Order   Order[]
 }
 
-type CurrentStatus {
+type CurrentStatusExtra {
   remarks        String?
   status         String?
   statusDateTime DateTime?
@@ -618,7 +646,7 @@ enum Zone {
 }
 
 model PincodeList {
-  pincode            String               @id @map("_id")
+  pincode            Int                   @id @map("_id")
   countryCode        String
   admin1Name         String?
   admin1Code         String?
@@ -627,7 +655,7 @@ model PincodeList {
   admin3Name         String?
   admin3Code         String?
   area               Area[]
-  pincodeAvailablity PincodeAvailablity[]
+  pincodeAvailablity PincodeAvailability[]
 }
 
 model Area {
@@ -637,10 +665,10 @@ model Area {
   longitude   Float?
   accuracy    Int?
   pincodeList PincodeList @relation(fields: [pincode], references: [pincode])
-  pincode     String
+  pincode     Int
 }
 
-model PincodeAvailablity {
+model PincodeAvailability {
   id             String         @id @default(auto()) @map("_id") @db.ObjectId
   isPrepaid      Boolean?
   isCash         Boolean?
@@ -650,20 +678,22 @@ model PincodeAvailablity {
   maxAmount      Float?
   remarks        String?
   center         Json?
-  pincode        String
-  pincodeList    PincodeList    @relation(fields: [pincode], references: [pincode])
+  pincode        Int?
+  pincodeList    PincodeList?    @relation(fields: [pincode], references: [pincode])
   courierId      String         @db.ObjectId
   courierPartner CourierPartner @relation(fields: [courierId], references: [id])
 }
 
 model CourierPartner {
-  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
   name               String
   slug               String
-  status             Boolean              @default(true) // Active or inactive
+  isActive           Boolean               @default(true) // Active or inactive
+  host               String
   authConfig         AuthConfig
   apiConfigs         ApiConfig[]
-  pincodeAvailablity PincodeAvailablity[]
+  pincodeAvailablity PincodeAvailability[]
+  Order              Order[]
 }
 
 enum AuthSecretType {
@@ -672,24 +702,32 @@ enum AuthSecretType {
 }
 
 type AuthConfig {
-  type AuthSecretType
+  type    AuthSecretType
   keyName String
-  value String
+  value   String
+  headers Json[]         @default([])
 }
 
 model ApiConfig {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id             String             @id @default(auto()) @map("_id") @db.ObjectId
   type           ApiType
   endpoint       String
   method         String
-  sequence       Int            @default(1)
-  mapping        String
-  courierPartner CourierPartner @relation(fields: [courierId], references: [id])
-  courierId      String         @db.ObjectId
+  sequence       Int                @default(1)
+  requestMapping String?
+  responseMapper ResponseMapperType
+  courierPartner CourierPartner     @relation(fields: [courierId], references: [id])
+  courierId      String             @db.ObjectId
+}
+
+type ResponseMapperType {
+  afterResultRunner String?
+  mapping           String?
 }
 
 enum ApiType {
   PincodeServicebility
+  CreateWarehouse
   Order
   Tracking
 }
