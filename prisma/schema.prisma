@@ -289,6 +289,7 @@ enum VerificationType {
 
 model Order {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  orderId       String?
   pickupAddress PickupAddress @relation(fields: [pickupId], references: [id])
   pickupId      String        @db.ObjectId
   dropAddress   DropAddress   @relation(fields: [dropId], references: [id])
@@ -318,7 +319,7 @@ model Order {
   codAmount Int
 
   // Waybill number
-  waybill String
+  waybill String?
 
   // Total amount
   totalAmount Int
@@ -331,7 +332,7 @@ model Order {
   reverseInTransit Boolean @default(false)
 
   status             OrderStatus
-  currentStatusExtra CurrentStatusExtra
+  currentStatusExtra CurrentStatusExtra?
 
   courierResponseJson Json?
 

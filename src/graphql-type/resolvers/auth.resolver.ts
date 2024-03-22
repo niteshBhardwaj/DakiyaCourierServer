@@ -5,7 +5,7 @@ import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import AuthService from '@/services/auth.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
 import { LoginSuccessResp, OtpResp } from '../typedefs/auth.type';
-import { CreateAccountInput, Identifier, InitEmailRequest, InitPhoneRequest, InitPhoneType, LoginRequest } from '../args/auth.input';
+import { CreateAccountInput, InitEmailRequest, InitPhoneRequest, InitPhoneType, LoginRequest } from '../args/auth.input';
 import OtpService from '@/services/otp.service';
 import { OtpVerifyInput } from '../args/otp.input';
 import { UsedForType } from '@prisma/client';
