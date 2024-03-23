@@ -1,30 +1,24 @@
 import { OrderInputConstant } from "@/constants";
 import { PaymentMode, ShippingMode } from "@prisma/client";
-import { IsArray, IsBoolean, IsEnum, IsMongoId, IsNumber, IsString, Matches, Min, ValidateNested } from "class-validator";
+import { IsAlphanumeric, IsArray, IsBoolean, IsEnum, IsMongoId, IsNotEmpty, IsNumber, IsPositive, IsString, Matches, Min, ValidateNested, maxLength } from "class-validator";
 import { Field, InputType, registerEnumType } from "type-graphql";
-
-// create a graphql input type for order -> use below field
 
 @InputType()
 class ProductInput {
-    @Field()
-    @IsString()
-    @Matches(/^[a-zA-Z\s]+$/)
+    @Field(OrderInputConstant.productName)
+    @IsString({ message: OrderInputConstant.productName.message })
     name!: string;
 
-    @Field()
-    @IsString()
-    @Matches(/^[0-9]+$/)
+    @Field(OrderInputConstant.quantity)
+    @IsNumber(undefined, { message: OrderInputConstant.quantity.message})
     quantity!: number;
 
-    @Field()
-    @IsString()
-    @Matches(/^[a-zA-Z\s]+$/)
+    @Field(OrderInputConstant.category)
+    @IsString({ message: OrderInputConstant.quantity.message})
     category!: string;
 
-    @Field()
-    @IsNumber()
-    @Min(0)
+    @Field(OrderInputConstant.amount)
+    @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.amount)
     amount!: number;
 }
 
@@ -40,7 +34,8 @@ registerEnumType(ShippingMode, {
 export class CreateOrderInput {
 
     @Field(OrderInputConstant.pickupId)
-    @IsMongoId(OrderInputConstant.pickupId)
+    @IsMongoId({message: OrderInputConstant.pickupId.message})
+    @IsNotEmpty({message: OrderInputConstant.pickupId.message})
     pickupId: string;
 
     @Field(OrderInputConstant.dropId)
@@ -87,5 +82,4 @@ export class CreateOrderInput {
     @ValidateNested({ each: true })
     @IsArray(OrderInputConstant.products)
     products!: ProductInput[];
-
 }

@@ -1,5 +1,21 @@
 
 export const OrderInputConstant = {
+    productName: {
+        description: 'The name of the product',
+        message: 'Invalid product name'
+    },
+    quantity: {
+        description: 'The quantity of the product',
+        message: 'Invalid quantity'
+    },
+    category: {
+        description: 'The category of the product',
+        message: 'Invalid category'
+    },
+    amount: {
+        description: 'The amount of the product',
+        message: 'Invalid amount'
+    },
     pickupId: {
         description: 'The ID of the pickup location',
         message: 'Invalid pickup ID'
