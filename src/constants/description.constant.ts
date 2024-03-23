@@ -7,7 +7,7 @@ export const QUERY_DESC = {
     SAVE_DOCS: 'Save a verfication docs info',
     USER_INFO: 'Get User info',
     ADMIN_LOGIN: 'Admin Login',
-    CREATE_PACKAGE: 'Create a Package',
+    CREATE_ORDER: 'Create a order',
     GET_PACKAGE: 'Get current package info',
     CONFIRM_PACKAGE: 'Package pickup confirm by partner.',
     GET_ACTIVE_WORK: 'Get partner active work.',

@@ -1,28 +1,29 @@
 import { type UserContext } from '@/interfaces/auth.interface';
 import UserService from '@/services/user.service';
 import { Inject, Service } from 'typedi';
-import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
-import AuthService from '@/services/auth.service';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { QUERY_DESC, REQUEST } from '@/constants';
-import { LoginSuccessResp, OtpResp } from '../typedefs/auth.type';
-import { CreateAccountInput, InitEmailRequest, InitPhoneRequest, InitPhoneType, LoginRequest } from '../args/auth.input';
 import OtpService from '@/services/otp.service';
+import { CreateOrderInput } from '../args/order.input';
+import OrderService from '@/services/order.service';
+import { MessageResp } from '../typedefs/common.type';
 
 @Service()
 @Resolver()
 export class orderResolver {
   @Inject()
-  authService: AuthService;
-  @Inject()
-  otpService: OtpService;
-  @Inject()
-  userService: UserService;
+  orderService: OrderService;
 
   /* login */
-  @Mutation(() => LoginSuccessResp, {
-    description: QUERY_DESC.INIT_AUTH,
+  @Mutation(() => MessageResp, {
+    description: QUERY_DESC.CREATE_ORDER,
   })
-  async login(@Arg(REQUEST) args: LoginRequest): Promise<LoginSuccessResp> {
-    return await this.authService.verifyAndLogin(args);
+  async createOrder(
+    @Arg(REQUEST) args: CreateOrderInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+    ): Promise<MessageResp> {
+    console.log(args)
+    await this.orderService.createOrder({input: args, userId });
+    return { message: 'Order created successfully'};
   }
 }

@@ -16,7 +16,6 @@ export default async (app: FastifyInstance) => {
     //@ts-ignore
     resolvers,
     authChecker,
-    nullableByDefault: true,
     // register the 3rd party IOC container
     container: Container,
     validate: true,

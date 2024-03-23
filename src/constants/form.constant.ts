@@ -9,7 +9,8 @@ export const VALIDATION_MSG = {
   OTP_LENGTH: 'Please enter valid otp.',
   OTP_EXPIRE: 'Otp is expired.',
   PHOTO_URL: 'Photo must be valid url.',
-  VALID_EMAIL: 'Please enter valid email.'
+  VALID_EMAIL: 'Please enter valid email.',
+  INVALID_MONGO_ID: 'Please provide valid id.',
 };
 
 export const FUN_NULL_INPUT_MSG = ({ name }: { name: string }) => {

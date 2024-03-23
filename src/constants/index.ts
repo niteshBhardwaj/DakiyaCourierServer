@@ -10,3 +10,4 @@ export * from './payment.constant';
 export * from './kyc.constant';
 export * from './events.constant';
 export * from './messages.contant';
+export * from './order.constant';
