@@ -1,7 +1,8 @@
 import { OrderInputConstant } from "@/constants";
+import { ADDRESS_VALIDATION } from "@/constants/address.constant";
 import { PaymentMode, ShippingMode } from "@prisma/client";
-import { IsArray, IsBoolean, IsEnum, IsMongoId, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
-import { Field, InputType, registerEnumType } from "type-graphql";
+import { IsArray, IsBoolean, IsEnum, IsInt, IsMongoId, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
+import { Field, InputType, Int, registerEnumType } from "type-graphql";
 
 @InputType()
 class ProductInput {
@@ -82,4 +83,18 @@ export class CreateOrderInput {
     @ValidateNested({ each: true })
     @IsArray(OrderInputConstant.products)
     products!: ProductInput[];
+}
+
+@InputType()
+export class pincodeServiceabilityInput {
+    
+    @Field(() => Int, ADDRESS_VALIDATION.pincode)
+    @IsInt(ADDRESS_VALIDATION.pincode)
+    @IsNotEmpty(ADDRESS_VALIDATION.pincode)
+    sourcePincode: number;
+
+    @Field(() => Int, ADDRESS_VALIDATION.pincode)
+    @IsInt(ADDRESS_VALIDATION.pincode)
+    @IsNotEmpty(ADDRESS_VALIDATION.pincode)
+    destinationPincode: number;
 }

@@ -2,7 +2,7 @@ import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { OrderStatus, PrismaClient } from '@prisma/client';
-import { CreateOrderInput } from '@/graphql-type/args/order.input';
+import { CreateOrderInput, pincodeServiceabilityInput } from '@/graphql-type/args/order.input';
 
 @Service()
 export default class OrderService {
@@ -12,15 +12,15 @@ export default class OrderService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
     
-  public async pincodeServicebility({ source, destination } : { source: number; destination: number}) {
+  public async pincodeServicebility({ sourcePincode, destinationPincode } : pincodeServiceabilityInput) {
     return this.prisma.pincodeAvailability.findMany({ 
       where: { 
         AND: [
           {
-            pincode: source
+            pincode: sourcePincode
           },
           {
-            pincode: destination
+            pincode: destinationPincode
           }
         ]
       }

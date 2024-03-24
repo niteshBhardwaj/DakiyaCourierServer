@@ -4,7 +4,7 @@ import { Inject, Service } from 'typedi';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { QUERY_DESC, REQUEST } from '@/constants';
 import OtpService from '@/services/otp.service';
-import { CreateOrderInput } from '../args/order.input';
+import { CreateOrderInput, pincodeServiceabilityInput } from '../args/order.input';
 import OrderService from '@/services/order.service';
 import { MessageResp } from '../typedefs/common.type';
 
@@ -14,7 +14,6 @@ export class orderResolver {
   @Inject()
   orderService: OrderService;
 
-  /* login */
   @Mutation(() => MessageResp, {
     description: QUERY_DESC.CREATE_ORDER,
   })
@@ -22,8 +21,20 @@ export class orderResolver {
     @Arg(REQUEST) args: CreateOrderInput,
     @Ctx() { user: { userId } }: { user: UserContext },
     ): Promise<MessageResp> {
-    console.log(args)
     await this.orderService.createOrder({input: args, userId });
     return { message: 'Order created successfully'};
   }
+
+  @Mutation(() => MessageResp, {
+    description: QUERY_DESC.CREATE_ORDER,
+  })
+  async pincodeServiceability(
+    @Arg(REQUEST) args: pincodeServiceabilityInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+    ): Promise<MessageResp> {
+    await this.orderService.pincodeServicebility({input: args, userId });
+    return { message: 'Order created successfully'};
+  }
+
+  
 }
