@@ -11,6 +11,21 @@ export default class OrderService {
     @Inject('logger') private logger: typeof LoggerInstance,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
+    
+  public async pincodeServicebility({ source, destination } : { source: number; destination: number}) {
+    return this.prisma.pincodeAvailability.findMany({ 
+      where: { 
+        AND: [
+          {
+            pincode: source
+          },
+          {
+            pincode: destination
+          }
+        ]
+      }
+    })
+  }  
 
   public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
     return this.prisma.order.create({

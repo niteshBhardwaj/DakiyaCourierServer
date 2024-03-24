@@ -1,6 +1,6 @@
 import { OrderInputConstant } from "@/constants";
 import { PaymentMode, ShippingMode } from "@prisma/client";
-import { IsAlphanumeric, IsArray, IsBoolean, IsEnum, IsMongoId, IsNotEmpty, IsNumber, IsPositive, IsString, Matches, Min, ValidateNested, maxLength } from "class-validator";
+import { IsArray, IsBoolean, IsEnum, IsMongoId, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Field, InputType, registerEnumType } from "type-graphql";
 
 @InputType()

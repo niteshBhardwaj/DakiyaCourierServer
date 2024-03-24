@@ -15,7 +15,7 @@
     "dev": "nodemon | pino-pretty --colorize",
     "dev-inspect": "npm run build && node --inspect build/app",
     "pretest": "npm run build",
-    "generate": "npx prisma generate",
+    "generate": "npx prisma format && npx prisma generate",
     "seed": "npx prisma db seed",
     "studio": "npx prisma studio --port 5000 --browser none",
     "rebuild-bcrypt": "npm rebuild bcrypt",

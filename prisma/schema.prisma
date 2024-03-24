@@ -51,6 +51,8 @@ model User {
   AccountDetails AccountDetails[]
   UploadedFiles  UploadedFiles[]
   Order          Order[]
+  PickupAddress  PickupAddress[]
+  DropAddress    DropAddress[]
 }
 
 type CurrentState {
@@ -377,12 +379,15 @@ model PickupAddress {
   city          String
   name          String
   pincode       Int
+  state         String
   address       String
   country       String
   email         String
   returnAddress ReturnAddress?
   createdOn     String[]
   Order         Order[]
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String         @db.ObjectId
 }
 
 type ReturnAddress {
@@ -403,6 +408,8 @@ model DropAddress {
   country String
   email   String
   Order   Order[]
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String  @db.ObjectId
 }
 
 type CurrentStatusExtra {
@@ -680,7 +687,7 @@ model PincodeAvailability {
   remarks        String?
   center         Json?
   pincode        Int?
-  pincodeList    PincodeList?    @relation(fields: [pincode], references: [pincode])
+  pincodeList    PincodeList?   @relation(fields: [pincode], references: [pincode])
   courierId      String         @db.ObjectId
   courierPartner CourierPartner @relation(fields: [courierId], references: [id])
 }
