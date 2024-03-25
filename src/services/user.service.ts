@@ -9,7 +9,7 @@ import KycService from './kyc.service';
 import { badRequestException, badUserInputException } from '@/utils/exceptions.util';
 import { ERROR_CODE, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '@/constants';
 import { UserType } from '@graphql/typedefs/users.type';
-import { KycOfflineInput } from '@graphql/args/users.input';
+import { BankDetailsInput, KycOfflineInput } from '@graphql/args/users.input';
 import UploadService from './upload.service';
 import { getDocsUploadParams, getPhotoUploadParams } from '@/utils';
 
@@ -164,5 +164,25 @@ export default class UserService {
       ...props,
       kycDocuments
     });
+  }
+
+  public async addUpdateAccountDetails({ userId, input }: { userId: string; input: BankDetailsInput}) {
+    
+    await this.prisma.accountDetails.upsert({
+      where: {
+        id: userId
+      },
+      create: {
+        userId,
+        ...input
+      },
+      update: {
+        ...input
+      }
+    })
+
+    return {
+      message: 'Account details updated successfully'
+    }
   }
 }

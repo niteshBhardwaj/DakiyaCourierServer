@@ -3,7 +3,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import OtpService from '@/services/otp.service';
 import UserService from '@/services/user.service';
 import { QUERY_DESC, REQUEST } from '@/constants';
-import { KycAadhaarInput, KycGstinInput, KycOfflineInput, SelfieKycInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
+import { BankDetailsInput, KycAadhaarInput, KycGstinInput, KycOfflineInput, SelfieKycInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
 import { UserContext } from '@/interfaces/auth.interface';
 import { KYCDocumentType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
@@ -190,4 +190,20 @@ export class userResolver {
         userId
       });
     }
+
+    @Authorized()
+    @Mutation(() => MessageResp, {
+      description: QUERY_DESC.INIT_AUTH,
+    })
+    async addUpdateAccountDetails(
+      @Arg(REQUEST) args: BankDetailsInput,     
+      @Ctx() { user: { userId } }: { user: UserContext },
+    ): Promise<MessageResp> {
+      return this.userService.addUpdateAccountDetails({
+        input: args,
+        userId
+      });
+    }
+
+
 }

@@ -86,7 +86,7 @@ export class CreateOrderInput {
 }
 
 @InputType()
-export class pincodeServiceabilityInput {
+export class PincodeServiceabilityInput {
     
     @Field(() => Int, ADDRESS_VALIDATION.pincode)
     @IsInt(ADDRESS_VALIDATION.pincode)
@@ -97,4 +97,45 @@ export class pincodeServiceabilityInput {
     @IsInt(ADDRESS_VALIDATION.pincode)
     @IsNotEmpty(ADDRESS_VALIDATION.pincode)
     destinationPincode: number;
+}
+
+@InputType()
+export class RateCalculatorInput {
+    @Field(() => Int, ADDRESS_VALIDATION.pincode)
+    @IsInt(ADDRESS_VALIDATION.pincode)
+    @IsNotEmpty(ADDRESS_VALIDATION.pincode)
+    sourcePincode: number;
+
+    @Field(() => Int, ADDRESS_VALIDATION.pincode)
+    @IsInt(ADDRESS_VALIDATION.pincode)
+    @IsNotEmpty(ADDRESS_VALIDATION.pincode)
+    destinationPincode: number;
+
+    @Field(() => PaymentMode)
+    @IsEnum(PaymentMode)
+    paymentMode!: PaymentMode;
+
+    @Field(() => ShippingMode, OrderInputConstant.shippingMode)
+    @IsEnum(ShippingMode, OrderInputConstant.shippingMode)
+    shippingMode!: ShippingMode;
+
+    @Field(OrderInputConstant.weight)
+    @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.weight)
+    weight!: number;
+
+    @Field(OrderInputConstant.boxHeight)
+    @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.boxHeight)
+    boxHeight!: number;
+
+    @Field(OrderInputConstant.boxWidth)
+    @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.boxWidth)
+    boxWidth!: number;
+
+    @Field(OrderInputConstant.boxLength)
+    @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.boxLength)
+    boxLength!: number;
+
+    @Field(OrderInputConstant.codAmount)
+    @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.codAmount)
+    codAmount!: number;
 }
