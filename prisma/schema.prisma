@@ -518,8 +518,8 @@ model Ticket {
   userId String @db.ObjectId
 
   // order ID
-  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId String @db.ObjectId
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String? @db.ObjectId
 
   // Ticket status
   ticketStatus TicketStatus @default(OPEN)
@@ -553,6 +553,8 @@ model Ticket {
 
   // Customer satisfaction rating
   customerSatisfactionRating Int?
+
+  customerSatisfactionMessage String?
 
   // Agent feedback
   agentFeedback String?
