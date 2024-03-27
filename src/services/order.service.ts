@@ -27,7 +27,25 @@ export default class OrderService {
     })
   }  
 
+  public async getOrderList({ input, userId} : { input: CreateOrderInput; userId: string }) {
+    return this.prisma.order.findMany({
+      where: {
+        userId,
+      }
+    })
+  }
+
   public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
+    return this.prisma.order.create({
+      data: {
+        userId,
+        ...input,
+        status: OrderStatus.Manifested,
+      }
+    })
+  }
+
+  public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
     return this.prisma.order.create({
       data: {
         userId,

@@ -53,6 +53,7 @@ model User {
   Order          Order[]
   PickupAddress  PickupAddress[]
   DropAddress    DropAddress[]
+  Transaction    Transaction[]
 }
 
 type CurrentState {
@@ -210,7 +211,7 @@ model AccountDetails {
 
   // User ID
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String      @db.ObjectId
+  userId      String      @unique @db.ObjectId
   // Account type
   accountType AccountType @default(Standard)
 
@@ -346,6 +347,7 @@ model Order {
 
   courierId      String?         @db.ObjectId
   courierPartner CourierPartner? @relation(fields: [courierId], references: [id])
+  Transaction    Transaction[]
 }
 
 enum OrderStatus {
@@ -432,7 +434,7 @@ model Wallet {
 
   // User ID
   user   User   @relation(fields: [userId], references: [id])
-  userId String @db.ObjectId
+  userId String @unique @db.ObjectId
 
   // Balance
   balance Int @default(0)
@@ -477,13 +479,22 @@ model Transaction {
   // Transaction type
   transactionType TransactionType @default(Debit)
 
-  // Transaction date
-  transactionDate DateTime @default(now())
-
   // Description
   description String?
 
+  // Created at
+  createdAt DateTime @default(now())
+
+  // Updated at
+  updatedAt DateTime @default(now())
+
   reason TransationReason
+
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String? @db.ObjectId
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
 }
 
 enum TransactionType {
@@ -506,7 +517,7 @@ model Ticket {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
 
-  // User ID
+  // order ID
   order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId String @db.ObjectId
 
@@ -695,7 +706,7 @@ model PincodeAvailability {
 model CourierPartner {
   id                 String                @id @default(auto()) @map("_id") @db.ObjectId
   name               String
-  slug               String
+  slug               String                @unique
   isActive           Boolean               @default(true) // Active or inactive
   host               String
   authConfig         AuthConfig
