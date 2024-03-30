@@ -737,13 +737,28 @@ model ApiConfig {
   sequence       Int                @default(1)
   requestMapping String?
   responseMapper ResponseMapperType
+  beforeActions  ActionType[]
+  afterActions   ActionType[]
   courierPartner CourierPartner     @relation(fields: [courierId], references: [id])
   courierId      String             @db.ObjectId
 }
 
+type ActionType {
+  source        SourceType
+  apiType       ApiType?
+  evalMapper    String?
+  payloadMapper String?
+  name          String
+}
+
+enum SourceType {
+  Internal
+  External
+}
+
 type ResponseMapperType {
-  afterResultRunner String?
-  mapping           String?
+  afterEvalRunner String?
+  mapping         String?
 }
 
 enum ApiType {
@@ -751,4 +766,5 @@ enum ApiType {
   CreateWarehouse
   Order
   Tracking
+  Pickup
 }

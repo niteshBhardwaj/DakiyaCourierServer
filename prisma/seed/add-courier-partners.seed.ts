@@ -41,7 +41,6 @@ export async function addApiConfig() {
                         endpoint: '/c/api/pin-codes/json/',
                         method: 'GET',
                         responseMapper: {
-                            afterResultRunner: ``,
                             mapping: `$map($filter(delivery_codes, function($v) {
                                 $v.postal_code.country_code = "IN"
                               }), function($item) {
@@ -89,6 +88,20 @@ export async function addApiConfig() {
                         type: ApiType.Order,
                         endpoint: '/api/cmu/create.json',
                         method: 'POST',
+                        beforeActions: [{
+                            name: 'AddWarehouse',
+                            source: 'External',
+                            apiType: ApiType.CreateWarehouse,
+                            evalMapper: ``,
+                            payloadMapper: ''
+                        }],
+                        afterActions: [{
+                            name: 'Pickup',
+                            source: 'External',
+                            apiType: ApiType.Pickup,
+                            evalMapper: ``,
+                            payloadMapper: ''
+                        }],
                         requestMapping: `{
                             "shipments": [
                                 {
@@ -133,8 +146,7 @@ export async function addApiConfig() {
                             }
                         }`,
                         responseMapper: {
-                            afterResultRunner: ``,
-                            mapping: ``,
+                            mapping: null,
                         },
                         courierId: courierPartner.id
                     }
