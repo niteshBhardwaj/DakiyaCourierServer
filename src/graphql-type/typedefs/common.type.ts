@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
-export class MessageResp {
+export class MessageType {
   @Field()
   message?: string;
 }

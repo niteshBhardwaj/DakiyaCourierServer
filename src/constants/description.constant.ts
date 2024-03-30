@@ -11,5 +11,6 @@ export const QUERY_DESC = {
     GET_PACKAGE: 'Get current package info',
     CONFIRM_PACKAGE: 'Package pickup confirm by partner.',
     GET_ACTIVE_WORK: 'Get partner active work.',
-    GET_WALLET_INFO: 'Get wallet info.'
+    GET_WALLET_INFO: 'Get wallet info.',
+    PINCODE_SERVICEABILITY: 'Check pincode serviceability.',
 }

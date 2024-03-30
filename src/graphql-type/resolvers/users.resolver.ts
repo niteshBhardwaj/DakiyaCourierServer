@@ -7,7 +7,7 @@ import { BankDetailsInput, KycAadhaarInput, KycGstinInput, KycOfflineInput, Self
 import { UserContext } from '@/interfaces/auth.interface';
 import { KYCDocumentType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
-import { MessageResp } from '../typedefs/common.type';
+import { MessageType } from '../typedefs/common.type';
 import { CurrentStateType, NextStateType, UserType } from '../typedefs/users.type';
 import { KYC_MESSAGE } from '@/constants/messages.contant';
 import KycService from '@/services/kyc.service';
@@ -58,12 +58,12 @@ export class userResolver {
 
   /* aadhar kyc */
   @Authorized()
-  @Query(() => MessageResp, {
+  @Query(() => MessageType, {
     description: QUERY_DESC.INIT_AUTH,
   })
   async skipKyc(
     @Ctx() { user: { userId } }: { user: UserContext },
-  ): Promise<MessageResp> {
+  ): Promise<MessageType> {
     await this.kycService.skipKyc({
       userId,
     });
@@ -76,13 +76,13 @@ export class userResolver {
 
   /* aadhar kyc */
   @Authorized()
-  @Mutation(() => MessageResp, {
+  @Mutation(() => MessageType, {
     description: QUERY_DESC.INIT_AUTH,
   })
   async selfieKyc(
     @Arg(REQUEST) { selfiePhoto }: SelfieKycInput,
     @Ctx() { user: { userId } }: { user: UserContext },
-  ): Promise<MessageResp> {
+  ): Promise<MessageType> {
     console.log(selfiePhoto);
     await this.userService.selfieKycUpload({
       selfiePhoto,
@@ -95,13 +95,13 @@ export class userResolver {
 
   /* aadhar kyc */
   @Authorized()
-  @Mutation(() => MessageResp, {
+  @Mutation(() => MessageType, {
     description: QUERY_DESC.INIT_AUTH,
   })
   async aadhaarKyc(
     @Arg(REQUEST) args: KycAadhaarInput,
     @Ctx() { user: { userId } }: { user: UserContext },
-  ): Promise<MessageResp> {
+  ): Promise<MessageType> {
     await this.userService.createKyc({
       kycType: KYCDocumentType.AadhaarCard,
       governmentIdNumber: args.aadharNo,
@@ -130,13 +130,13 @@ export class userResolver {
 
   /* init verify gstin */
   @Authorized()
-  @Mutation(() => MessageResp, {
+  @Mutation(() => MessageType, {
     description: QUERY_DESC.INIT_AUTH,
   })
   async gstinKyc(
     @Arg(REQUEST) args: KycGstinInput,
     @Ctx() { user: { userId } }: { user: UserContext },
-  ): Promise<MessageResp> {
+  ): Promise<MessageType> {
     await this.userService.createKyc({
       kycType: KYCDocumentType.GSTIN,
       governmentIdNumber: args.gstinNo,
@@ -165,12 +165,12 @@ export class userResolver {
 
   /* submit offline kyc */
     @Authorized()
-    @Mutation(() => MessageResp, {
+    @Mutation(() => MessageType, {
       description: QUERY_DESC.INIT_AUTH,
     })
     async submitOfflineKyc(@Arg(REQUEST) args: KycOfflineInput,     
     @Ctx() { user: { userId } }: { user: UserContext },
-    ): Promise<MessageResp> {
+    ): Promise<MessageType> {
       await this.userService.submitOfflineKyc({
         documents: args.documents,
         kycType: KYCDocumentType.Offline,
@@ -192,13 +192,13 @@ export class userResolver {
     }
 
     @Authorized()
-    @Mutation(() => MessageResp, {
+    @Mutation(() => MessageType, {
       description: QUERY_DESC.INIT_AUTH,
     })
     async addUpdateAccountDetails(
       @Arg(REQUEST) args: BankDetailsInput,     
       @Ctx() { user: { userId } }: { user: UserContext },
-    ): Promise<MessageResp> {
+    ): Promise<MessageType> {
       return this.userService.addUpdateAccountDetails({
         input: args,
         userId
