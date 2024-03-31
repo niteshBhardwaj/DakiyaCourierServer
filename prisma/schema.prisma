@@ -376,23 +376,32 @@ type Products {
 }
 
 model PickupAddress {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
-  phone         String
-  city          String
-  name          String
-  pincode       Int
-  state         String
-  address       String
-  country       String
-  email         String
-  returnAddress ReturnAddress?
-  createdOn     String[]
-  Order         Order[]
-  user          User           @relation(fields: [userId], references: [id])
-  userId        String         @db.ObjectId
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  phone          String
+  city           String
+  name           String
+  pincode        Int
+  state          String
+  address        String
+  country        String
+  email          String
+  returnAddress  ReturnAddress?
+  pickupProvider PickupProvider[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now())
+  Order          Order[]
+  user           User             @relation(fields: [userId], references: [id])
+  userId         String           @db.ObjectId
+}
+
+type PickupProvider {
+  courierId String
+  id        String
+  date      DateTime
 }
 
 type ReturnAddress {
+  name    String?
   address String
   pincode Int
   city    String
@@ -730,17 +739,17 @@ type AuthConfig {
 }
 
 model ApiConfig {
-  id             String             @id @default(auto()) @map("_id") @db.ObjectId
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
   type           ApiType
   endpoint       String
   method         String
-  sequence       Int                @default(1)
-  requestMapping String?
-  responseMapper ResponseMapperType
+  sequence       Int            @default(1)
+  requestMapping MapperType?
+  responseMapper MapperType?
   beforeActions  ActionType[]
   afterActions   ActionType[]
-  courierPartner CourierPartner     @relation(fields: [courierId], references: [id])
-  courierId      String             @db.ObjectId
+  courierPartner CourierPartner @relation(fields: [courierId], references: [id])
+  courierId      String         @db.ObjectId
 }
 
 type ActionType {
@@ -756,9 +765,9 @@ enum SourceType {
   External
 }
 
-type ResponseMapperType {
-  afterEvalRunner String?
-  mapping         String?
+type MapperType {
+  evalRunner String?
+  mapping    String?
 }
 
 enum ApiType {

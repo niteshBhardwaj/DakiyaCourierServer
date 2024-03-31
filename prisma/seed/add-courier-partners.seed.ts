@@ -102,7 +102,8 @@ export async function addApiConfig() {
                             evalMapper: ``,
                             payloadMapper: ''
                         }],
-                        requestMapping: `{
+                        requestMapping: {
+                            mapping: `{
                             "shipments": [
                                 {
                                     "add": dropAddress.address,
@@ -144,12 +145,30 @@ export async function addApiConfig() {
                                 "phone": pickupAddress.phone,
                                 "add": pickupAddress.address
                             }
-                        }`,
+                        }`
+                        },
                         responseMapper: {
                             mapping: null,
                         },
                         courierId: courierPartner.id
-                    }
+                    },
+                    {
+                        type: ApiType.Pickup,
+                        endpoint: '/fm/request/new/',
+                        method: 'POST',
+                        requestMapping: {
+                            mapping: `{
+                                "pickup_time": pickupTime,
+                                "pickup_date": pickupDate,
+                                "pickup_location": pickupLocation,
+                                "expected_package_count": packageCount
+                            }`
+                        },
+                        responseMapper: {
+                            mapping: ``,
+                        },
+                        courierId: courierPartner.id
+                    },
                 ]
             })
             console.log('added api config list', apiConfigAdded.count)
