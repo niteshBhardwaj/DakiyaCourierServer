@@ -64,8 +64,8 @@ export async function addApiConfig() {
                         type: ApiType.CreateWarehouse,
                         endpoint: '/api/backend/clientwarehouse/create/',
                         method: 'POST',
-                        requestMapping: `
-                        {
+                        requestMapping: {
+                            mapping: `{
                             "phone": phone,
                             "city": city,
                             "name": name,
@@ -80,7 +80,7 @@ export async function addApiConfig() {
                              "return_state": returnAddress.state,
                              "return_country": returnAddress.country
                           }
-                        `,
+                        `},
                         responseMapper: {},
                         courierId: courierPartner.id
                     },
