@@ -99,6 +99,6 @@ export class BankDetailsInput {
   IFSCCode: string;
 
   @Field({ nullable: true, description: 'The UPI Id (if any)' })
-  UPIId: string | null;
+  UPIId: string;
 
 }
