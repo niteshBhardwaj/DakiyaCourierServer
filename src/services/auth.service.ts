@@ -68,7 +68,6 @@ export default class AuthService {
       contactIdentifier: input.phone,
       usedFor: UsedForType.CREATE_ACCOUNT,
     });
-    console.log(input, 'input')
     const userRecord = await this.userService.createAccount(input);
     const authToken = this.tokenService.generateToken(userRecord);
     return { authToken, currentState: userRecord.currentState };

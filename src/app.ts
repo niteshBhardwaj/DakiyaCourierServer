@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import fastify, { FastifyInstance } from 'fastify';
-import { config } from '@plugins/config';
+import { env } from '@plugins/config';
 import loaders from "@plugins/loaders";
 
 const fastifyOption: any = {

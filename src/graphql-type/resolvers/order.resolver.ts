@@ -1,6 +1,6 @@
 import { type UserContext } from '@/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { QUERY_DESC, REQUEST } from '@/constants';
 import { CreateOrderInput } from '../args/order.input';
 import OrderService from '@/services/order.service';
@@ -12,6 +12,7 @@ export class orderResolver {
   @Inject()
   orderService: OrderService;
 
+  @Authorized()
   @Query(() => MessageType, {
     description: QUERY_DESC.CREATE_ORDER,
   })
@@ -23,6 +24,7 @@ export class orderResolver {
     return { message: 'Order created successfully'};
   }
 
+  @Authorized()
   @Mutation(() => MessageType, {
     description: QUERY_DESC.CREATE_ORDER,
   })
@@ -34,6 +36,7 @@ export class orderResolver {
     return { message: 'Order created successfully'};
   }
 
+  @Authorized()
   @Mutation(() => MessageType, {
     description: QUERY_DESC.CREATE_ORDER,
   })

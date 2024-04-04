@@ -32,7 +32,8 @@
       "@decorators/*": ["decorators/*"],
       "@exceptions/*": ["exceptions/*"],
       "@middlewares/*": ["middlewares/*"],
-      "@constants/*": ["constants/*"]
+      "@constants/*": ["constants/*"],
+      "@external/*": ["external/*"]
     }
   },
   "ts-node": {

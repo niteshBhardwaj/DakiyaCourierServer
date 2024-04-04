@@ -49,5 +49,5 @@ declare module "fastify" {
     isMultipart: boolean;
   }
 }
-export const config = process.env;
+export const env = process.env;
 export default fp(configPlugin);

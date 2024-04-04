@@ -19,5 +19,7 @@ declare namespace NodeJS {
       LOG_LEVEL: string;
       ASSET_HOST: string;
       FILE_UPLOAD_HOST: string;
+      DELHIVERY_HOST:string;
+      DELHIVERY_TOKEN:string;
     }
   }

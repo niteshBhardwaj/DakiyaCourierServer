@@ -16,9 +16,9 @@
     "bun-dev": "bun --watch src/app.ts",
     "dev-inspect": "npm run build && node --inspect build/app",
     "pretest": "npm run build",
-    "generate": "npx prisma format && npx prisma generate",
-    "seed": "npx prisma db seed",
-    "studio": "npx prisma studio --port 5000 --browser none",
+    "generate": "bunx prisma format && npx prisma generate",
+    "seed": "bunx prisma db seed",
+    "studio": "bunx prisma studio --port 5000 --browser none",
     "rebuild-bcrypt": "npm rebuild bcrypt",
     "test": "NODE_ENV=test tap",
     "test:watch": "NODE_ENV=test tap -w"
