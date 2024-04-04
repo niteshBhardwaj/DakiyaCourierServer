@@ -1,13 +1,13 @@
 import nodemailer, { Transporter } from 'nodemailer';
-import { config } from './config';
+import { env } from './config';
 
 export type MailerInstance = Transporter;
 export default () => {
   return nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: config.MAILER_EMAIL,
-      pass: config.MAILER_PASSWORD,
+      user: env.MAILER_EMAIL,
+      pass: env.MAILER_PASSWORD,
     },
   });
 };

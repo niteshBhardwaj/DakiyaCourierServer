@@ -1,9 +1,9 @@
-import { config } from './config';
+import { env } from './config';
 import winston from 'winston';
 
 // Creates a winston console based on the environment.
 const transports = [];
-if(config.NODE_ENV !== 'development') {
+if(env.NODE_ENV !== 'development') {
   transports.push(
     new winston.transports.Console()
   )
@@ -20,7 +20,7 @@ if(config.NODE_ENV !== 'development') {
 
 // Create a winston logger instance.
 const Logger = winston.createLogger({
-  level: config.WIN_LOG_LEVEL,
+  level: env.WIN_LOG_LEVEL,
   levels: winston.config.npm.levels,
   format: winston.format.combine(
     winston.format.timestamp({

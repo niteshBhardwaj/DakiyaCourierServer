@@ -5,7 +5,7 @@ import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { SMS_SENDER, SMS_URL } from '@/constants';
 import { getOtpMessage } from '@/utils';
-import { config } from '@/plugins/config';
+import { env } from '@/plugins/config';
 import { Otp } from '@prisma/client';
 
 @Service()
@@ -19,7 +19,7 @@ export default class SMSService {
   public async sendMessage({ numbers, message }: { numbers : string; message: string; }): Promise<UploadResponseType> {
     let url;
     try {
-        url = `${SMS_URL}&apikey=${config.SMS_API_KEY}&numbers=${numbers}&message=${message}&sender=${SMS_SENDER}` 
+        url = `${SMS_URL}&apikey=${env.SMS_API_KEY}&numbers=${numbers}&message=${message}&sender=${SMS_SENDER}` 
         console.log(url);
         const data = await httpPost(url, {}) as { status: string, message: string; };
         console.log('success data', data);
