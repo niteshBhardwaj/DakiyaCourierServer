@@ -10,6 +10,7 @@ import mailer from './mailer';
 Container.set('prisma', prisma);
 Container.set('logger', LoggerInstance);
 Container.set('mailer', mailer())
+Container.set('courierPartners', null);
 export default async ({ app }: { app: FastifyInstance }) => {
   //* load fastify routes and other configuration
   await fastifyLoader({ app });

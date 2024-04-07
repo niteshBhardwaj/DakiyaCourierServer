@@ -394,10 +394,15 @@ model PickupAddress {
   userId         String           @db.ObjectId
 }
 
-type PickupProvider {
-  courierId String
-  id        String
-  date      DateTime
+model PickupProvider {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  courierPartner  CourierPartner @relation(fields: [courierId], references: [id])
+  courierId       String         @db.ObjectId
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now())
+  lastRequestTime DateTime
+  PickupAddress   PickupAddress? @relation(fields: [pickupAddressId], references: [id])
+  pickupAddressId String?        @db.ObjectId
 }
 
 type ReturnAddress {
@@ -724,6 +729,7 @@ model CourierPartner {
   apiConfigs         ApiConfig[]
   pincodeAvailablity PincodeAvailability[]
   Order              Order[]
+  PickupProvider     PickupProvider[]
 }
 
 enum AuthSecretType {

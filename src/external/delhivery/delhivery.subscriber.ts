@@ -9,14 +9,20 @@ const prefix = 'delhivery'
 export default class DelhiverySubscriber {
   delhiveryService: DelhiveryService;
   logger: typeof LoggerInstance;
+  name: string;
   constructor() {
     this.logger = Container.get('logger');
     this.delhiveryService = Container.get(DelhiveryService);
   }
 
-  @On(`${prefix}.order`)
-  public sendPhoneOtp(data: any) {
+  @On(`${prefix}.createOrder`)
+  public createOrder(data: any) {
     this.delhiveryService.createOrder(data);
+  }
+
+  @On(`${prefix}.loadPincode`)
+  public loadPincode(data: any) {
+    this.delhiveryService.loadPincode(data);
   }
 
 }

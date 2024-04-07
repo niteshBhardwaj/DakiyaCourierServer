@@ -1,17 +1,29 @@
 import { METHOD } from '@/constants';
-// interface RequestData {
-//     body?: Record<string, string>;
-//     headers?: Record<string, string>;
-// }
-export const httpPost = async (url: string, { body = {}, headers = {}}: any) => {
-    const response = await fetch(url, {
-        method: METHOD.POST,
+
+type HttpOptions = { method?: METHOD; body?: object, headers?: object, responseType?: string; }
+export const httpRequest = async (url: string, { method = METHOD.POST, body = {}, headers = {}, responseType = 'json'}: HttpOptions) => {
+    const request = await fetch(url, {
+        method: method,
         body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json',
             ...headers
         }
     });
-    const data = await response.json();
-    return data;
+    let data = null;
+    if(responseType) {
+        data = await request[responseType]();
+    }
+    return {
+        request,
+        data
+    };
+}
+
+export const httpGet = async (url: string, options?: HttpOptions) => {
+    return httpRequest(url, { ...options, method: METHOD.GET });
+}
+
+export const httpPost = async (url: string, options?: HttpOptions) => {
+    return httpRequest(url, { ...options, method: METHOD.POST });
 }

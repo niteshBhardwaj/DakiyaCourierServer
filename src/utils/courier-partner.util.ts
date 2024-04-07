@@ -1,5 +1,4 @@
 import { ApiConfig, AuthSecretType, CourierPartner } from "@prisma/client";
-import deliveryPincode from '../../prisma/seed/data/delivery-pincode'
 
 const createAuthSecret = (authConfig: any) => {
     const { type, keyName, value } = authConfig;
@@ -24,7 +23,6 @@ export const createCourierPartnerRequest = async (courierApiConfig: ApiConfig & 
     const isGet = method.toUpperCase() === 'GET'
     const { queryString, authHeaders } = createAuthSecret(authConfig);
     const url = `${host}${endpoint}?${queryString}`;
-    console.log(url, method, queryString, authHeaders)
     try {
         const request = await fetch(url, {
             method,
