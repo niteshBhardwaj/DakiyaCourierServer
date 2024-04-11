@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { PrismaClient } from '@prisma/client';
+import { PincodeAvailability, PrismaClient } from '@prisma/client';
 import { PincodeServiceabilityInput, RateCalculatorInput } from '@/graphql-type/args/order.input';
 
 @Service()
@@ -51,4 +51,17 @@ export default class PincodeService {
 
     return pincodeList.some(item => item._count.pincode >= matchCount);
   }  
+
+  public async loadPincode({ courierId, data }: { courierId: string; data: PincodeAvailability[] }) {
+    if (data?.length) {
+        await this.prisma.pincodeAvailability.deleteMany({
+          where: {
+            courierId
+          }
+        })
+        await this.prisma.pincodeAvailability.createMany({
+          data
+        })
+      }
+  }
 }

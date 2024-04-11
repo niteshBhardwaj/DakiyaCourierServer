@@ -105,5 +105,12 @@ export const pickupMapping = {
         "pickup_date": pickupDate,
         "pickup_location": pickupLocation,
         "expected_package_count": packageCount
+    }`,
+    responseMapping: `{
+        "incomingCenter": incoming_center_name,
+        "pickupTime": pickup_time,
+        "pickupDate": pickup_date,
+        "pickupId": pickup_id,
+        "packageCount": package_count
     }`
 }

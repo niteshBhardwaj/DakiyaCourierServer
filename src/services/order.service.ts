@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { OrderStatus, PrismaClient } from '@prisma/client';
+import { Order, OrderStatus, PrismaClient } from '@prisma/client';
 import { CreateOrderInput } from '@/graphql-type/args/order.input';
 import CourierPartnerService from './courier-partners.service';
 import { badRequestException } from '@/utils/exceptions.util';
@@ -63,12 +63,24 @@ export default class OrderService {
   }
 
   public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
-    return this.prisma.order.create({
+    return this.prisma.order.update({
+      where: {
+        id: input.orderId,
+        userId
+      },
       data: {
         userId,
         ...input,
-        status: OrderStatus.Manifested,
       }
+    })
+  }
+
+  public async updateOrder({ data, id} : { data: Order; id: string }) {
+    return this.prisma.order.update({
+      where: {
+        id
+      },
+      data
     })
   }
 

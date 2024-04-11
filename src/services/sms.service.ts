@@ -21,7 +21,7 @@ export default class SMSService {
     try {
         url = `${SMS_URL}&apikey=${env.SMS_API_KEY}&numbers=${numbers}&message=${message}&sender=${SMS_SENDER}` 
         console.log(url);
-        const data = await httpPost(url, {}) as { status: string, message: string; };
+        const { data } = await httpPost(url);
         console.log('success data', data);
         if(data.status !== 'success') throw data;
         return data;

@@ -4,6 +4,7 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import { CourierPartner, Order, PrismaClient } from '@prisma/client';
 import { CourierIdInput } from '@/graphql-type/args/courier-partner.input';
 import { badRequestException } from '@/utils/exceptions.util';
+import { CourierSlugType, EVENTS_ACTIONS, checkEventAvailability, getCourierEvent } from '@/external/events';
 
 @Service()
 export default class CourierPartnerService {
@@ -34,37 +35,61 @@ export default class CourierPartnerService {
 
   public async loadPincode({ courierId }: CourierIdInput) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    this.eventDispatcher.dispatch(`${courierPartnerInfo.slug}.loadPincode`, { courierPartnerInfo });
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    if(!event) {
+      return;
+    }
+    this.eventDispatcher.dispatch(event, { courierPartnerInfo });
   }
 
   public async createOrder({ order, courierId }: { order: Partial<Order>, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    const dataCollection = { order, courierPartnerInfo } as Record<string, any>;
-    this.eventDispatcher.dispatch(`${courierPartnerInfo.slug}.createOrder`, dataCollection);
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    if(!event) {
+      return;
+    }
+    const dataCollection = { order, courierPartnerInfo };
+    this.eventDispatcher.dispatch(event, dataCollection);
   }
 
   public async updateOrder({ order, courierId }: { order: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.UPDATE_ORDER);
+    if(!event) {
+      return;
+    }
     const dataCollection = { order, courierPartnerInfo } as Record<string, any>;
-    this.eventDispatcher.dispatch(`${courierPartnerInfo.slug}.udpateOrder`, dataCollection);
+    this.eventDispatcher.dispatch(event, dataCollection);
   }
 
   public async getTracking({ order, courierId }: { order: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    if(!event) {
+      return;
+    }
     const dataCollection = { order, courierPartnerInfo } as Record<string, any>;
-    this.eventDispatcher.dispatch(`${courierPartnerInfo.slug}.udpateOrder`, dataCollection);
+    this.eventDispatcher.dispatch(event, dataCollection);
   }
 
   public async pickupRequest({ pickupRequest, courierId }: { pickupRequest: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    if(!event) {
+      return;
+    }
     const dataCollection = { pickupRequest, courierPartnerInfo } as Record<string, any>;
-    this.eventDispatcher.dispatch(`${courierPartnerInfo.slug}.pickupRequest`, dataCollection);
+    this.eventDispatcher.dispatch(event, dataCollection);
   }
 
   public async ndrAction({ ndrInfo, courierId }: { ndrInfo: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    if(!event) {
+      return;
+    }
     const dataCollection = { ndrInfo, courierPartnerInfo } as Record<string, any>;
-    this.eventDispatcher.dispatch(`${courierPartnerInfo.slug}.ndrAction`, dataCollection);
+    this.eventDispatcher.dispatch(event, dataCollection);
   }
 
 }

@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { PrismaClient } from '@prisma/client';
+import { PickupProvider, PrismaClient } from '@prisma/client';
 import { PickupAddressInput } from '@/graphql-type/args/pickup-address.input';
 
 @Service()
@@ -48,6 +48,25 @@ export default class PickupAddressService {
       },
       data: {
         ...input,
+      }
+    })
+  }
+
+  public async createPickupProvider({ data } : { data: PickupProvider }) {
+    return this.prisma.pickupProvider.create({
+      data: {
+        ...data
+      }
+    })
+  }
+
+  public async updatePickupProvider({ updatedData, id } : { updatedData: PickupProvider; id: string }) {
+    return this.prisma.pickupAddress.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updatedData,
       }
     })
   }

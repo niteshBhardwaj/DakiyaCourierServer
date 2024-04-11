@@ -2,8 +2,9 @@ import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
 import LoggerInstance from '@/plugins/logger';
 import DelhiveryService from './delhivery.service';
+import { EVENTS_ACTIONS, getDelhiveryEvent } from '../events';
 
-const prefix = 'delhivery'
+const event = getDelhiveryEvent();
 
 @EventSubscriber()
 export default class DelhiverySubscriber {
@@ -15,12 +16,12 @@ export default class DelhiverySubscriber {
     this.delhiveryService = Container.get(DelhiveryService);
   }
 
-  @On(`${prefix}.createOrder`)
+  @On(event[EVENTS_ACTIONS.CREATE_ORDER])
   public createOrder(data: any) {
     this.delhiveryService.createOrder(data);
   }
 
-  @On(`${prefix}.loadPincode`)
+  @On(event[EVENTS_ACTIONS.LOAD_PINCODE])
   public loadPincode(data: any) {
     this.delhiveryService.loadPincode(data);
   }

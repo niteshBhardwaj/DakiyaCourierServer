@@ -3,6 +3,13 @@ export const EVENTS = {
     SIGNUP: 'onUserSignUp',
     SIGNIN: 'onUserSignIn',
   },
+  PINCODE_AVAILABILITY: {
+    LOAD: 'loadPincodeAvailability',
+  },
+  ORDER: {
+    CREATED: 'onOrderCreated',
+    UPDATE: 'onOrderUpdated',
+  },
   PICKUP_PROVIDER: {
     CREATED: 'onPickupProviderCreated',
     UPDATED: 'onPickupProviderUpdated',
