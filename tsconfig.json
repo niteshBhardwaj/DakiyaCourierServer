@@ -21,19 +21,9 @@
     "strictPropertyInitialization": false,
     "paths": {
       "@/*": ["*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@plugins/*": ["plugins/*"],
-      "@models/*": ["models/*"],
-      "@graphql/*": ["graphql-type/*"],
       "@typedefs/*": ["graphql-type/typedefs/*"],
       "@resolvers/*": ["graphql-type/resolvers/*"],
       "@input/*": ["graphql-type/args/*"],
-      "@subscribers/*": ["subscribers/*"],
-      "@decorators/*": ["decorators/*"],
-      "@exceptions/*": ["exceptions/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@constants/*": ["constants/*"],
-      "@external/*": ["external/*"]
     }
   },
   "ts-node": {

@@ -3,6 +3,7 @@ import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { PickupProvider, PrismaClient } from '@prisma/client';
 import { PickupAddressInput } from '@/graphql-type/args/pickup-address.input';
+import { nanoid } from 'nanoid';
 
 @Service()
 export default class PickupAddressService {
@@ -23,6 +24,7 @@ export default class PickupAddressService {
   public async addPickupAddress({ input, userId} : { input: PickupAddressInput; userId: string }) {
     return this.prisma.pickupAddress.create({
       data: {
+        pickupId: nanoid(),
         userId,
         ...input,
       }

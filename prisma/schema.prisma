@@ -297,7 +297,8 @@ model Order {
   dropAddress   DropAddress   @relation(fields: [dropId], references: [id])
   dropId        String        @db.ObjectId
   // order id;
-  orderId       String?       @unique
+  orderId       String        @unique
+  awb           String        @unique
   // Payment mode
   paymentMode   PaymentMode
 
@@ -380,6 +381,7 @@ model PickupAddress {
   id             String           @id @default(auto()) @map("_id") @db.ObjectId
   phone          String
   city           String
+  pickupId       String           @unique
   name           String
   pincode        Int
   state          String
@@ -783,4 +785,14 @@ enum ApiType {
   Order
   Tracking
   Pickup
+}
+
+model Counter {
+  id    String      @id @default(auto()) @map("_id") @db.ObjectId
+  name  CounterType @unique
+  value Int
+}
+
+enum CounterType {
+  AWB
 }

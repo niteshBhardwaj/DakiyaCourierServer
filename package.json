@@ -85,6 +85,7 @@
     "jsonata": "^2.0.4",
     "jsonwebtoken": "^9.0.2",
     "keygen": "^0.4.0",
+    "nanoid": "^5.0.7",
     "nodemailer": "^6.9.7",
     "numeral": "^2.0.6",
     "otp-generator": "^4.0.1",

@@ -3,8 +3,10 @@ import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { Order, OrderStatus, PrismaClient } from '@prisma/client';
 import { CreateOrderInput } from '@/graphql-type/args/order.input';
-import CourierPartnerService from './courier-partners.service';
 import { badRequestException } from '@/utils/exceptions.util';
+import { createOrderSelector } from '@/db-selectors/order.selector';
+import CourierPartnerService from './courier-partners.service';
+import CounterService from './counter.service';
 
 @Service()
 export default class OrderService {
@@ -12,6 +14,7 @@ export default class OrderService {
     @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
     @Inject() private courierPartnerService: CourierPartnerService,
+    @Inject() private counterService: CounterService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
@@ -26,35 +29,16 @@ export default class OrderService {
   public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
     const courier = await this.prisma.courierPartner.findFirst();
     const courierId = courier?.id
+    const { orderId, awb } = (await this.counterService.generateAwbAndOrderId({ count: 1 }))[0];
     const order = await this.prisma.order.create({
       data: {
         userId,
+        orderId,
+        awb,
         ...input,
         status: OrderStatus.Manifested,
       },
-      select: {
-        id: true,
-        orderId: true,
-        pickupId: true,
-        dropId: true,
-        paymentMode: true,
-        shippingMode: true,
-        weight: true,
-        isFragile: true,
-        boxHeight: true,
-        boxWidth: true,
-        boxLength: true,
-        codAmount: true,
-        totalAmount: true,
-        products: true,
-        courierId: true,
-        pickupAddress: {
-          include: {
-            pickupProvider: true
-          },
-        },
-        dropAddress: true,
-      }
+      select: createOrderSelector
     })
     if(!courierId) {
       throw badRequestException('Courier not found');
@@ -65,7 +49,7 @@ export default class OrderService {
   public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
     return this.prisma.order.update({
       where: {
-        id: input.orderId,
+        id: input.id,
         userId
       },
       data: {
