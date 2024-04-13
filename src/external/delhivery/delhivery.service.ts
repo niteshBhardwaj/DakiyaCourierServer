@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { CourierPartner, Order, PickupAddress, PickupProvider, PrismaClient } from '@prisma/client';
+import { type CourierPartner, type Order, type PickupAddress, type PickupProvider, PrismaClient } from '@prisma/client';
 import { createOrder, createPickupRequest, createWarehouse, getPincodeSericeability, updateWarehouse } from './utils/http.delhivery.utils';
 import { EVENTS } from '@/constants';
 import { PickupResponseType } from './delhivery.type';

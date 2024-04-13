@@ -1,7 +1,7 @@
 import path from 'node:path';
 import now from 'fastify-now';
 import { FastifyInstance } from 'fastify';
-import config from '@plugins/config';
+import config from '@/plugins/config';
 
 // Register Fastify routes.
 export default async ({ app }: { app: FastifyInstance; }) => {

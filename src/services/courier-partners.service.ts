@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { CourierPartner, Order, PrismaClient } from '@prisma/client';
+import { type CourierPartner, type Order, PrismaClient } from '@prisma/client';
 import { CourierIdInput } from '@/graphql-type/args/courier-partner.input';
 import { badRequestException } from '@/utils/exceptions.util';
 import { CourierSlugType, EVENTS_ACTIONS, checkEventAvailability, getCourierEvent } from '@/external/events';

@@ -49,7 +49,7 @@ export default class OrderService {
   public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
     return this.prisma.order.update({
       where: {
-        id: input.id,
+        id: "",
         userId
       },
       data: {

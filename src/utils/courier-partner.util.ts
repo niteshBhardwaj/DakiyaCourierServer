@@ -1,4 +1,4 @@
-import { ApiConfig, AuthSecretType, CourierPartner } from "@prisma/client";
+import { ApiConfig, AuthSecretType, type CourierPartner } from "@prisma/client";
 
 const createAuthSecret = (authConfig: any) => {
     const { type, keyName, value } = authConfig;
