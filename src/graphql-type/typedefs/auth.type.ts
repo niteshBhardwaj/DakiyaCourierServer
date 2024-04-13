@@ -5,7 +5,7 @@ import { CurrentStateType } from "./users.type";
 export class LoginSuccessResp {
   @Field()
   authToken: string;
-  @Field()
+  @Field({ nullable: true})
   refreshToken?: string;
   @Field(() => CurrentStateType) // Explicitly specify the type of the array
   currentState: CurrentStateType | null;

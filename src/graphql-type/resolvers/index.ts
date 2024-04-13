@@ -5,6 +5,7 @@ import { CourierPartnerResolver as courierPartnerResolver } from './courier-parn
 import { orderResolver } from './order.resolver';
 import { pincodeResolver } from './pincode.resolver'
 import { BuildSchemaOptions } from 'type-graphql';
+import { pickupAddressResolver } from './pickup-address.resolver';
 // import { walletResolver } from './wallet.resolver';
 
 export default [
@@ -13,6 +14,7 @@ export default [
     adminResolver,
     courierPartnerResolver,
     orderResolver,
-    pincodeResolver
+    pincodeResolver,
+    pickupAddressResolver
     // walletResolver
 ] as BuildSchemaOptions['resolvers'];

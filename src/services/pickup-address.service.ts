@@ -4,6 +4,7 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import { PickupProvider, PrismaClient } from '@prisma/client';
 import { PickupAddressInput } from '@/graphql-type/args/pickup-address.input';
 import { nanoid } from 'nanoid';
+import { PickupAddressType } from '@/graphql-type/typedefs/pickup-address.type';
 
 @Service()
 export default class PickupAddressService {
@@ -18,7 +19,7 @@ export default class PickupAddressService {
       where: {
         userId,
       }
-    })
+    }) as Promise<PickupAddressType[]>
   }
 
   public async addPickupAddress({ input, userId} : { input: PickupAddressInput; userId: string }) {
@@ -28,7 +29,7 @@ export default class PickupAddressService {
         userId,
         ...input,
       }
-    })
+    }) as Promise<PickupAddressType>
   }
 
   public async deletePickupAddress({ id, userId } : { id: string, userId: string }) {
