@@ -6,6 +6,7 @@ import {
     IsString,
     ValidateNested,
     IsMobilePhone,
+    IsMongoId,
 } from "class-validator";
 import { Field, InputType, Int } from "type-graphql";
 
@@ -84,3 +85,22 @@ export class PickupAddressInput {
     @ValidateNested(ADDRESS_VALIDATION.pincode)
     returnAddress?: ReturnAddressInput;
 }
+
+@InputType()
+export class PickupDeleteInput {
+    @Field(type => String, ADDRESS_VALIDATION.id)
+    @IsMongoId(ADDRESS_VALIDATION.id)
+    id: string;
+}
+
+
+@InputType()
+export class PickupUpdatedInput {
+    @Field(type => String, ADDRESS_VALIDATION.id)
+    @IsMongoId(ADDRESS_VALIDATION.id)
+    id: string;
+
+    @Field(type => PickupAddressInput)
+    updatedData: PickupAddressInput
+}
+

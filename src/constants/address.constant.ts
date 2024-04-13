@@ -1,4 +1,8 @@
 export const ADDRESS_VALIDATION = {
+    "id": {
+      "description": "Id of the pickup address",
+      "message": "Please provide a valid pickup id"
+    },
     "phone": {
       "description": "Phone number of the pickup address",
       "message": "Please provide a valid phone number"

@@ -1,7 +1,7 @@
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { Order, OrderStatus, PrismaClient } from '@prisma/client';
+import { type Order, OrderStatus, PrismaClient } from '@prisma/client';
 import { CreateOrderInput } from '@/graphql-type/args/order.input';
 import { badRequestException } from '@/utils/exceptions.util';
 import { createOrderSelector } from '@/db-selectors/order.selector';
@@ -18,6 +18,14 @@ export default class OrderService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
+  public async getOrderCount({ userId, where } : { userId: string, where?: Record<string, any> }) {
+    return this.prisma.order.count({
+      where: {
+        userId,
+        ...where
+      }
+    })
+  }
   public async getOrderList({ input, userId} : { input: CreateOrderInput; userId: string }) {
     return this.prisma.order.findMany({
       where: {

@@ -1,11 +1,11 @@
 import { Resolver, Query, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
 import { REQUEST } from '@/constants';
-import { PickupAddress } from '@prisma/client';
-import { PickupAddressInput } from '../args/pickup-address.input';
+import { PickupAddressInput, PickupDeleteInput, PickupUpdatedInput } from '../args/pickup-address.input';
 import PickupAddressService from '@/services/pickup-address.service';
 import { UserContext } from '@/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
-import { PickupAddressType } from '../typedefs/pickup-address.type';
+import { PickupAddressType, PickupAddressUpdateType } from '../typedefs/pickup-address.type';
+import { MessageType } from '../typedefs/common.type';
 
 @Service()
 @Resolver()
@@ -21,7 +21,9 @@ export class pickupAddressResolver {
     return this.pickupAddressService.getPickupAddresses({ userId });
   }
 
-  @Mutation(() => PickupAddressType)
+  @Mutation(() => PickupAddressType, {
+    description: 'Add pickup address',
+  })
   async addPickupAddress(
     @Arg(REQUEST) input: PickupAddressInput,
     @Ctx() { user: { userId } }: { user: UserContext },
@@ -29,20 +31,24 @@ export class pickupAddressResolver {
     return this.pickupAddressService.addPickupAddress({ input, userId });
   }
 
-  // @Mutation(() => PickupAddressInput)
-  // async deletePickupAddress(
-  //   @Arg('id') id: string,
-  //   @Ctx() { user: { userId } }: { user: UserContext },
-  // ): Promise<PickupAddress> {
-  //   return this.pickupAddressService.deletePickupAddress({ id, userId });
-  // }
+  @Mutation(() => MessageType, {
+    description: 'Delete pickup address',
+  })
+  async deletePickupAddress(
+    @Arg(REQUEST) { id }: PickupDeleteInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+  ): Promise<MessageType> {
+    await this.pickupAddressService.deletePickupAddress({ id, userId });
+    return { message: 'Deleted successfully' };
+  }
 
-  // @Mutation(() => PickupAddressInput)
-  // async editPickupAddress(
-  //   @Arg(REQUEST) input: PickupAddressInput,
-  //   @Arg('id') id: string,
-  //   @Ctx() { user: { userId } }: { user: UserContext },
-  // ): Promise<PickupAddress> {
-  //   return this.pickupAddressService.editPickupAddress({ input, id, userId });
-  // }
+  @Mutation(() => PickupAddressUpdateType, {
+    description: 'Edit pickup address',
+  })
+  async editPickupAddress(
+    @Arg(REQUEST) input: PickupUpdatedInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+  ): Promise<PickupAddressUpdateType> {
+    return this.pickupAddressService.editPickupAddress({ input, userId });
+  }
 }

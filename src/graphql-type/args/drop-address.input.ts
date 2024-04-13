@@ -5,6 +5,7 @@ import {
     IsNotEmpty,
     IsString,
     IsMobilePhone,
+    IsMongoId,
 } from "class-validator";
 import { Field, InputType, Int } from "type-graphql";
 
@@ -49,3 +50,22 @@ export class DropAddressInput {
     @IsNotEmpty(ADDRESS_VALIDATION.email)
     email: string;
 }
+
+@InputType()
+export class DropDeleteInput {
+    @Field(type => String, ADDRESS_VALIDATION.id)
+    @IsMongoId(ADDRESS_VALIDATION.id)
+    id: string;
+}
+
+
+@InputType()
+export class DropUpdatedInput {
+    @Field(type => String, ADDRESS_VALIDATION.id)
+    @IsMongoId(ADDRESS_VALIDATION.id)
+    id: string;
+
+    @Field(type => DropAddressInput)
+    updatedData: DropAddressInput
+}
+

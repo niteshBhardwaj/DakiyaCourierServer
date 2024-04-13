@@ -59,3 +59,11 @@ export class PickupAddressType {
 }
 
 
+@ObjectType()
+export class PickupAddressUpdateType {
+  @Field()
+  isNew: boolean;
+
+  @Field(type => PickupAddressType)
+  data: PickupAddressType
+}
