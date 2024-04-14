@@ -17,7 +17,7 @@ export default class CourierPartnerService {
 
   public async getAllCourierInfo() {
     const courierPartners = await this.prisma.courierPartner.findMany({
-      where: { isActive: true },
+      // where: { isActive: true },
     });
     return courierPartners;
   }

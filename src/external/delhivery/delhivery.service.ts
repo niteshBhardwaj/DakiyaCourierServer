@@ -12,7 +12,7 @@ import { createFutureDate } from '@/utils/date.utils';
 import { DateType } from '@/types/common.type';
 
 
-@Service('delhivery')
+@Service()
 export default class CourierPartnerService {
   constructor(
     @Inject('prisma') private prisma: PrismaClient,
