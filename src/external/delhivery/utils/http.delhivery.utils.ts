@@ -37,7 +37,7 @@ export const createWarehouse = async ({ warehouseData }: { warehouseData: any })
         const { payloadMapping } = createWarehouseMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(warehouseData);
-        const { data } = await httpPost(url, { body: payload });
+        const { data } = await httpPost(url, { body: payload, responseType: 'text' });
         return data;
     } catch (e) {
         console.log(e);

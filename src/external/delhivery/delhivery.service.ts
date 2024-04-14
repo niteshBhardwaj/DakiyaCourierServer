@@ -35,8 +35,8 @@ export default class CourierPartnerService {
     }
   }
   
-  public async createOrUpdateWarehouse({ pickupAddress }: { pickupAddress: PickupAddress & { pickupProvider: PickupProvider } }) {
-    const { pickupProvider } = pickupAddress;
+  public async createOrUpdateWarehouse({ pickupAddress }: { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }) {
+    const pickupProvider = pickupAddress.pickupProvider[0];
     if (!pickupProvider) {
       await createWarehouse({ warehouseData: pickupAddress })
       // update pickup provider
@@ -70,7 +70,7 @@ export default class CourierPartnerService {
     return data;
   }
 
-  public async createOrder({ order, courierId }: { order: Order & { pickAddress: PickupAddress & { pickupProvider: PickupProvider } }, courierId: string }) {
+  public async createOrder({ order, courierId }: { order: Order & { pickAddress: PickupAddress & { pickupProvider: PickupProvider[0] } }, courierId: string }) {
     // create or update wharehouse
     const wharehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickAddress })
 
@@ -83,12 +83,12 @@ export default class CourierPartnerService {
           courierResponseJson: responseData
       }
 
-      const { pickupProvider } = order.pickAddress;
+      const pickupProvider = order.pickAddress.pickupProvider[0];
       const pickupResponse = pickupProvider?.pickupResponse;
       // update order response
       const pickupSaveData = isArray(pickupResponse) ? [...pickupResponse] : [];
       // create pickup request
-      const pickupCreatedData = await this.createPickup({ pickupProvider: order.pickAddress?.pickupProvider, pickupDate: createFutureDate(10, 'minute') })
+      const pickupCreatedData = await this.createPickup({ pickupProvider, pickupDate: createFutureDate(10, 'minute') })
       if(!!pickupCreatedData) {
         pickupSaveData.push(pickupCreatedData)
       }

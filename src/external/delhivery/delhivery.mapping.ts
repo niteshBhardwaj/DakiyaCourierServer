@@ -22,7 +22,7 @@ export const createWarehouseMapping = {
     payloadMapping: `{
         "phone": phone,
         "city": city,
-        "name": name,
+        "name": pickupId,
         "pin": pincode,
         "address": address,
         "country": country,
@@ -40,7 +40,7 @@ export const updateWarehouseMapping = {
     payloadMapping: `{
         "phone": phone,
         "city": city,
-        "name": name,
+        "name": pickupId,
         "pin": pincode,
         "address": address,
         "country": country,
@@ -65,7 +65,7 @@ export const createOrderMapping = {
             "pin": dropAddress.pincode,
             "state": dropAddress.state,
             "city": dropAddress.city,
-            "order": "0",
+            "order": orderId,
             "shipping_mode": shippingMode,
             "weight": weight,
             "od_distance": "",
