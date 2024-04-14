@@ -2,7 +2,7 @@ import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { type CourierPartner, type Order, type PickupAddress, type PickupProvider, PrismaClient } from '@prisma/client';
-import { createOrder, createPickupRequest, createWarehouse, getPincodeSericeability, updateWarehouse } from './utils/http.delhivery.utils';
+import { createOrder, createPickupRequest, createWarehouse, getPincodeServiceability as getPincodeServiceability, updateWarehouse } from './utils/http.delhivery.utils';
 import { EVENTS } from '@/constants';
 import { PickupResponseType } from './delhivery.type';
 import { checkPickupForGivenDate } from './utils/pickup.delhivery.utils';
@@ -19,11 +19,11 @@ export default class CourierPartnerService {
     @Inject('logger') private logger: typeof LoggerInstance,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
-  
+
   public async loadPincode({ courierPartnerInfo }: { courierPartnerInfo: CourierPartner }) {
     try {
       const { id: courierId } = courierPartnerInfo
-      const data = await getPincodeSericeability({ courierId });
+      const data = await getPincodeServiceability({ courierId });
 
       // send event to update pincode's availability
       this.eventDispatcher.dispatch(EVENTS.PINCODE_AVAILABILITY.LOAD, {
@@ -34,16 +34,22 @@ export default class CourierPartnerService {
       console.log(e)
     }
   }
-  
+
   public async createOrUpdateWarehouse({ pickupAddress }: { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }) {
     const pickupProvider = pickupAddress.pickupProvider[0];
     if (!pickupProvider) {
-      await createWarehouse({ warehouseData: pickupAddress })
+      const { error } = await createWarehouse({ warehouseData: pickupAddress })
+      if (error) {
+        throw error
+      }
       // update pickup provider
       return { isCreated: true }
     } else {
       if (pickupProvider.updatedAt < pickupAddress.updatedAt) {
-        await updateWarehouse({ warehouseData: pickupAddress });
+        const {error} = await updateWarehouse({ warehouseData: pickupAddress });
+        if (error) {
+          throw error
+        }
         // update pickup providers
         return { isUpdated: true }
       }
@@ -71,52 +77,56 @@ export default class CourierPartnerService {
   }
 
   public async createOrder({ order, courierId }: { order: Order & { pickAddress: PickupAddress & { pickupProvider: PickupProvider[0] } }, courierId: string }) {
-    // create or update wharehouse
-    const wharehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickAddress })
+    try {
+      // create or update wharehouse
+      const warehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickAddress })
 
-    // create order
-    const { data: responseData, orderData } = await createOrder({ orderData: order })
-    if (orderData) {
-      const orderUpdatedData = {
+      // create order
+      const { data: responseData, orderData } = await createOrder({ orderData: order })
+      if (orderData) {
+        const orderUpdatedData = {
           ...orderData.map(({ waybill }: { waybill: string }) => ({ waybill }))[0],
           courierId,
           courierResponseJson: responseData
-      }
-
-      const pickupProvider = order.pickAddress.pickupProvider[0];
-      const pickupResponse = pickupProvider?.pickupResponse;
-      // update order response
-      const pickupSaveData = isArray(pickupResponse) ? [...pickupResponse] : [];
-      // create pickup request
-      const pickupCreatedData = await this.createPickup({ pickupProvider, pickupDate: createFutureDate(10, 'minute') })
-      if(!!pickupCreatedData) {
-        pickupSaveData.push(pickupCreatedData)
-      }
-      // update pickupProvider 
-      if(wharehouseData?.isCreated) {
-        this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.CREATED, {
-          pickupAddressId: order.pickAddress.id,
-          courierId: orderData.courierId,
-          pickupResponse: pickupSaveData
-        } as PickupProvider)
-      } else {
-        const updateData = {
-          pickupResponse: pickupSaveData
-        } as PickupProvider;
-        if(wharehouseData?.isUpdated) {
-          updateData.updatedAt = new Date();
         }
-        this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.UPDATED, {
-          id: pickupProvider.id,
-          updateData
-        })
+
+        const pickupProvider = order.pickAddress.pickupProvider[0];
+        const pickupResponse = pickupProvider?.pickupResponse;
+        // update order response
+        const pickupSaveData = isArray(pickupResponse) ? [...pickupResponse] : [];
+        // create pickup request
+        const pickupCreatedData = await this.createPickup({ pickupProvider, pickupDate: createFutureDate(10, 'minute') })
+        if (!!pickupCreatedData) {
+          pickupSaveData.push(pickupCreatedData)
+        }
+        // update pickupProvider 
+        if (warehouseData?.isCreated) {
+          this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.CREATED, {
+            pickupAddressId: order.pickAddress.id,
+            courierId: orderData.courierId,
+            pickupResponse: pickupSaveData
+          } as PickupProvider)
+        } else {
+          const updateData = {
+            pickupResponse: pickupSaveData
+          } as PickupProvider;
+          if (warehouseData?.isUpdated) {
+            updateData.updatedAt = new Date();
+          }
+          this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.UPDATED, {
+            id: pickupProvider.id,
+            updateData
+          })
+        }
+        // update order after created
+        this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {
+          data: orderUpdatedData,
+          id: order.id
+        });
       }
-      // update order after created
-      this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {
-        data: orderUpdatedData,
-        id: order.id
-      });
+    } catch (e) {
+      console.log(e);
+      console.log('failed to create order of courier', order.id, courierId);
     }
   }
-
 }

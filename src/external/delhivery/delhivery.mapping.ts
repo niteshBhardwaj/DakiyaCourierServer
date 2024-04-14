@@ -1,5 +1,5 @@
 
-export const pincodeServicebilityMapping = {
+export const pincodeServiceabilityMapping = {
     response: `$map($filter(delivery_codes, function($v) {
             $v.postal_code.country_code = "IN"
         }), function($item) {
@@ -28,11 +28,11 @@ export const createWarehouseMapping = {
         "country": country,
         "email": email,
         "registered_name": name,
-        "return_address": returnAddress.address,
-        "return_pin": returnAddress.pincode,
-        "return_city": returnAddress.city,
-        "return_state": returnAddress.state,
-        "return_country": returnAddress.country
+        "return_address": returnAddress ? returnAddress.address : address,
+        "return_pin": returnAddress ? returnAddress.pincode : pincode,
+        "return_city": returnAddress ? returnAddress.city : city,
+        "return_state": returnAddress ? returnAddress.state: state,
+        "return_country": returnAddress ? returnAddress.country : country
     }`
 }
 

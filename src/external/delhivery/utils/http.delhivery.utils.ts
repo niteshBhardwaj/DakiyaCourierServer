@@ -1,29 +1,29 @@
 import jsonata from "jsonata";
 import { env } from "@/plugins/config";
 import { DELIVERY_API_URL } from "../delhivery.constant";
-import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServicebilityMapping, updateWarehouseMapping } from "../delhivery.mapping";
+import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping } from "../delhivery.mapping";
 import { httpGet, httpPost } from "@/utils";
-import { mappingEvaluate } from "./common.delhivery.utils";
+import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
 
 const getUrl = (url: string) => {
     return `${env.DELHIVERY_API}${url}`
 }
 
-const getAuthSecret = () => {
-    return `secret=${env.DELHIVERY_TOKEN}`
+const getAuthHeader = () => {
+    return { Authorization: `Token ${env.DELHIVERY_TOKEN}` }
 }
 
-export const createRequestURL = ({ path, queryString }: { path: string; queryString?: string; }) => {
-    const url = `${getUrl(path)}?${getAuthSecret()}${queryString ? `&${queryString}` : ''}`;
-    return url;
+export const createRequest = ({ path, queryString }: { path: string; queryString?: string; }) => {
+    const url = `${getUrl(path)}?${queryString ? `&${queryString}` : ''}`;
+    return {url, headers: getAuthHeader()};
 }
 
-export const getPincodeSericeability = async ({ courierId }: { courierId: string }) => {
+export const getPincodeServiceability = async ({ courierId }: { courierId: string }) => {
     try {
-        const url = createRequestURL({ path: DELIVERY_API_URL.PINCODE_SERVICEABILITY });
-        const { response: responeMapping } = pincodeServicebilityMapping;
-        let { data } = await httpGet(url);
-        const expression = jsonata(responeMapping);
+        const {url, headers } = createRequest({ path: DELIVERY_API_URL.PINCODE_SERVICEABILITY });
+        const { response: responseMapping } = pincodeServiceabilityMapping;
+        let { data } = await httpGet(url, { headers });
+        const expression = jsonata(responseMapping);
         const result = await expression.evaluate(data, { courierId });
         return result
     } catch (e) {
@@ -33,38 +33,61 @@ export const getPincodeSericeability = async ({ courierId }: { courierId: string
 
 export const createWarehouse = async ({ warehouseData }: { warehouseData: any }) => {
     try {
-        const url = createRequestURL({ path: DELIVERY_API_URL.CREATE_WAREHOUSE });
+        const {url, headers} = createRequest({ path: DELIVERY_API_URL.CREATE_WAREHOUSE });
         const { payloadMapping } = createWarehouseMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(warehouseData);
-        const { data } = await httpPost(url, { body: payload, responseType: 'text' });
-        return data;
+        const { data: dataString } = await httpPost(url, { body: payload, responseType: 'text', headers });
+        const data = parseJson(dataString);
+        if (!data) {
+            throw new Error(dataString);
+        }
+        return {
+            data,
+            error: null
+        }
     } catch (e) {
         console.log(e);
+        return {
+            data: null,
+            error: e
+        }
     }
 }
 
 export const updateWarehouse = async ({ warehouseData }: { warehouseData: any }) => {
     try {
-        const url = createRequestURL({ path: DELIVERY_API_URL.UPDATE_WAREHOUSE });
+        const {url, headers} = createRequest({ path: DELIVERY_API_URL.UPDATE_WAREHOUSE });
         const { payloadMapping } = updateWarehouseMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(warehouseData);
-        return httpPost(url, { body: payload });
+        const { data: dataString } = await httpPost(url, { body: payload, responseType: 'text', headers });
+        const data = parseJson(dataString);
+        if (!data) {
+            throw new Error(dataString);
+        }
+        return {
+            data,
+            error: null
+        }
     } catch (e) {
         console.log(e);
+        return {
+            data: null,
+            error: e
+        }
     }
 }
 
 export const createOrder = async ({ orderData }: { orderData: any }) => {
     try {
-        const url = createRequestURL({ path: DELIVERY_API_URL.CREATE_ORDER });
+        const {url, headers} = createRequest({ path: DELIVERY_API_URL.CREATE_ORDER });
         const { payloadMapping } = createOrderMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(orderData);
-        const { data } = await httpPost(url, { body: payload });
+        const { data } = await httpPost(url, { body: payload, headers });
         if (data.success) {
-        return {
+            return {
                 data,
                 orderData: data.packages.map((item: { status: string; waybill: string; refnum: string }) => ({
                     success: item.status === "Success",
@@ -78,22 +101,20 @@ export const createOrder = async ({ orderData }: { orderData: any }) => {
                 orderData: null
             }
         }
-    } catch (e) {
-        // TODO: // log error
-        console.error(e);
-    }
-    return {
-        data: null,
-        orderData: null
+    } catch (error) {
+        return {
+            data: null,
+            orderData: null
+        }
     }
 }
 
 export const createPickupRequest = async ({ pickupData }: { pickupData: object }) => {
     try {
-        const url = createRequestURL({ path: DELIVERY_API_URL.PICKUP_REQUEST });
+        const {url, headers} = createRequest({ path: DELIVERY_API_URL.PICKUP_REQUEST });
         const { payloadMapping, responseMapping } = pickupMapping;
         const payload = mappingEvaluate(payloadMapping, pickupData);
-        const { data } = await httpPost(url, { body: payload });
+        const { data } = await httpPost(url, { body: payload, headers });
         if (data.pr_exists) {
             return null;
         }
