@@ -13,7 +13,7 @@ import { DateType } from '@/types/common.type';
 
 
 @Service()
-export default class CourierPartnerService {
+export default class DelhiveryService {
   constructor(
     @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
@@ -65,7 +65,7 @@ export default class CourierPartnerService {
     }
     const newDate = dayjs(pickupDate);
 
-    const data = await createPickupRequest({
+    const { data } = await createPickupRequest({
       pickupData: {
         pickupTime: newDate.format('HH:mm:ss').toString(),
         pickupDate: newDate.format('YYYY/MM/DD').toString(),
@@ -76,7 +76,7 @@ export default class CourierPartnerService {
     return data;
   }
 
-  public async createOrder({ order, courierId }: { order: Order & { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[0] } }, courierId: string }) {
+  public async createOrder({ order, courierId }: { order: Order & { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }, courierId: string }) {
     try {
       // create or update wharehouse
       const warehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickupAddress })
@@ -105,7 +105,7 @@ export default class CourierPartnerService {
       if (warehouseData?.isCreated) {``
         this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.CREATED, {
           pickupAddressId: order.pickupAddress.id,
-          courierId: orderData.courierId,
+          courierId: courierId,
           pickupResponse: pickupSaveData
         } as PickupProvider)
       } else {

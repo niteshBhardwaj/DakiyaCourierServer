@@ -115,14 +115,18 @@ export const createPickupRequest = async ({ pickupData }: { pickupData: object }
     try {
         const {url, headers} = createRequest({ path: DELIVERY_API_URL.PICKUP_REQUEST });
         const { payloadMapping, responseMapping } = pickupMapping;
-        const payload = mappingEvaluate(payloadMapping, pickupData);
+        const payload = await mappingEvaluate(payloadMapping, pickupData);
         const { data } = await httpPost(url, { body: payload, headers });
-        if (data.pr_exists) {
-            return null;
-        }
-        const evaluatedData = await mappingEvaluate(responseMapping, data);
-        return evaluatedData;
+        if (!data.pr_exists) {
+            const evaluatedData = await mappingEvaluate(responseMapping, data);
+            return { data: evaluatedData, error: null };
+``       }
+        throw new Error(JSON.stringify(data));
     } catch (e) {
         console.log(e);
+        return {
+            data: null,
+            error: e
+        }
     }
 }

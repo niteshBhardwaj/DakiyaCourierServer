@@ -109,4 +109,15 @@ export default class PickupAddressService {
     })
   }
 
+  public async updatePickupProvider({ data, id }: { data: PickupProvider, id: string }) {
+    return this.prisma.pickupProvider.update({
+      where: {
+        id
+      },
+      data: {
+        ...data
+      }
+    })
+  }
+
 }
