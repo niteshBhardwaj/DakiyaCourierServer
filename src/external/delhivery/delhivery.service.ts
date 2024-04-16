@@ -46,7 +46,7 @@ export default class CourierPartnerService {
       return { isCreated: true }
     } else {
       if (pickupProvider.updatedAt < pickupAddress.updatedAt) {
-        const {error} = await updateWarehouse({ warehouseData: pickupAddress });
+        const { error } = await updateWarehouse({ warehouseData: pickupAddress });
         if (error) {
           throw error
         }
@@ -57,7 +57,7 @@ export default class CourierPartnerService {
     }
   }
 
-  public async createPickup({ pickupProvider, pickupDate, count = 1 }: { pickupProvider: PickupProvider, pickupDate: DateType, count?: number }) {
+  public async createPickup({ pickupProvider, pickupId, pickupDate, count = 1 }: { pickupProvider: PickupProvider, pickupDate: DateType, count?: number; pickupId: string }) {
     const pickupResponse = pickupProvider?.pickupResponse as PickupResponseType[] | null;
     if (checkPickupForGivenDate(pickupResponse, pickupDate)) {
       console.log('pickup already created for given date');
@@ -69,61 +69,62 @@ export default class CourierPartnerService {
       pickupData: {
         pickupTime: newDate.format('HH:mm:ss').toString(),
         pickupDate: newDate.format('YYYY/MM/DD').toString(),
-        pickupLocation: pickupProvider.pickupAddressId,
+        pickupLocation: pickupId,
         packageCount: count
       }
     })
     return data;
   }
 
-  public async createOrder({ order, courierId }: { order: Order & { pickAddress: PickupAddress & { pickupProvider: PickupProvider[0] } }, courierId: string }) {
+  public async createOrder({ order, courierId }: { order: Order & { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[0] } }, courierId: string }) {
     try {
       // create or update wharehouse
-      const warehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickAddress })
+      const warehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickupAddress })
 
       // create order
       const { data: responseData, orderData } = await createOrder({ orderData: order })
-      if (orderData) {
-        const orderUpdatedData = {
-          ...orderData.map(({ waybill }: { waybill: string }) => ({ waybill }))[0],
-          courierId,
-          courierResponseJson: responseData
-        }
-
-        const pickupProvider = order.pickAddress.pickupProvider[0];
-        const pickupResponse = pickupProvider?.pickupResponse;
-        // update order response
-        const pickupSaveData = isArray(pickupResponse) ? [...pickupResponse] : [];
-        // create pickup request
-        const pickupCreatedData = await this.createPickup({ pickupProvider, pickupDate: createFutureDate(10, 'minute') })
-        if (!!pickupCreatedData) {
-          pickupSaveData.push(pickupCreatedData)
-        }
-        // update pickupProvider 
-        if (warehouseData?.isCreated) {
-          this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.CREATED, {
-            pickupAddressId: order.pickAddress.id,
-            courierId: orderData.courierId,
-            pickupResponse: pickupSaveData
-          } as PickupProvider)
-        } else {
-          const updateData = {
-            pickupResponse: pickupSaveData
-          } as PickupProvider;
-          if (warehouseData?.isUpdated) {
-            updateData.updatedAt = new Date();
-          }
-          this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.UPDATED, {
-            id: pickupProvider.id,
-            updateData
-          })
-        }
-        // update order after created
-        this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {
-          data: orderUpdatedData,
-          id: order.id
-        });
+      if (!orderData) {
+        throw new Error(responseData)
       }
+      const orderUpdatedData = {
+        ...orderData.map(({ waybill }: { waybill: string }) => ({ waybill }))[0],
+        courierId,
+        courierResponseJson: responseData
+      }
+
+      const pickupProvider = order.pickupAddress.pickupProvider[0];
+      const pickupResponse = pickupProvider?.pickupResponse;
+      // update order response
+      const pickupSaveData = isArray(pickupResponse) ? [...pickupResponse] : [];
+      // create pickup request
+      const pickupCreatedData = await this.createPickup({ pickupId: order.pickupAddress.pickupId, pickupProvider, pickupDate: createFutureDate(10, 'minute') })
+      if (!!pickupCreatedData) {
+        pickupSaveData.push(pickupCreatedData)
+      }
+      // update pickupProvider 
+      if (warehouseData?.isCreated) {``
+        this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.CREATED, {
+          pickupAddressId: order.pickupAddress.id,
+          courierId: orderData.courierId,
+          pickupResponse: pickupSaveData
+        } as PickupProvider)
+      } else {
+        const updateData = {
+          pickupResponse: pickupSaveData
+        } as PickupProvider;
+        if (warehouseData?.isUpdated) {
+          updateData.updatedAt = new Date();
+        }
+        this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.UPDATED, {
+          id: pickupProvider.id,
+          updateData
+        })
+      }
+      // update order after created
+      this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {
+        data: orderUpdatedData,
+        id: order.id
+      });
     } catch (e) {
       console.log(e);
       console.log('failed to create order of courier', order.id, courierId);

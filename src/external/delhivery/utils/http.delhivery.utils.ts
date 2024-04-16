@@ -6,11 +6,15 @@ import { httpGet, httpPost } from "@/utils";
 import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
 
 const getUrl = (url: string) => {
-    return `${env.DELHIVERY_API}${url}`
+    return `${env.DELHIVERY_HOST}${url}`
 }
 
 const getAuthHeader = () => {
-    return { Authorization: `Token ${env.DELHIVERY_TOKEN}` }
+    return { 
+        Authorization: `Token ${env.DELHIVERY_TOKEN}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
 }
 
 export const createRequest = ({ path, queryString }: { path: string; queryString?: string; }) => {
@@ -37,10 +41,9 @@ export const createWarehouse = async ({ warehouseData }: { warehouseData: any })
         const { payloadMapping } = createWarehouseMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(warehouseData);
-        const { data: dataString } = await httpPost(url, { body: payload, responseType: 'text', headers });
-        const data = parseJson(dataString);
-        if (!data) {
-            throw new Error(dataString);
+        const { data } = await httpPost(url, { body: payload, headers });
+        if (!data?.success && !(data?.error?.length && data?.error[0].includes(`${payload.name} already exists`))) {
+            throw new Error(JSON.stringify(data));
         }
         return {
             data,
@@ -61,10 +64,9 @@ export const updateWarehouse = async ({ warehouseData }: { warehouseData: any })
         const { payloadMapping } = updateWarehouseMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(warehouseData);
-        const { data: dataString } = await httpPost(url, { body: payload, responseType: 'text', headers });
-        const data = parseJson(dataString);
-        if (!data) {
-            throw new Error(dataString);
+        const { data } = await httpPost(url, { body: payload, responseType: 'text', headers });
+        if (!data?.success) {
+            throw new Error(JSON.stringify(data));
         }
         return {
             data,
@@ -85,7 +87,7 @@ export const createOrder = async ({ orderData }: { orderData: any }) => {
         const { payloadMapping } = createOrderMapping;
         const expression = jsonata(payloadMapping);
         const payload = await expression.evaluate(orderData);
-        const { data } = await httpPost(url, { body: payload, headers });
+        const { data } = await httpPost(url, { body: `format=json&data=${JSON.stringify(payload)}`, headers: { ...headers, 'Content-Type': 'application/text'} });
         if (data.success) {
             return {
                 data,

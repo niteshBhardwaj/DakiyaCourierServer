@@ -44,7 +44,7 @@ export default class CourierPartnerService {
 
   public async createOrder({ order, courierId }: { order: Partial<Order>, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.CREATE_ORDER);
     if(!event) {
       return;
     }
@@ -64,7 +64,7 @@ export default class CourierPartnerService {
 
   public async getTracking({ order, courierId }: { order: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.TRACKING);
     if(!event) {
       return;
     }
@@ -74,7 +74,7 @@ export default class CourierPartnerService {
 
   public async pickupRequest({ pickupRequest, courierId }: { pickupRequest: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.PICKUP_REQUEST);
     if(!event) {
       return;
     }
@@ -84,7 +84,7 @@ export default class CourierPartnerService {
 
   public async ndrAction({ ndrInfo, courierId }: { ndrInfo: Order, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
+    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.NDR_ACTION);
     if(!event) {
       return;
     }

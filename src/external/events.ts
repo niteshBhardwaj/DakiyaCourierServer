@@ -2,6 +2,7 @@
 export enum EVENTS_ACTIONS {
     LOAD_PINCODE = "LOAD_PINCODE",
     CREATE_ORDER = "CREATE_ORDER",
+    PICKUP_REQUEST = "PICKUP_REQUEST",
     UPDATE_ORDER = "UPDATE_ORDER",
     TRACKING = "TRACKING",
     NDR_ACTION = "NDR_ACTION"
@@ -15,7 +16,8 @@ export const CourierPartnersEvents = {
         [EVENTS_ACTIONS.CREATE_ORDER]: `${delhiverySlug}.createOrder`,
         [EVENTS_ACTIONS.UPDATE_ORDER]: `${delhiverySlug}.updateOrder`,
         [EVENTS_ACTIONS.TRACKING]: `${delhiverySlug}.tracking`,
-        [EVENTS_ACTIONS.NDR_ACTION]: `${delhiverySlug}.ndrAction`
+        [EVENTS_ACTIONS.NDR_ACTION]: `${delhiverySlug}.ndrAction`,
+        [EVENTS_ACTIONS.PICKUP_REQUEST]: `${delhiverySlug}.pickupRequest`
     }
 } satisfies Record<string, Record<string, string>>
 

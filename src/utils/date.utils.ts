@@ -16,5 +16,5 @@ export const isSameDate = (date?: DateType, date1?: DateType) => {
 }
 
 export const createFutureDate = (value: number, unit: ManipulateType) => {
-    return dayjs(new Date()).add(value, unit).date()
+    return dayjs(new Date()).add(value, unit).toDate();
 }

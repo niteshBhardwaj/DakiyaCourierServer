@@ -23,13 +23,13 @@ export const createWarehouseMapping = {
         "phone": phone,
         "city": city,
         "name": pickupId,
-        "pin": pincode,
+        "pin": $string(pincode),
         "address": address,
         "country": country,
         "email": email,
         "registered_name": name,
         "return_address": returnAddress ? returnAddress.address : address,
-        "return_pin": returnAddress ? returnAddress.pincode : pincode,
+        "return_pin": $string(returnAddress ? returnAddress.pincode : pincode),
         "return_city": returnAddress ? returnAddress.city : city,
         "return_state": returnAddress ? returnAddress.state: state,
         "return_country": returnAddress ? returnAddress.country : country
@@ -80,7 +80,7 @@ export const createOrderMapping = {
             "return_state": pickupAddress.returnAddress.state,
             "return_country": pickupAddress.returnAddress.country,
             "return_add": pickupAddress.returnAddress.address,
-            "dangerous_good": "False",
+            "dangerous_good": "false",
             "order_date": "",
             "total_amount": totalAmount,
             "seller_add": dropAddress.address,
@@ -90,7 +90,7 @@ export const createOrderMapping = {
         }
         ],
         "pickup_location": {
-            "name": pickupAddress.name,
+            "name": pickupAddress.pickupId,
             "city": pickupAddress.city,
             "pin": pickupAddress.pincode,
             "country": pickupAddress.country,
