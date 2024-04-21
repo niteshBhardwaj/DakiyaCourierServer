@@ -43,12 +43,12 @@ export default class CourierPartnerService {
   }
 
   public async createOrder({ order, courierId }: { order: Partial<Order>, courierId: string }) {
-    const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
-    const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.CREATE_ORDER);
+    const courierPartner = await this.findCourierPartnerById({ courierId });
+    const event = getCourierEvent(courierPartner.slug as CourierSlugType, EVENTS_ACTIONS.CREATE_ORDER);
     if(!event) {
       return;
     }
-    const dataCollection = { order, courierPartnerInfo };
+    const dataCollection = { order, courierPartner };
     this.eventDispatcher.dispatch(event, dataCollection);
   }
 

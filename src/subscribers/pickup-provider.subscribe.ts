@@ -2,8 +2,8 @@ import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
 import { EVENTS } from '@/constants';
 import LoggerInstance from '@/plugins/logger';
-import { PickupProvider } from '@prisma/client';
 import PickupAddressService from '@/services/pickup-address.service';
+import { type PickupProvider } from '@prisma/client';
 
 @EventSubscriber()
 export default class PickupProviderSubscriber {
@@ -20,11 +20,10 @@ export default class PickupProviderSubscriber {
   }
 
   @On(EVENTS.PICKUP_PROVIDER.UPDATED)
-  public updatePickupProvider({ pickupAddressId, updateData, courierId }: {
-    courierId: string;
-    pickupAddressId: string;
+  public updatePickupProvider({ id, updateData }: {
+    id: string;
     updateData: PickupProvider
   }) {
-    this.pickupAddressService.updatePickupProvider({ data: updateData, id: pickupAddressId })
+    this.pickupAddressService.updatePickupProvider({ data: updateData, id })
   }
 }

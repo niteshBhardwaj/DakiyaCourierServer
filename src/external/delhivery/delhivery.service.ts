@@ -6,9 +6,8 @@ import { createOrder, createPickupRequest, createWarehouse, getPincodeServiceabi
 import { EVENTS } from '@/constants';
 import { PickupResponseType } from './delhivery.type';
 import { checkPickupForGivenDate } from './utils/pickup.delhivery.utils';
-import dayjs from 'dayjs';
 import { isArray } from 'class-validator';
-import { createFutureDate } from '@/utils/date.utils';
+import { checkDateIsBefore, createFutureDate, getDateAndTimeByDate } from '@/utils/date.utils';
 import { DateType } from '@/types/common.type';
 
 
@@ -45,7 +44,7 @@ export default class DelhiveryService {
       // update pickup provider
       return { isCreated: true }
     } else {
-      if (pickupProvider.updatedAt < pickupAddress.updatedAt) {
+      if (checkDateIsBefore(pickupProvider.updatedAt, pickupAddress.updatedAt)) {
         const { error } = await updateWarehouse({ warehouseData: pickupAddress });
         if (error) {
           throw error
@@ -57,18 +56,18 @@ export default class DelhiveryService {
     }
   }
 
-  public async createPickup({ pickupProvider, pickupId, pickupDate, count = 1 }: { pickupProvider: PickupProvider, pickupDate: DateType, count?: number; pickupId: string }) {
+  public async createPickup({ pickupProvider, pickupId, pickupDate: date, count = 1 }: { pickupProvider: PickupProvider, pickupDate: DateType, count?: number; pickupId: string }) {
     const pickupResponse = pickupProvider?.pickupResponse as PickupResponseType[] | null;
-    if (checkPickupForGivenDate(pickupResponse, pickupDate)) {
+    if (checkPickupForGivenDate(pickupResponse, date)) {
       console.log('pickup already created for given date');
       return;
     }
-    const newDate = dayjs(pickupDate);
+    const {date: pickupDate, time: pickupTime} = getDateAndTimeByDate(date);
 
     const { data } = await createPickupRequest({
       pickupData: {
-        pickupTime: newDate.format('HH:mm:ss').toString(),
-        pickupDate: newDate.format('YYYY/MM/DD').toString(),
+        pickupTime,
+        pickupDate,
         pickupLocation: pickupId,
         packageCount: count
       }
@@ -76,11 +75,11 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async createOrder({ order, courierId }: { order: Order & { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }, courierId: string }) {
+  public async createOrder({ order, courierPartner }: { order: Order & { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }, courierPartner: CourierPartner }) {
+    const { id: courierId } = courierPartner;
     try {
       // create or update wharehouse
       const warehouseData = await this.createOrUpdateWarehouse({ pickupAddress: order.pickupAddress })
-
       // create order
       const { data: responseData, orderData } = await createOrder({ orderData: order })
       if (!orderData) {
@@ -102,10 +101,10 @@ export default class DelhiveryService {
         pickupSaveData.push(pickupCreatedData)
       }
       // update pickupProvider 
-      if (warehouseData?.isCreated) {``
+      if (warehouseData?.isCreated) {
         this.eventDispatcher.dispatch(EVENTS.PICKUP_PROVIDER.CREATED, {
           pickupAddressId: order.pickupAddress.id,
-          courierId: courierId,
+          courierId,
           pickupResponse: pickupSaveData
         } as PickupProvider)
       } else {

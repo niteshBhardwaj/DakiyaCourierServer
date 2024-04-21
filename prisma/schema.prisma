@@ -732,10 +732,43 @@ model CourierPartner {
   isActive           Boolean               @default(true) // Active or inactive
   host               String
   authConfig         AuthConfig
+  rateCard           PartnerRateCard[]
+  codCharges         CODCharges? // Optional in case COD not applicable
+  extraTaxes         ExtraTaxes[]
   apiConfigs         ApiConfig[]
   pincodeAvailablity PincodeAvailability[]
   Order              Order[]
   PickupProvider     PickupProvider[]
+}
+
+type PartnerRateCard {
+  title       String
+  mode        String   @map("mode") 
+  type        String   @map("type")
+  base        Int 
+  increment   Int 
+  unit        String   
+  upto        Int?     
+  rates       Rate[] 
+
+  codCharges  CODCharges? // Optional in case COD not applicable
+  extraTaxes  ExtraTaxes[] // Array for multiple potential tax types
+}
+
+type Rate {
+  zone        String
+  baseRate    Int     @map("baseRate")
+  incrementRate Int   @map("incrementRate")
+}
+
+type ExtraTaxes {
+  name  String // Tax type (e.g., "GST", "VAT")
+  rate  Float  // Tax percentage
+} 
+
+type CODCharges {
+  minimum    Int
+  percentage Int
 }
 
 enum AuthSecretType {
