@@ -275,13 +275,18 @@ export default [
         "admin1Code": "11"
     },
     {
-        "code": "",
+        "code": "Bilaspur (HP)",
         "name": "Bilaspur (HP)",
         "admin1Code": "11"
     },
     {
         "code": "029",
         "name": "Una",
+        "admin1Code": "11"
+    },
+    {
+        "code": "Hamirpur(HP)",
+        "name": "Hamirpur(HP)",
         "admin1Code": "11"
     },
     {
@@ -367,6 +372,11 @@ export default [
     {
         "code": "009",
         "name": "Bandipur",
+        "admin1Code": "12"
+    },
+    {
+        "code": "Leh",
+        "name": "Leh",
         "admin1Code": "12"
     },
     {
@@ -492,6 +502,11 @@ export default [
     {
         "code": "196",
         "name": "Chandauli",
+        "admin1Code": "36"
+    },
+    {
+        "code": "Sant Ravidas Nagar",
+        "name": "Sant Ravidas Nagar",
         "admin1Code": "36"
     },
     {
@@ -1040,6 +1055,11 @@ export default [
         "admin1Code": "09"
     },
     {
+        "code": "Dahod",
+        "name": "Dahod",
+        "admin1Code": "09"
+    },
+    {
         "code": "486",
         "name": "Vadodara",
         "admin1Code": "09"
@@ -1092,6 +1112,11 @@ export default [
     {
         "code": "517",
         "name": "Thane",
+        "admin1Code": "16"
+    },
+    {
+        "code": "Raigarh(MH)",
+        "name": "Raigarh(MH)",
         "admin1Code": "16"
     },
     {
@@ -1272,6 +1297,11 @@ export default [
     {
         "code": "455",
         "name": "Chhindwara",
+        "admin1Code": "35"
+    },
+    {
+        "code": "West Nimar",
+        "name": "West Nimar",
         "admin1Code": "35"
     },
     {
@@ -1520,6 +1550,11 @@ export default [
         "admin1Code": "37"
     },
     {
+        "code": "Kawardha",
+        "name": "Kawardha",
+        "admin1Code": "37"
+    },
+    {
         "code": "407",
         "name": "Kabirdham",
         "admin1Code": "37"
@@ -1537,6 +1572,11 @@ export default [
     {
         "code": "412",
         "name": "Dhamtari",
+        "admin1Code": "37"
+    },
+    {
+        "code": "Gariaband",
+        "name": "Gariaband",
         "admin1Code": "37"
     },
     {
@@ -1628,6 +1668,11 @@ export default [
         "code": "534",
         "name": "Karim Nagar",
         "admin1Code": "40"
+    },
+    {
+        "code": "Peddapalli",
+        "name": "Peddapalli",
+        "admin1Code": "02"
     },
     {
         "code": "540",
@@ -2170,6 +2215,11 @@ export default [
         "admin1Code": "28"
     },
     {
+        "code": "South Dinajpur",
+        "name": "South Dinajpur",
+        "admin1Code": "28"
+    },
+    {
         "code": "330",
         "name": "North Dinajpur",
         "admin1Code": "28"
@@ -2200,8 +2250,23 @@ export default [
         "admin1Code": "28"
     },
     {
+        "code": "East Sikkim",
+        "name": "East Sikkim",
+        "admin1Code": "29"
+    },
+    {
         "code": "242",
         "name": "West Sikkim",
+        "admin1Code": "29"
+    },
+    {
+        "code": "North Sikkim",
+        "name": "North Sikkim",
+        "admin1Code": "29"
+    },
+    {
+        "code": "South Sikkim",
+        "name": "South Sikkim",
         "admin1Code": "29"
     },
     {
@@ -2285,6 +2350,11 @@ export default [
         "admin1Code": "21"
     },
     {
+        "code": "Angul",
+        "name": "Angul",
+        "admin1Code": "21"
+    },
+    {
         "code": "388",
         "name": "Ganjam",
         "admin1Code": "21"
@@ -2315,6 +2385,11 @@ export default [
         "admin1Code": "21"
     },
     {
+        "code": "Nabarangapur",
+        "name": "Nabarangapur",
+        "admin1Code": "21"
+    },
+    {
         "code": "396",
         "name": "Rayagada",
         "admin1Code": "21"
@@ -2332,6 +2407,11 @@ export default [
     {
         "code": "393",
         "name": "Balangir",
+        "admin1Code": "21"
+    },
+    {
+        "code": "Sonapur",
+        "name": "Sonapur",
         "admin1Code": "21"
     },
     {
@@ -2717,6 +2797,11 @@ export default [
     {
         "code": "290",
         "name": "South Tripura",
+        "admin1Code": "26"
+    },
+    {
+        "code": "Gomti",
+        "name": "Gomti",
         "admin1Code": "26"
     },
     {

@@ -6513,145 +6513,145 @@ export default [
     {
         "pincode": 174001,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur"
     },
     {
         "pincode": 174002,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Naina Devi"
     },
     {
         "pincode": 174003,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174004,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur"
     },
     {
         "pincode": 174005,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Blaspur"
     },
     {
         "pincode": 174011,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Naina Devi"
     },
     {
         "pincode": 174012,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur"
     },
     {
         "pincode": 174013,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur"
     },
     {
         "pincode": 174015,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Naina Devi"
     },
     {
         "pincode": 174017,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Jhandutha"
     },
     {
         "pincode": 174021,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174023,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174024,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174026,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174027,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174028,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 174029,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Jhanduta"
     },
     {
         "pincode": 174030,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Jhandutta"
     },
     {
         "pincode": 174031,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Jhanduta(T)"
     },
     {
         "pincode": 174032,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur"
     },
     {
         "pincode": 174033,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur"
     },
     {
         "pincode": 174034,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Jhandutha"
     },
     {
         "pincode": 174035,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Jhandutta"
     },
     {
         "pincode": 174036,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Bilaspur Sadar"
     },
     {
@@ -6675,7 +6675,7 @@ export default [
     {
         "pincode": 174201,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Naina Devi"
     },
     {
@@ -6699,13 +6699,13 @@ export default [
     {
         "pincode": 174304,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Barsar(T)"
     },
     {
         "pincode": 174305,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Barsar"
     },
     {
@@ -6729,25 +6729,25 @@ export default [
     {
         "pincode": 174309,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Barsar"
     },
     {
         "pincode": 174310,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Bilaspur (HP)",
         "admin3Name": "Naina Devi"
     },
     {
         "pincode": 174311,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bijhari"
     },
     {
         "pincode": 174312,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Barsar"
     },
     {
@@ -6795,7 +6795,7 @@ export default [
     {
         "pincode": 174405,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
@@ -6807,7 +6807,7 @@ export default [
     {
         "pincode": 174505,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
@@ -7359,43 +7359,43 @@ export default [
     {
         "pincode": 176039,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bijhari"
     },
     {
         "pincode": 176040,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bijhari"
     },
     {
         "pincode": 176041,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 176042,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Ghumarwin"
     },
     {
         "pincode": 176043,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 176044,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 176045,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhuranj"
     },
     {
@@ -7407,13 +7407,13 @@ export default [
     {
         "pincode": 176048,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 176049,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bijhari"
     },
     {
@@ -7677,25 +7677,25 @@ export default [
     {
         "pincode": 176108,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Tira Sujanpur(T)"
     },
     {
         "pincode": 176109,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Sp Tira"
     },
     {
         "pincode": 176110,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun(T)"
     },
     {
         "pincode": 176111,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Sujanpur"
     },
     {
@@ -8019,85 +8019,85 @@ export default [
     {
         "pincode": 177001,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
         "pincode": 177005,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur(T)"
     },
     {
         "pincode": 177006,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
         "pincode": 177007,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
         "pincode": 177020,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
         "pincode": 177021,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 177022,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Tira Sujanpur(T)"
     },
     {
         "pincode": 177023,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
         "pincode": 177024,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj(T)"
     },
     {
         "pincode": 177025,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhorang"
     },
     {
         "pincode": 177026,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
         "pincode": 177027,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
         "pincode": 177028,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Sp Tira"
     },
     {
         "pincode": 177029,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
@@ -8121,7 +8121,7 @@ export default [
     {
         "pincode": 177038,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
@@ -8133,7 +8133,7 @@ export default [
     {
         "pincode": 177040,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
@@ -8145,7 +8145,7 @@ export default [
     {
         "pincode": 177042,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
@@ -8157,19 +8157,19 @@ export default [
     {
         "pincode": 177044,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
         "pincode": 177045,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
         "pincode": 177048,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun(T)"
     },
     {
@@ -8259,13 +8259,13 @@ export default [
     {
         "pincode": 177118,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 177119,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Barsar(T)"
     },
     {
@@ -8361,25 +8361,25 @@ export default [
     {
         "pincode": 177301,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Nadaun"
     },
     {
         "pincode": 177401,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Hamirpur"
     },
     {
         "pincode": 177501,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj"
     },
     {
         "pincode": 177601,
         "admin1Code": "11",
-        "admin2Code": "",
+        "admin2Code": "Hamirpur(HP)",
         "admin3Name": "Bhoranj(T)"
     },
     {
@@ -9579,7 +9579,7 @@ export default [
     {
         "pincode": 194101,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "NA"
     },
     {
@@ -9597,7 +9597,7 @@ export default [
     {
         "pincode": 194104,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "Leh"
     },
     {
@@ -9609,13 +9609,13 @@ export default [
     {
         "pincode": 194106,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "Leh"
     },
     {
         "pincode": 194107,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "Leh"
     },
     {
@@ -9627,13 +9627,13 @@ export default [
     {
         "pincode": 194201,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "Leh"
     },
     {
         "pincode": 194202,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "Leh"
     },
     {
@@ -9657,7 +9657,7 @@ export default [
     {
         "pincode": 194401,
         "admin1Code": "12",
-        "admin2Code": "",
+        "admin2Code": "Leh",
         "admin3Name": "Leh"
     },
     {
@@ -12303,7 +12303,7 @@ export default [
     {
         "pincode": 221301,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Gyanpur"
     },
     {
@@ -12315,7 +12315,7 @@ export default [
     {
         "pincode": 221303,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Gyanpur"
     },
     {
@@ -12345,19 +12345,19 @@ export default [
     {
         "pincode": 221308,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Gyanpur"
     },
     {
         "pincode": 221309,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Gyanpur"
     },
     {
         "pincode": 221310,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Gyanpur"
     },
     {
@@ -12375,7 +12375,7 @@ export default [
     {
         "pincode": 221314,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Bhadohi"
     },
     {
@@ -12399,7 +12399,7 @@ export default [
     {
         "pincode": 221404,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Bhadohi"
     },
     {
@@ -12411,13 +12411,13 @@ export default [
     {
         "pincode": 221406,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Bhadohi"
     },
     {
         "pincode": 221409,
         "admin1Code": "36",
-        "admin2Code": "",
+        "admin2Code": "Sant Ravidas Nagar",
         "admin3Name": "Gyanpur"
     },
     {
@@ -31419,55 +31419,55 @@ export default [
     {
         "pincode": 389130,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Devgadh Baria"
     },
     {
         "pincode": 389140,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Limkheda"
     },
     {
         "pincode": 389146,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Limkheda"
     },
     {
         "pincode": 389151,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Dohad"
     },
     {
         "pincode": 389152,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Garbada"
     },
     {
         "pincode": 389154,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Dohad"
     },
     {
         "pincode": 389155,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Garbada"
     },
     {
         "pincode": 389160,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Dahod"
     },
     {
         "pincode": 389170,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Jhalod"
     },
     {
@@ -31479,7 +31479,7 @@ export default [
     {
         "pincode": 389175,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Jhalod"
     },
     {
@@ -31611,7 +31611,7 @@ export default [
     {
         "pincode": 389382,
         "admin1Code": "09",
-        "admin2Code": "",
+        "admin2Code": "Dahod",
         "admin3Name": "Dhanpur"
     },
     {
@@ -34059,7 +34059,7 @@ export default [
     {
         "pincode": 400702,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Uran"
     },
     {
@@ -34071,7 +34071,7 @@ export default [
     {
         "pincode": 400704,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Uran"
     },
     {
@@ -34083,7 +34083,7 @@ export default [
     {
         "pincode": 400707,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Uran"
     },
     {
@@ -34359,247 +34359,247 @@ export default [
     {
         "pincode": 402101,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mhasla"
     },
     {
         "pincode": 402102,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402103,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402104,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402105,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mhasla"
     },
     {
         "pincode": 402106,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Roha"
     },
     {
         "pincode": 402107,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Pen"
     },
     {
         "pincode": 402108,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402109,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Roha"
     },
     {
         "pincode": 402110,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Shriwardhan"
     },
     {
         "pincode": 402111,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402112,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402113,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Shriwardhan"
     },
     {
         "pincode": 402114,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Shriwardhan"
     },
     {
         "pincode": 402115,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402116,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Roha"
     },
     {
         "pincode": 402117,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402120,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402122,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mangaon"
     },
     {
         "pincode": 402125,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Pen"
     },
     {
         "pincode": 402126,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Roha"
     },
     {
         "pincode": 402201,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402202,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402203,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402204,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402207,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402208,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402209,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Alibag"
     },
     {
         "pincode": 402301,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402302,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402303,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Poladpur"
     },
     {
         "pincode": 402304,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Roha"
     },
     {
         "pincode": 402305,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402306,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402307,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402308,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Roha"
     },
     {
         "pincode": 402309,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
         "pincode": 402401,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Murud"
     },
     {
         "pincode": 402402,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Shriwardhan"
     },
     {
         "pincode": 402403,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Shriwardhan"
     },
     {
         "pincode": 402404,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Shriwardhan"
     },
     {
@@ -35133,97 +35133,97 @@ export default [
     {
         "pincode": 410101,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Karjat"
     },
     {
         "pincode": 410102,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Karjat"
     },
     {
         "pincode": 410201,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Karjat"
     },
     {
         "pincode": 410202,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Khalapur"
     },
     {
         "pincode": 410203,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Khalapur"
     },
     {
         "pincode": 410204,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Khopoli"
     },
     {
         "pincode": 410205,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Sudhagad"
     },
     {
         "pincode": 410206,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Panvel"
     },
     {
         "pincode": 410207,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Panvel"
     },
     {
         "pincode": 410208,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Panvel"
     },
     {
         "pincode": 410210,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Panvel"
     },
     {
         "pincode": 410216,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Karjat"
     },
     {
         "pincode": 410218,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Panvel"
     },
     {
         "pincode": 410220,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Khalapur"
     },
     {
         "pincode": 410221,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Panvel"
     },
     {
         "pincode": 410222,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Khalapur"
     },
     {
@@ -37539,7 +37539,7 @@ export default [
     {
         "pincode": 415213,
         "admin1Code": "16",
-        "admin2Code": "",
+        "admin2Code": "Raigarh(MH)",
         "admin3Name": "Mahad"
     },
     {
@@ -43587,19 +43587,19 @@ export default [
     {
         "pincode": 451001,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Kasarawad"
     },
     {
         "pincode": 451111,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Barwaha"
     },
     {
         "pincode": 451113,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Bhikangaon"
     },
     {
@@ -43611,37 +43611,37 @@ export default [
     {
         "pincode": 451220,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Maheshwar"
     },
     {
         "pincode": 451221,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Maheshwar"
     },
     {
         "pincode": 451224,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Maheshwar"
     },
     {
         "pincode": 451225,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Maheshwar"
     },
     {
         "pincode": 451228,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Kasrawad"
     },
     {
         "pincode": 451331,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Bhikangaon"
     },
     {
@@ -43653,13 +43653,13 @@ export default [
     {
         "pincode": 451335,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Khargone"
     },
     {
         "pincode": 451440,
         "admin1Code": "35",
-        "admin2Code": "",
+        "admin2Code": "West Nimar",
         "admin3Name": "Khargone"
     },
     {
@@ -48255,7 +48255,7 @@ export default [
     {
         "pincode": 491336,
         "admin1Code": "37",
-        "admin2Code": "",
+        "admin2Code": "Kawardha",
         "admin3Name": "Kawardha"
     },
     {
@@ -48309,7 +48309,7 @@ export default [
     {
         "pincode": 491559,
         "admin1Code": "37",
-        "admin2Code": "",
+        "admin2Code": "Kawardha",
         "admin3Name": "Pandaria"
     },
     {
@@ -48369,7 +48369,7 @@ export default [
     {
         "pincode": 491995,
         "admin1Code": "37",
-        "admin2Code": "",
+        "admin2Code": "Kawardha",
         "admin3Name": "Kawardha"
     },
     {
@@ -48711,7 +48711,7 @@ export default [
     {
         "pincode": 493887,
         "admin1Code": "37",
-        "admin2Code": "",
+        "admin2Code": "Gariaband",
         "admin3Name": "Gariaband"
     },
     {
@@ -51837,7 +51837,7 @@ export default [
     {
         "pincode": 505416,
         "admin1Code": "02",
-        "admin2Code": "",
+        "admin2Code": "Peddapalli",
         "admin3Name": "Dharmaram Mandal"
     },
     {
@@ -94293,19 +94293,19 @@ export default [
     {
         "pincode": 733101,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Balurghat"
     },
     {
         "pincode": 733102,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Balurghat"
     },
     {
         "pincode": 733103,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Balurghat"
     },
     {
@@ -94335,13 +94335,13 @@ export default [
     {
         "pincode": 733126,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Hilli"
     },
     {
         "pincode": 733127,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Tapan"
     },
     {
@@ -94371,7 +94371,7 @@ export default [
     {
         "pincode": 733133,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Kumarganj"
     },
     {
@@ -94383,13 +94383,13 @@ export default [
     {
         "pincode": 733140,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Kumarganj"
     },
     {
         "pincode": 733141,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Kumarganj"
     },
     {
@@ -94407,7 +94407,7 @@ export default [
     {
         "pincode": 733145,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Balurghat"
     },
     {
@@ -94419,7 +94419,7 @@ export default [
     {
         "pincode": 733158,
         "admin1Code": "28",
-        "admin2Code": "",
+        "admin2Code": "South Dinajpur",
         "admin3Name": "Balurghat"
     },
     {
@@ -95313,31 +95313,31 @@ export default [
     {
         "pincode": 737101,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Gangtok"
     },
     {
         "pincode": 737102,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "East District"
     },
     {
         "pincode": 737103,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Gangtok"
     },
     {
         "pincode": 737106,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Pakyong"
     },
     {
         "pincode": 737107,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Dikchu"
     },
     {
@@ -95355,13 +95355,13 @@ export default [
     {
         "pincode": 737116,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "North Sikkim",
         "admin3Name": "Mangan"
     },
     {
         "pincode": 737120,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "North Sikkim",
         "admin3Name": "Chungthang"
     },
     {
@@ -95373,55 +95373,55 @@ export default [
     {
         "pincode": 737126,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "South Sikkim",
         "admin3Name": "Namchi"
     },
     {
         "pincode": 737128,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "South Sikkim",
         "admin3Name": "Melli"
     },
     {
         "pincode": 737131,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Rangli"
     },
     {
         "pincode": 737132,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Rangpo"
     },
     {
         "pincode": 737133,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Rhenock"
     },
     {
         "pincode": 737134,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Singtam"
     },
     {
         "pincode": 737135,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Ranipool"
     },
     {
         "pincode": 737136,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "East Sikkim",
         "admin3Name": "Rangpo"
     },
     {
         "pincode": 737139,
         "admin1Code": "29",
-        "admin2Code": "",
+        "admin2Code": "South Sikkim",
         "admin3Name": "Ravangla"
     },
     {
@@ -99957,7 +99957,7 @@ export default [
     {
         "pincode": 759037,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
@@ -99969,85 +99969,85 @@ export default [
     {
         "pincode": 759040,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Banarpal"
     },
     {
         "pincode": 759100,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher Sadar"
     },
     {
         "pincode": 759101,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759102,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759103,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759104,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Colliery"
     },
     {
         "pincode": 759105,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Rengali Damsite"
     },
     {
         "pincode": 759106,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759107,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher Sadar"
     },
     {
         "pincode": 759111,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Chhendipada"
     },
     {
         "pincode": 759116,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759117,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759118,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Pallahara"
     },
     {
         "pincode": 759119,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Pallahara"
     },
     {
@@ -100065,37 +100065,37 @@ export default [
     {
         "pincode": 759122,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759123,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759124,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759125,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Athamallik"
     },
     {
         "pincode": 759126,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Athamallik"
     },
     {
         "pincode": 759127,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Athamallik"
     },
     {
@@ -100107,37 +100107,37 @@ export default [
     {
         "pincode": 759129,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759130,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759132,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759141,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
         "pincode": 759143,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Anugul"
     },
     {
         "pincode": 759145,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Angul"
     },
     {
@@ -100149,13 +100149,13 @@ export default [
     {
         "pincode": 759147,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Talcher"
     },
     {
         "pincode": 759148,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Angul",
         "admin3Name": "Colliery"
     },
     {
@@ -101109,7 +101109,7 @@ export default [
     {
         "pincode": 764049,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Nabarangpur"
     },
     {
@@ -101157,7 +101157,7 @@ export default [
     {
         "pincode": 764061,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Kodinga"
     },
     {
@@ -101169,61 +101169,61 @@ export default [
     {
         "pincode": 764063,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Tentulikhunti"
     },
     {
         "pincode": 764070,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Nabarangpu"
     },
     {
         "pincode": 764071,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Nabarangpur"
     },
     {
         "pincode": 764072,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Umerkote"
     },
     {
         "pincode": 764073,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Umerkote"
     },
     {
         "pincode": 764074,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Umerkote"
     },
     {
         "pincode": 764075,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Kodinga"
     },
     {
         "pincode": 764076,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Umerkote"
     },
     {
         "pincode": 764077,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Umerkote"
     },
     {
         "pincode": 764078,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Nabarangpur"
     },
     {
@@ -101235,7 +101235,7 @@ export default [
     {
         "pincode": 764085,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Khatiguda"
     },
     {
@@ -101253,7 +101253,7 @@ export default [
     {
         "pincode": 764088,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Nabarangapur",
         "admin3Name": "Umerkote"
     },
     {
@@ -101583,19 +101583,19 @@ export default [
     {
         "pincode": 767017,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Sonapur",
         "admin3Name": "Sonepur"
     },
     {
         "pincode": 767018,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Sonapur",
         "admin3Name": "Ullunda"
     },
     {
         "pincode": 767019,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Sonapur",
         "admin3Name": "Binka"
     },
     {
@@ -101721,7 +101721,7 @@ export default [
     {
         "pincode": 767045,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Sonapur",
         "admin3Name": "S.rampur"
     },
     {
@@ -101751,7 +101751,7 @@ export default [
     {
         "pincode": 767062,
         "admin1Code": "21",
-        "admin2Code": "",
+        "admin2Code": "Sonapur",
         "admin3Name": "Ullunda"
     },
     {
@@ -107655,7 +107655,7 @@ export default [
     {
         "pincode": 799113,
         "admin1Code": "26",
-        "admin2Code": "",
+        "admin2Code": "Gomti",
         "admin3Name": "Udaipur"
     },
     {
