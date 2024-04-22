@@ -686,27 +686,52 @@ enum Zone {
   ZoneE // When any or both of pick-up and delivery is done in the North East region or Jammu and Kashmir
 }
 
-model PincodeList {
+model Country {
+  code   String   @id @map("_id")
+  name   String
+  tags   String[]
+  Admin1 Admin1[]
+}
+
+model Admin1 {
+  code        String    @id @map("_id")
+  name        String
+  countryCode String
+  Country     Country   @relation(fields: [countryCode], references: [code])
+  tags        String[]
+  Admin2      Admin2[]
+  Pincode     Pincode[]
+}
+
+model Admin2 {
+  code       String    @id @map("_id")
+  name       String
+  admin1Code String
+  Admin1     Admin1    @relation(fields: [admin1Code], references: [code])
+  tags       String[]
+  Pincode    Pincode[]
+}
+
+model Pincode {
   pincode            Int                   @id @map("_id")
-  countryCode        String
-  admin1Name         String?
-  admin1Code         String?
-  admin2Name         String?
-  admin2Code         String?
+  admin1Code         String
+  admin1         Admin1                @relation(fields: [admin1Code], references: [code])
+  admin2Code         String
+  Admin2             Admin2                @relation(fields: [admin2Code], references: [code])
   admin3Name         String?
-  admin3Code         String?
+  tags               String[]
   area               Area[]
   pincodeAvailablity PincodeAvailability[]
 }
 
 model Area {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  latitude    Float?
-  longitude   Float?
-  accuracy    Int?
-  pincodeList PincodeList @relation(fields: [pincode], references: [pincode])
-  pincode     Int
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  latitude  Float?
+  longitude Float?
+  accuracy  Int?
+  Pincode   Pincode @relation(fields: [pincode], references: [pincode])
+  pincode   Int
 }
 
 model PincodeAvailability {
@@ -720,7 +745,7 @@ model PincodeAvailability {
   remarks        String?
   center         Json?
   pincode        Int?
-  pincodeList    PincodeList?   @relation(fields: [pincode], references: [pincode])
+  Pincode        Pincode?       @relation(fields: [pincode], references: [pincode])
   courierId      String         @db.ObjectId
   courierPartner CourierPartner @relation(fields: [courierId], references: [id])
 }
@@ -742,29 +767,29 @@ model CourierPartner {
 }
 
 type PartnerRateCard {
-  title       String
-  mode        String   @map("mode") 
-  type        String   @map("type")
-  base        Int 
-  increment   Int 
-  unit        String   
-  upto        Int?     
-  rates       Rate[] 
+  title     String
+  mode      String @map("mode")
+  type      String @map("type")
+  base      Int
+  increment Int
+  unit      String
+  upto      Int?
+  rates     Rate[]
 
-  codCharges  CODCharges? // Optional in case COD not applicable
-  extraTaxes  ExtraTaxes[] // Array for multiple potential tax types
+  codCharges CODCharges? // Optional in case COD not applicable
+  extraTaxes ExtraTaxes[] // Array for multiple potential tax types
 }
 
 type Rate {
-  zone        String
-  baseRate    Int     @map("baseRate")
-  incrementRate Int   @map("incrementRate")
+  zone          String
+  baseRate      Int    @map("baseRate")
+  incrementRate Int    @map("incrementRate")
 }
 
 type ExtraTaxes {
-  name  String // Tax type (e.g., "GST", "VAT")
-  rate  Float  // Tax percentage
-} 
+  name String // Tax type (e.g., "GST", "VAT")
+  rate Float // Tax percentage
+}
 
 type CODCharges {
   minimum    Int

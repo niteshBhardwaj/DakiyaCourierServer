@@ -1,9 +1,12 @@
 import { addApiConfig, addCourierPartners } from "./add-courier-partners.seed";
 import { prisma } from "./config";
-import { loadPincode } from "./load-pincode.seed";
+import { loadAdmin0, loadAdmin1, loadAdmin2, loadPincode } from "./load-admin-list.seed";
 
 async function main() {
 
+    await loadAdmin0();
+    await loadAdmin1();
+    await loadAdmin2();
     await loadPincode();
     await addCourierPartners();
     await addApiConfig();
