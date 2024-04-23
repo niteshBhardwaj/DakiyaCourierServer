@@ -1701,7 +1701,7 @@ export default [
     },
     {
         "code": "553",
-        "name": "Ananthapur",
+        "name": "Anantapur",
         "admin1Code": "02"
     },
     {
@@ -3118,5 +3118,25 @@ export default [
         "code": "210",
         "name": "Kishanganj",
         "admin1Code": "34"
+    },
+    {
+        "code": "711",
+        "name": "Vijayawada",
+        "admin1Code": "02"
+    },
+    {
+        "code": "712",
+        "name": "Guwahati",
+        "admin1Code": "03"
+    },
+    {
+        "code": "713",
+        "name": "Gangtok",
+        "admin1Code": "29"
+    },
+    {
+        "code": "714",
+        "name": "Bhubaneswar",
+        "admin1Code": "21"
     }
 ]
