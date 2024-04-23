@@ -275,7 +275,7 @@ export default [
         "admin1Code": "11"
     },
     {
-        "code": "Bilaspur (HP)",
+        "code": "028",
         "name": "Bilaspur (HP)",
         "admin1Code": "11"
     },
@@ -285,7 +285,7 @@ export default [
         "admin1Code": "11"
     },
     {
-        "code": "Hamirpur(HP)",
+        "code": "030",
         "name": "Hamirpur(HP)",
         "admin1Code": "11"
     },
@@ -375,7 +375,7 @@ export default [
         "admin1Code": "12"
     },
     {
-        "code": "Leh",
+        "code": "709",
         "name": "Leh",
         "admin1Code": "12"
     },
@@ -505,7 +505,7 @@ export default [
         "admin1Code": "36"
     },
     {
-        "code": "Sant Ravidas Nagar",
+        "code": "198",
         "name": "Sant Ravidas Nagar",
         "admin1Code": "36"
     },
@@ -1055,7 +1055,7 @@ export default [
         "admin1Code": "09"
     },
     {
-        "code": "Dahod",
+        "code": "707",
         "name": "Dahod",
         "admin1Code": "09"
     },
@@ -1115,7 +1115,7 @@ export default [
         "admin1Code": "16"
     },
     {
-        "code": "Raigarh(MH)",
+        "code": "518",
         "name": "Raigarh(MH)",
         "admin1Code": "16"
     },
@@ -1300,7 +1300,7 @@ export default [
         "admin1Code": "35"
     },
     {
-        "code": "West Nimar",
+        "code": "485",
         "name": "West Nimar",
         "admin1Code": "35"
     },
@@ -1550,7 +1550,7 @@ export default [
         "admin1Code": "37"
     },
     {
-        "code": "Kawardha",
+        "code": "706",
         "name": "Kawardha",
         "admin1Code": "37"
     },
@@ -1575,7 +1575,7 @@ export default [
         "admin1Code": "37"
     },
     {
-        "code": "Gariaband",
+        "code": "705",
         "name": "Gariaband",
         "admin1Code": "37"
     },
@@ -1670,7 +1670,7 @@ export default [
         "admin1Code": "40"
     },
     {
-        "code": "Peddapalli",
+        "code": "710",
         "name": "Peddapalli",
         "admin1Code": "02"
     },
@@ -2215,7 +2215,7 @@ export default [
         "admin1Code": "28"
     },
     {
-        "code": "South Dinajpur",
+        "code": "703",
         "name": "South Dinajpur",
         "admin1Code": "28"
     },
@@ -2250,7 +2250,7 @@ export default [
         "admin1Code": "28"
     },
     {
-        "code": "East Sikkim",
+        "code": "240",
         "name": "East Sikkim",
         "admin1Code": "29"
     },
@@ -2260,12 +2260,12 @@ export default [
         "admin1Code": "29"
     },
     {
-        "code": "North Sikkim",
+        "code": "241",
         "name": "North Sikkim",
         "admin1Code": "29"
     },
     {
-        "code": "South Sikkim",
+        "code": "243",
         "name": "South Sikkim",
         "admin1Code": "29"
     },
@@ -2350,7 +2350,7 @@ export default [
         "admin1Code": "21"
     },
     {
-        "code": "Angul",
+        "code": "384",
         "name": "Angul",
         "admin1Code": "21"
     },
@@ -2385,7 +2385,7 @@ export default [
         "admin1Code": "21"
     },
     {
-        "code": "Nabarangapur",
+        "code": "392",
         "name": "Nabarangapur",
         "admin1Code": "21"
     },
@@ -2410,7 +2410,7 @@ export default [
         "admin1Code": "21"
     },
     {
-        "code": "Sonapur",
+        "code": "397",
         "name": "Sonapur",
         "admin1Code": "21"
     },
@@ -2800,7 +2800,7 @@ export default [
         "admin1Code": "26"
     },
     {
-        "code": "Gomti",
+        "code": "708",
         "name": "Gomti",
         "admin1Code": "26"
     },
