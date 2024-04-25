@@ -630,60 +630,36 @@ type Attachment {
 model RateCard {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  // Service type
-  serviceType ServiceType @default(Surface)
+  name String
+  tags String[]
 
-  // Weight range
-  weightRange WeightRange
-
-  // Distance range
-  distanceRange DistanceRange
-
-  // Price
-  price Int
-
-  // COD charges
-  CODCharges Int
-
-  // international Zone
-  internatinoalZone InternationalZone @default(Domestic)
-
-  // Zone
-  zone Zone @default(ZoneA)
-
+  userRateCard UserRateCard[]
+  codCharges   CODCharges? // Optional in case COD not applicable
+  extraTaxes   ExtraTaxes[]
   // Created at
-  createdAt DateTime @default(now())
-
+  createdAt    DateTime       @default(now())
   // Updated at
-  updatedAt DateTime @default(now())
+  updatedAt    DateTime       @default(now())
 }
 
-enum ServiceType {
-  Surface
-  Air
-}
-
-type WeightRange {
-  minWeight Int
-  maxWeight Int
-}
-
-type DistanceRange {
-  minDistance Int
-  maxDistance Int
-}
-
-enum InternationalZone {
-  Domestic
-  International
+type UserRateCard {
+  title     String
+  mode      ShippingMode @map("mode")
+  type      String       @map("type")
+  base      Int
+  increment Int
+  unit      Unit         @default(Kg)
+  upto      Int?
+  rates     Rate[]
 }
 
 enum Zone {
   ZoneA // within the same city
-  ZoneB // a parcel within the same state
+  ZoneB // within same city and less than 500 kms
   ZoneC // When pick-up and delivery are done in metro cities
-  ZoneD // When any or both pick-up and delivery is done in Rest of India except the North East and Jammu & Kashmir
-  ZoneE // When any or both of pick-up and delivery is done in the North East region or Jammu and Kashmir
+  ZoneD // a parcel within the same state
+  ZoneE // When any or both pick-up and delivery is done in Rest of India except the North East and Jammu & Kashmir
+  ZoneF // When any or both of pick-up and delivery is done in the North East region or Jammu and Kashmir
 }
 
 model Country {
@@ -715,7 +691,7 @@ model Admin2 {
 model Pincode {
   pincode            Int                   @id @map("_id")
   admin1Code         String
-  admin1         Admin1                @relation(fields: [admin1Code], references: [code])
+  admin1             Admin1                @relation(fields: [admin1Code], references: [code])
   admin2Code         String
   Admin2             Admin2                @relation(fields: [admin2Code], references: [code])
   admin3Name         String?
@@ -755,12 +731,12 @@ model CourierPartner {
   name               String
   slug               String                @unique
   isActive           Boolean               @default(true) // Active or inactive
-  host               String
-  authConfig         AuthConfig
+  // host               String
+  // authConfig         AuthConfig
   rateCard           PartnerRateCard[]
   codCharges         CODCharges? // Optional in case COD not applicable
   extraTaxes         ExtraTaxes[]
-  apiConfigs         ApiConfig[]
+  // apiConfigs         ApiConfig[]
   pincodeAvailablity PincodeAvailability[]
   Order              Order[]
   PickupProvider     PickupProvider[]
@@ -768,22 +744,24 @@ model CourierPartner {
 
 type PartnerRateCard {
   title     String
-  mode      String @map("mode")
-  type      String @map("type")
+  mode      ShippingMode @map("mode")
+  type      String       @map("type")
   base      Int
   increment Int
-  unit      String
+  unit      Unit         @default(Kg)
   upto      Int?
   rates     Rate[]
+}
 
-  codCharges CODCharges? // Optional in case COD not applicable
-  extraTaxes ExtraTaxes[] // Array for multiple potential tax types
+enum Unit {
+  Kg
+  Gram
 }
 
 type Rate {
-  zone          String
-  baseRate      Int    @map("baseRate")
-  incrementRate Int    @map("incrementRate")
+  zone          Zone
+  baseRate      Int  @map("baseRate")
+  incrementRate Int  @map("incrementRate")
 }
 
 type ExtraTaxes {
@@ -808,45 +786,45 @@ type AuthConfig {
   headers Json[]         @default([])
 }
 
-model ApiConfig {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  type           ApiType
-  endpoint       String
-  method         String
-  sequence       Int            @default(1)
-  requestMapping MapperType?
-  responseMapper MapperType?
-  beforeActions  ActionType[]
-  afterActions   ActionType[]
-  courierPartner CourierPartner @relation(fields: [courierId], references: [id])
-  courierId      String         @db.ObjectId
-}
+// model ApiConfig {
+//   id             String         @id @default(auto()) @map("_id") @db.ObjectId
+//   type           ApiType
+//   endpoint       String
+//   method         String
+//   sequence       Int            @default(1)
+//   requestMapping MapperType?
+//   responseMapper MapperType?
+//   beforeActions  ActionType[]
+//   afterActions   ActionType[]
+//   courierPartner CourierPartner @relation(fields: [courierId], references: [id])
+//   courierId      String         @db.ObjectId
+// }
 
-type ActionType {
-  source        SourceType
-  apiType       ApiType?
-  evalMapper    String?
-  payloadMapper String?
-  name          String
-}
+// type ActionType {
+//   source        SourceType
+//   apiType       ApiType?
+//   evalMapper    String?
+//   payloadMapper String?
+//   name          String
+// }
 
-enum SourceType {
-  Internal
-  External
-}
+// enum SourceType {
+//   Internal
+//   External
+// }
 
-type MapperType {
-  evalRunner String?
-  mapping    String?
-}
+// type MapperType {
+//   evalRunner String?
+//   mapping    String?
+// }
 
-enum ApiType {
-  PincodeServicebility
-  CreateWarehouse
-  Order
-  Tracking
-  Pickup
-}
+// enum ApiType {
+//   PincodeServicebility
+//   CreateWarehouse
+//   Order
+//   Tracking
+//   Pickup
+// }
 
 model Counter {
   id    String      @id @default(auto()) @map("_id") @db.ObjectId

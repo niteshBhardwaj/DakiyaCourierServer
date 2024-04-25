@@ -115427,5 +115427,1103 @@ export default [
         "admin1Code": "34",
         "admin2Code": "210",
         "admin3Name": "Kishanganj"
+    },
+    {
+        "pincode": 110099,
+        "admin1Code": "07",
+        "admin2Code": "094",
+        "admin3Name": "Delhi North"
+    },
+    {
+        "pincode": 110110,
+        "admin1Code": "07",
+        "admin2Code": "094",
+        "admin3Name": "Delhi North"
+    },
+    {
+        "pincode": 136134,
+        "admin1Code": "10",
+        "admin2Code": "072",
+        "admin3Name": "Kurukshetra"
+    },
+    {
+        "pincode": 140127,
+        "admin1Code": "23",
+        "admin2Code": "051",
+        "admin3Name": "Chandigarh"
+    },
+    {
+        "pincode": 140128,
+        "admin1Code": "23",
+        "admin2Code": "051",
+        "admin3Name": "Chandigarh"
+    },
+    {
+        "pincode": 141011,
+        "admin1Code": "23",
+        "admin2Code": "041",
+        "admin3Name": "Ludhiana City"
+    },
+    {
+        "pincode": 143004,
+        "admin1Code": "23",
+        "admin2Code": "049",
+        "admin3Name": "Amritsar"
+    },
+    {
+        "pincode": 147008,
+        "admin1Code": "23",
+        "admin2Code": "048",
+        "admin3Name": "Patiala"
+    },
+    {
+        "pincode": 151006,
+        "admin1Code": "23",
+        "admin2Code": "046",
+        "admin3Name": "Bhatinda"
+    },
+    {
+        "pincode": 151214,
+        "admin1Code": "23",
+        "admin2Code": "045",
+        "admin3Name": "Faridkot"
+    },
+    {
+        "pincode": 160006,
+        "admin1Code": "05",
+        "admin2Code": "055",
+        "admin3Name": "Chandigarh"
+    },
+    {
+        "pincode": 175020,
+        "admin1Code": "11",
+        "admin2Code": "027",
+        "admin3Name": "Mandi"
+    },
+    {
+        "pincode": 175075,
+        "admin1Code": "11",
+        "admin2Code": "027",
+        "admin3Name": "Mandi"
+    },
+    {
+        "pincode": 176067,
+        "admin1Code": "11",
+        "admin2Code": "024",
+        "admin3Name": "Dharamsala"
+    },
+    {
+        "pincode": 182207,
+        "admin1Code": "35",
+        "admin2Code": "444",
+        "admin3Name": "Udhampur"
+    },
+    {
+        "pincode": 194402,
+        "admin1Code": "12",
+        "admin2Code": "010",
+        "admin3Name": "Leh"
+    },
+    {
+        "pincode": 194404,
+        "admin1Code": "12",
+        "admin2Code": "010",
+        "admin3Name": "Leh"
+    },
+    {
+        "pincode": 201021,
+        "admin1Code": "36",
+        "admin2Code": "140",
+        "admin3Name": "Ghaziabad"
+    },
+    {
+        "pincode": 201302,
+        "admin1Code": "36",
+        "admin2Code": "141",
+        "admin3Name": "Ghaziabad"
+    },
+    {
+        "pincode": 210122,
+        "admin1Code": "36",
+        "admin2Code": "170",
+        "admin3Name": "Banda"
+    },
+    {
+        "pincode": 211020,
+        "admin1Code": "36",
+        "admin2Code": "146",
+        "admin3Name": "Allahabad"
+    },
+    {
+        "pincode": 211023,
+        "admin1Code": "36",
+        "admin2Code": "146",
+        "admin3Name": "Allahabad"
+    },
+    {
+        "pincode": 221407,
+        "admin1Code": "36",
+        "admin2Code": "197",
+        "admin3Name": "Varanasi East"
+    },
+    {
+        "pincode": 222126,
+        "admin1Code": "36",
+        "admin2Code": "194",
+        "admin3Name": "Jaunpur"
+    },
+    {
+        "pincode": 228172,
+        "admin1Code": "36",
+        "admin2Code": "179",
+        "admin3Name": "Sultanpur"
+    },
+    {
+        "pincode": 232341,
+        "admin1Code": "36",
+        "admin2Code": "195",
+        "admin3Name": "Ghazipur"
+    },
+    {
+        "pincode": 233234,
+        "admin1Code": "36",
+        "admin2Code": "195",
+        "admin3Name": "Ghazipur"
+    },
+    {
+        "pincode": 244720,
+        "admin1Code": "39",
+        "admin2Code": "060",
+        "admin3Name": "Nainital"
+    },
+    {
+        "pincode": 248019,
+        "admin1Code": "39",
+        "admin2Code": "060",
+        "admin3Name": "Dehradun"
+    },
+    {
+        "pincode": 262123,
+        "admin1Code": "36",
+        "admin2Code": "151",
+        "admin3Name": "Bareilly"
+    },
+    {
+        "pincode": 302044,
+        "admin1Code": "24",
+        "admin2Code": "110",
+        "admin3Name": "Jaipur City"
+    },
+    {
+        "pincode": 302045,
+        "admin1Code": "24",
+        "admin2Code": "110",
+        "admin3Name": "Jaipur City"
+    },
+    {
+        "pincode": 302046,
+        "admin1Code": "24",
+        "admin2Code": "110",
+        "admin3Name": "Jaipur City"
+    },
+    {
+        "pincode": 303124,
+        "admin1Code": "24",
+        "admin2Code": "110",
+        "admin3Name": "Jaipur Moffusil"
+    },
+    {
+        "pincode": 313805,
+        "admin1Code": "24",
+        "admin2Code": "130",
+        "admin3Name": "Udaipur"
+    },
+    {
+        "pincode": 333010,
+        "admin1Code": "16",
+        "admin2Code": "505",
+        "admin3Name": "Jhunjhunu"
+    },
+    {
+        "pincode": 333020,
+        "admin1Code": "16",
+        "admin2Code": "505",
+        "admin3Name": "Jhunjhunu"
+    },
+    {
+        "pincode": 333055,
+        "admin1Code": "16",
+        "admin2Code": "505",
+        "admin3Name": "Jhunjhunu"
+    },
+    {
+        "pincode": 333517,
+        "admin1Code": "16",
+        "admin2Code": "505",
+        "admin3Name": "Jhunjhunu"
+    },
+    {
+        "pincode": 335522,
+        "admin1Code": "24",
+        "admin2Code": "100",
+        "admin3Name": "Sriganganagar"
+    },
+    {
+        "pincode": 335708,
+        "admin1Code": "24",
+        "admin2Code": "099",
+        "admin3Name": "Sriganganagar"
+    },
+    {
+        "pincode": 341020,
+        "admin1Code": "24",
+        "admin2Code": "112",
+        "admin3Name": "Nagaur"
+    },
+    {
+        "pincode": 342002,
+        "admin1Code": "24",
+        "admin2Code": "113",
+        "admin3Name": "Jodhpur"
+    },
+    {
+        "pincode": 342030,
+        "admin1Code": "24",
+        "admin2Code": "113",
+        "admin3Name": "Jodhpur"
+    },
+    {
+        "pincode": 360028,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Rajkot"
+    },
+    {
+        "pincode": 360045,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Gondal"
+    },
+    {
+        "pincode": 360325,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Gondal"
+    },
+    {
+        "pincode": 360465,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Gondal"
+    },
+    {
+        "pincode": 360485,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Gondal"
+    },
+    {
+        "pincode": 363623,
+        "admin1Code": "09",
+        "admin2Code": "673",
+        "admin3Name": "Rajkot"
+    },
+    {
+        "pincode": 363745,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 363750,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 363755,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 363760,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 363765,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 363775,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 363780,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Surendranagar"
+    },
+    {
+        "pincode": 365730,
+        "admin1Code": "09",
+        "admin2Code": "480",
+        "admin3Name": "Amreli"
+    },
+    {
+        "pincode": 370641,
+        "admin1Code": "09",
+        "admin2Code": "468",
+        "admin3Name": "Kutch"
+    },
+    {
+        "pincode": 382122,
+        "admin1Code": "09",
+        "admin2Code": "474",
+        "admin3Name": "Gandhinagar"
+    },
+    {
+        "pincode": 382722,
+        "admin1Code": "09",
+        "admin2Code": "474",
+        "admin3Name": "Gandhinagar"
+    },
+    {
+        "pincode": 383002,
+        "admin1Code": "09",
+        "admin2Code": "476",
+        "admin3Name": "Sabarkantha"
+    },
+    {
+        "pincode": 384005,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384135,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384412,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384415,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384440,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384441,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384445,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384450,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384455,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384460,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384465,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384470,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384515,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384520,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384530,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384540,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384550,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384560,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384565,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 384570,
+        "admin1Code": "09",
+        "admin2Code": "471",
+        "admin3Name": "Mahesana"
+    },
+    {
+        "pincode": 394112,
+        "admin1Code": "09",
+        "admin2Code": "492",
+        "admin3Name": "Surat"
+    },
+    {
+        "pincode": 400705,
+        "admin1Code": "16",
+        "admin2Code": "517",
+        "admin3Name": "Navi Mumbai"
+    },
+    {
+        "pincode": 410209,
+        "admin1Code": "16",
+        "admin2Code": "521",
+        "admin3Name": "Navi Mumbai"
+    },
+    {
+        "pincode": 411069,
+        "admin1Code": "16",
+        "admin2Code": "521",
+        "admin3Name": "Pune City West"
+    },
+    {
+        "pincode": 444007,
+        "admin1Code": "16",
+        "admin2Code": "501",
+        "admin3Name": "Akola"
+    },
+    {
+        "pincode": 461335,
+        "admin1Code": "35",
+        "admin2Code": "448",
+        "admin3Name": "Hoshangabad"
+    },
+    {
+        "pincode": 470340,
+        "admin1Code": "35",
+        "admin2Code": "427",
+        "admin3Name": "Sagar"
+    },
+    {
+        "pincode": 477450,
+        "admin1Code": "35",
+        "admin2Code": "420",
+        "admin3Name": "Morena"
+    },
+    {
+        "pincode": 492018,
+        "admin1Code": "35",
+        "admin2Code": "444",
+        "admin3Name": "Raipur"
+    },
+    {
+        "pincode": 495669,
+        "admin1Code": "35",
+        "admin2Code": "444",
+        "admin3Name": "Bilaspur"
+    },
+    {
+        "pincode": 500102,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Hyderabad South East"
+    },
+    {
+        "pincode": 500109,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Hyderabad City"
+    },
+    {
+        "pincode": 500112,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Hyderabad South East"
+    },
+    {
+        "pincode": 500113,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Hyderabad South East"
+    },
+    {
+        "pincode": 500114,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Hyderabad City"
+    },
+    {
+        "pincode": 500115,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Hyderabad South East"
+    },
+    {
+        "pincode": 502284,
+        "admin1Code": "40",
+        "admin2Code": "536",
+        "admin3Name": "Sangareddy"
+    },
+    {
+        "pincode": 506333,
+        "admin1Code": "40",
+        "admin2Code": "540",
+        "admin3Name": "Warangal"
+    },
+    {
+        "pincode": 506350,
+        "admin1Code": "40",
+        "admin2Code": "540",
+        "admin3Name": "Hanamkonda"
+    },
+    {
+        "pincode": 521004,
+        "admin1Code": "02",
+        "admin2Code": "547",
+        "admin3Name": "Machilipatnam"
+    },
+    {
+        "pincode": 521184,
+        "admin1Code": "02",
+        "admin2Code": "547",
+        "admin3Name": "Vijayawada"
+    },
+    {
+        "pincode": 521231,
+        "admin1Code": "02",
+        "admin2Code": "547",
+        "admin3Name": "Vijayawada"
+    },
+    {
+        "pincode": 521320,
+        "admin1Code": "02",
+        "admin2Code": "547",
+        "admin3Name": "Gudivada"
+    },
+    {
+        "pincode": 522239,
+        "admin1Code": "02",
+        "admin2Code": "548",
+        "admin3Name": "Guntur"
+    },
+    {
+        "pincode": 522240,
+        "admin1Code": "02",
+        "admin2Code": "548",
+        "admin3Name": "Guntur"
+    },
+    {
+        "pincode": 524300,
+        "admin1Code": "02",
+        "admin2Code": "711",
+        "admin3Name": "Nellore"
+    },
+    {
+        "pincode": 524324,
+        "admin1Code": "02",
+        "admin2Code": "711",
+        "admin3Name": "Gudur"
+    },
+    {
+        "pincode": 532187,
+        "admin1Code": "02",
+        "admin2Code": "542",
+        "admin3Name": "Srikakulam"
+    },
+    {
+        "pincode": 533007,
+        "admin1Code": "02",
+        "admin2Code": "545",
+        "admin3Name": "Kakinada"
+    },
+    {
+        "pincode": 533353,
+        "admin1Code": "02",
+        "admin2Code": "545",
+        "admin3Name": "Rajahmundry"
+    },
+    {
+        "pincode": 533354,
+        "admin1Code": "02",
+        "admin2Code": "545",
+        "admin3Name": "Rajahmundry"
+    },
+    {
+        "pincode": 533355,
+        "admin1Code": "02",
+        "admin2Code": "545",
+        "admin3Name": "Rajahmundry"
+    },
+    {
+        "pincode": 533451,
+        "admin1Code": "02",
+        "admin2Code": "545",
+        "admin3Name": "Kakinada"
+    },
+    {
+        "pincode": 535582,
+        "admin1Code": "02",
+        "admin2Code": "543",
+        "admin3Name": "Vizianagaram"
+    },
+    {
+        "pincode": 562165,
+        "admin1Code": "19",
+        "admin2Code": "583",
+        "admin3Name": "Channapatna"
+    },
+    {
+        "pincode": 563160,
+        "admin1Code": "19",
+        "admin2Code": "581",
+        "admin3Name": "Kolar"
+    },
+    {
+        "pincode": 563163,
+        "admin1Code": "19",
+        "admin2Code": "581",
+        "admin3Name": "Kolar"
+    },
+    {
+        "pincode": 570033,
+        "admin1Code": "19",
+        "admin2Code": "577",
+        "admin3Name": "Mysuru"
+    },
+    {
+        "pincode": 570034,
+        "admin1Code": "19",
+        "admin2Code": "577",
+        "admin3Name": "Mysuru"
+    },
+    {
+        "pincode": 575009,
+        "admin1Code": "19",
+        "admin2Code": "575",
+        "admin3Name": "Mangaluru"
+    },
+    {
+        "pincode": 577514,
+        "admin1Code": "19",
+        "admin2Code": "567",
+        "admin3Name": "Chitradurga"
+    },
+    {
+        "pincode": 583155,
+        "admin1Code": "19",
+        "admin2Code": "565",
+        "admin3Name": "Ballari"
+    },
+    {
+        "pincode": 585404,
+        "admin1Code": "19",
+        "admin2Code": "558",
+        "admin3Name": "Bidar"
+    },
+    {
+        "pincode": 585445,
+        "admin1Code": "19",
+        "admin2Code": "558",
+        "admin3Name": "Bidar"
+    },
+    {
+        "pincode": 585447,
+        "admin1Code": "19",
+        "admin2Code": "558",
+        "admin3Name": "Bidar"
+    },
+    {
+        "pincode": 605403,
+        "admin1Code": "25",
+        "admin2Code": "607",
+        "admin3Name": "Pondicherry"
+    },
+    {
+        "pincode": 620027,
+        "admin1Code": "25",
+        "admin2Code": "614",
+        "admin3Name": "Tiruchirapalli"
+    },
+    {
+        "pincode": 621731,
+        "admin1Code": "25",
+        "admin2Code": "616",
+        "admin3Name": "Tiruchirapalli"
+    },
+    {
+        "pincode": 637415,
+        "admin1Code": "25",
+        "admin2Code": "609",
+        "admin3Name": "Namakkal"
+    },
+    {
+        "pincode": 643270,
+        "admin1Code": "25",
+        "admin2Code": "632",
+        "admin3Name": "Nilgiris"
+    },
+    {
+        "pincode": 670051,
+        "admin1Code": "13",
+        "admin2Code": "589",
+        "admin3Name": "Cannanore"
+    },
+    {
+        "pincode": 670708,
+        "admin1Code": "13",
+        "admin2Code": "589",
+        "admin3Name": "Thalassery"
+    },
+    {
+        "pincode": 671320,
+        "admin1Code": "13",
+        "admin2Code": "591",
+        "admin3Name": "Kasaragod"
+    },
+    {
+        "pincode": 678051,
+        "admin1Code": "13",
+        "admin2Code": "593",
+        "admin3Name": "Palghat"
+    },
+    {
+        "pincode": 682052,
+        "admin1Code": "13",
+        "admin2Code": "595",
+        "admin3Name": "Ernakulam"
+    },
+    {
+        "pincode": 689515,
+        "admin1Code": "13",
+        "admin2Code": "599",
+        "admin3Name": "Mavelikara"
+    },
+    {
+        "pincode": 689713,
+        "admin1Code": "13",
+        "admin2Code": "599",
+        "admin3Name": "Pathanamthitta"
+    },
+    {
+        "pincode": 695051,
+        "admin1Code": "13",
+        "admin2Code": "601",
+        "admin3Name": "Trivandrum North"
+    },
+    {
+        "pincode": 700163,
+        "admin1Code": "28",
+        "admin2Code": "342",
+        "admin3Name": "Kolkata East"
+    },
+    {
+        "pincode": 711331,
+        "admin1Code": "28",
+        "admin2Code": "341",
+        "admin3Name": "Howrah"
+    },
+    {
+        "pincode": 734209,
+        "admin1Code": "29",
+        "admin2Code": "713",
+        "admin3Name": "Darjeeling"
+    },
+    {
+        "pincode": 751032,
+        "admin1Code": "21",
+        "admin2Code": "714",
+        "admin3Name": "Bhubaneswar"
+    },
+    {
+        "pincode": 751033,
+        "admin1Code": "21",
+        "admin2Code": "714",
+        "admin3Name": "Bhubaneswar"
+    },
+    {
+        "pincode": 751034,
+        "admin1Code": "21",
+        "admin2Code": "714",
+        "admin3Name": "Bhubaneswar"
+    },
+    {
+        "pincode": 752004,
+        "admin1Code": "21",
+        "admin2Code": "387",
+        "admin3Name": "Puri"
+    },
+    {
+        "pincode": 753016,
+        "admin1Code": "21",
+        "admin2Code": "381",
+        "admin3Name": "Cuttack City"
+    },
+    {
+        "pincode": 754034,
+        "admin1Code": "21",
+        "admin2Code": "381",
+        "admin3Name": "Cuttack South"
+    },
+    {
+        "pincode": 754297,
+        "admin1Code": "21",
+        "admin2Code": "381",
+        "admin3Name": "Cuttack South"
+    },
+    {
+        "pincode": 754298,
+        "admin1Code": "21",
+        "admin2Code": "381",
+        "admin3Name": "Cuttack South"
+    },
+    {
+        "pincode": 756088,
+        "admin1Code": "21",
+        "admin2Code": "381",
+        "admin3Name": "Balasore"
+    },
+    {
+        "pincode": 756089,
+        "admin1Code": "21",
+        "admin2Code": "381",
+        "admin3Name": "Balasore"
+    },
+    {
+        "pincode": 759149,
+        "admin1Code": "21",
+        "admin2Code": "714",
+        "admin3Name": "Dhenkanal"
+    },
+    {
+        "pincode": 759151,
+        "admin1Code": "21",
+        "admin2Code": "383",
+        "admin3Name": "Dhenkanal"
+    },
+    {
+        "pincode": 766003,
+        "admin1Code": "21",
+        "admin2Code": "395",
+        "admin3Name": "Kalahandi"
+    },
+    {
+        "pincode": 768053,
+        "admin1Code": "21",
+        "admin2Code": "370",
+        "admin3Name": "Sambalpur"
+    },
+    {
+        "pincode": 781320,
+        "admin1Code": "03",
+        "admin2Code": "712",
+        "admin3Name": "Nalbari"
+    },
+    {
+        "pincode": 782128,
+        "admin1Code": "03",
+        "admin2Code": "305",
+        "admin3Name": "Nagaon"
+    },
+    {
+        "pincode": 788738,
+        "admin1Code": "03",
+        "admin2Code": "318",
+        "admin3Name": "Cachar"
+    },
+    {
+        "pincode": 793116,
+        "admin1Code": "18",
+        "admin2Code": "297",
+        "admin3Name": "Meghalaya"
+    },
+    {
+        "pincode": 796036,
+        "admin1Code": "31",
+        "admin2Code": "283",
+        "admin3Name": "Mizoram"
+    },
+    {
+        "pincode": 796075,
+        "admin1Code": "31",
+        "admin2Code": "282",
+        "admin3Name": "Mizoram"
+    },
+    {
+        "pincode": 796230,
+        "admin1Code": "31",
+        "admin2Code": "283",
+        "admin3Name": "Mizoram"
+    },
+    {
+        "pincode": 796471,
+        "admin1Code": "20",
+        "admin2Code": "270",
+        "admin3Name": "Mizoram"
+    },
+    {
+        "pincode": 796772,
+        "admin1Code": "31",
+        "admin2Code": "287",
+        "admin3Name": "Mizoram"
+    },
+    {
+        "pincode": 796810,
+        "admin1Code": "31",
+        "admin2Code": "287",
+        "admin3Name": "Mizoram"
+    },
+    {
+        "pincode": 797121,
+        "admin1Code": "20",
+        "admin2Code": "270",
+        "admin3Name": "Nagaland"
+    },
+    {
+        "pincode": 805114,
+        "admin1Code": "34",
+        "admin2Code": "237",
+        "admin3Name": "Nawadha"
+    },
+    {
+        "pincode": 824304,
+        "admin1Code": "38",
+        "admin2Code": "364",
+        "admin3Name": "AurangabadBihar"
+    },
+    {
+        "pincode": 825415,
+        "admin1Code": "38",
+        "admin2Code": "347",
+        "admin3Name": "Hazaribagh"
+    },
+    {
+        "pincode": 826008,
+        "admin1Code": "38",
+        "admin2Code": "354",
+        "admin3Name": "Dhanbad"
+    },
+    {
+        "pincode": 826010,
+        "admin1Code": "38",
+        "admin2Code": "354",
+        "admin3Name": "Dhanbad"
+    },
+    {
+        "pincode": 826011,
+        "admin1Code": "38",
+        "admin2Code": "354",
+        "admin3Name": "Dhanbad"
+    },
+    {
+        "pincode": 827016,
+        "admin1Code": "38",
+        "admin2Code": "355",
+        "admin3Name": "Dhanbad"
+    },
+    {
+        "pincode": 834012,
+        "admin1Code": "38",
+        "admin2Code": "364",
+        "admin3Name": "Ranchi"
+    },
+    {
+        "pincode": 834014,
+        "admin1Code": "38",
+        "admin2Code": "364",
+        "admin3Name": "Ranchi"
+    },
+    {
+        "pincode": 841447,
+        "admin1Code": "34",
+        "admin2Code": "218",
+        "admin3Name": "Siwan"
+    },
+    {
+        "pincode": 843131,
+        "admin1Code": "34",
+        "admin2Code": "216",
+        "admin3Name": "Muzaffarpur"
+    },
+    {
+        "pincode": 843335,
+        "admin1Code": "34",
+        "admin2Code": "205",
+        "admin3Name": "Sitamarhi"
+    },
+    {
+        "pincode": 900056,
+        "admin1Code": "25",
+        "admin2Code": "603",
+        "admin3Name": "NA"
+    },
+    {
+        "pincode": 900099,
+        "admin1Code": "28",
+        "admin2Code": "342",
+        "admin3Name": "NA"
+    },
+    {
+        "pincode": 999999,
+        "admin1Code": "40",
+        "admin2Code": "533",
+        "admin3Name": "Salem West"
     }
 ]
