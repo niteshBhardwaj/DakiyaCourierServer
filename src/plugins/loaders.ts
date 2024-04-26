@@ -10,10 +10,13 @@ import mailer from './mailer';
 Container.set('prisma', prisma);
 Container.set('logger', LoggerInstance);
 Container.set('mailer', mailer())
-Container.set('courierPartners', null);
 export default async ({ app }: { app: FastifyInstance }) => {
   //* load fastify routes and other configuration
   await fastifyLoader({ app });
   //* initialize apollo
   await apolloLoader(app);
+
+  // cache records
+  Container.set('courierPartners', await prisma.courierPartner.findMany());
+  Container.set('rateCards', await prisma.rateCard.findMany());
 };
