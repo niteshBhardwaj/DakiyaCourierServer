@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model AppConfig {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  codCharges   CODCharges
+  taxCharges   TaxCharges[]
+  extraCharges ExtraCharges[] // Diesel Price Hike (DPH)
+}
+
 model User {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
   fullName String?
@@ -635,7 +642,7 @@ model RateCard {
 
   userRateCard UserRateCard[]
   codCharges   CODCharges? // Optional in case COD not applicable
-  extraTaxes   ExtraTaxes[]
+  extraCharges ExtraCharges[]
   // Created at
   createdAt    DateTime       @default(now())
   // Updated at
@@ -646,10 +653,10 @@ type UserRateCard {
   title     String
   mode      ShippingMode @map("mode")
   type      String       @map("type")
-  base      Int
-  increment Int
+  base      String
+  increment String
   unit      Unit         @default(Kg)
-  upto      Int?
+  upto      String?
   rates     Rate[]
 }
 
@@ -735,7 +742,7 @@ model CourierPartner {
   // authConfig         AuthConfig
   rateCard           PartnerRateCard[]
   codCharges         CODCharges? // Optional in case COD not applicable
-  extraTaxes         ExtraTaxes[]
+  extraCharges       ExtraCharges[]
   // apiConfigs         ApiConfig[]
   pincodeAvailablity PincodeAvailability[]
   Order              Order[]
@@ -746,10 +753,10 @@ type PartnerRateCard {
   title     String
   mode      ShippingMode @map("mode")
   type      String       @map("type")
-  base      Int
-  increment Int
+  base      String
+  increment String
   unit      Unit         @default(Kg)
-  upto      Int?
+  upto      String?
   rates     Rate[]
 }
 
@@ -760,18 +767,25 @@ enum Unit {
 
 type Rate {
   zone          Zone
-  baseRate      Int  @map("baseRate")
-  incrementRate Int  @map("incrementRate")
+  baseRate      String
+  incrementRate String
 }
 
-type ExtraTaxes {
-  name String // Tax type (e.g., "GST", "VAT")
-  rate Float // Tax percentage
+type TaxCharges {
+  name       String // Tax type (e.g., "GST", "VAT")
+  percentage String // Tax percentage
+  type       String
+}
+
+type ExtraCharges {
+  name       String
+  percentage String
+  type       String
 }
 
 type CODCharges {
-  minimum    Int
-  percentage Int
+  minimum    String
+  percentage String
 }
 
 enum AuthSecretType {

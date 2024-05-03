@@ -34,14 +34,14 @@ const startApp = async () => {
       },
     );
 
-    for (const signal of ['SIGINT', 'SIGTERM']) {
-      process.on(signal, () =>
-        app.close().then((err) => {
-          console.log(`close application on ${signal}`);
-          process.exit(err ? 1 : 0);
-        }),
-      );
-    }
+    // for (const signal of ['SIGINT', 'SIGTERM']) {
+    //   process.on(signal, () =>
+    //     app.close().then((err) => {
+    //       console.log(`close application on ${signal}`);
+    //       process.exit(err ? 1 : 0);
+    //     }),
+    //   );
+    // }
   }
   return app;
 }

@@ -6,9 +6,10 @@ import { FastifyInstance } from 'fastify';
 import Container from 'typedi';
 import prisma from './prisma';
 import mailer from './mailer';
+import { APP_CONFIG, COURIER_PARTNER, LOGGER, PRISMA, RATE_CARDS } from '@/constants';
 // Initializes the fastify, apollo server and load dependency.
-Container.set('prisma', prisma);
-Container.set('logger', LoggerInstance);
+Container.set(PRISMA, prisma);
+Container.set(LOGGER, LoggerInstance);
 Container.set('mailer', mailer())
 export default async ({ app }: { app: FastifyInstance }) => {
   //* load fastify routes and other configuration
@@ -17,6 +18,7 @@ export default async ({ app }: { app: FastifyInstance }) => {
   await apolloLoader(app);
 
   // cache records
-  Container.set('courierPartners', await prisma.courierPartner.findMany());
-  Container.set('rateCards', await prisma.rateCard.findMany());
+  Container.set(APP_CONFIG, await prisma.appConfig.findMany());
+  Container.set(COURIER_PARTNER, await prisma.courierPartner.findMany());
+  Container.set(RATE_CARDS, await prisma.rateCard.findMany());
 };

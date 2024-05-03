@@ -1,32 +1,28 @@
 import LoggerInstance from '@/plugins/logger';
-import { Service, Inject } from 'typedi';
+import Container, { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { type CourierPartner, type Order, PrismaClient } from '@prisma/client';
 import { CourierIdInput } from '@/graphql-type/args/courier-partner.input';
 import { badRequestException } from '@/utils/exceptions.util';
 import { CourierSlugType, EVENTS_ACTIONS, checkEventAvailability, getCourierEvent } from '@/external/events';
+import { COURIER_PARTNER, LOGGER, PRISMA } from '@/constants';
 
 @Service()
 export default class CourierPartnerService {
   constructor(
-    @Inject('prisma') private prisma: PrismaClient,
-    @Inject('logger') private logger: typeof LoggerInstance,
-    @Inject('courierPartners') private courierPartners: CourierPartner[],
+    @Inject(PRISMA) private prisma: PrismaClient,
+    @Inject(LOGGER) private logger: typeof LoggerInstance,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
 
   public async getAllCourierInfo() {
-    const courierPartners = await this.prisma.courierPartner.findMany({
-      // where: { isActive: true },
-    });
+    const courierPartners = Container.get(COURIER_PARTNER) as CourierPartner[];
     return courierPartners;
   }
 
   public async findCourierPartnerById({ courierId }: { courierId: string }) {
-      if(!this.courierPartners) {
-        this.courierPartners = await this.getAllCourierInfo();
-      }
-      const courier = this.courierPartners.find((courier) => courier.id === courierId);
+      const courierPartners = await this.getAllCourierInfo();
+      const courier = courierPartners.find((courier) => courier.id === courierId);
       if(!courier) {
         throw badRequestException('Courier not found');
       }

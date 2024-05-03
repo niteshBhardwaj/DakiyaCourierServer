@@ -1,4 +1,4 @@
-import { prisma } from "./config";
+import { prisma } from "./util";
 import rateCardData from "./data/rate-card.data";
 
 export async function addRateCard() {

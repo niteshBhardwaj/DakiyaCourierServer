@@ -3,7 +3,7 @@ import pincodeAreaList from './data/pincode.area.list.data'
 import admin0List from './data/admin0-list.data'
 import admin1List from './data/admin1-list.data'
 import admin2List from './data/admin2-list.data'
-import { prisma } from './config';
+import { prisma } from './util';
 
 
 export async function loadAdmin0() {

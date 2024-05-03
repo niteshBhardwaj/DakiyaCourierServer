@@ -1,34 +1,20 @@
 import LoggerInstance from '@/plugins/logger';
-import { Service, Inject } from 'typedi';
+import Container, { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { PincodeAvailability, PrismaClient } from '@prisma/client';
 import { PincodeServiceabilityInput, RateCalculatorInput } from '@/graphql-type/args/order.input';
+import { LOGGER, PRISMA } from '@/constants';
 
 @Service()
 export default class PincodeService {
   constructor(
-    @Inject('prisma') private prisma: PrismaClient,
-    @Inject('logger') private logger: typeof LoggerInstance,
+    @Inject(PRISMA) private prisma: PrismaClient,
+    @Inject(LOGGER) private logger: typeof LoggerInstance,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
-  public async rateCalculator({ sourcePincode, destinationPincode } : RateCalculatorInput) {
-    const isServiceable = await this.pincodeServicebility({ sourcePincode, destinationPincode });
-    if(!isServiceable) {
-      return {
-        amount: 0,
-      }
-    }
-    // TODO: calculate rate
-    return {
-      amount: 200,
-    }
-  }  
-
-  public async pincodeServicebility({ sourcePincode, destinationPincode } : PincodeServiceabilityInput): Promise<boolean> {
-    let matchCount = 2;
-    const pincodeList = await this.prisma.pincodeAvailability.groupBy({
-      by: ['courierId'],
+  public async getPincodeInfoBySourceAndDestination({ sourcePincode, destinationPincode }: { sourcePincode: number, destinationPincode: number }) {
+    const pincodeInfo = await this.prisma.pincode.findMany({
       where: { 
         OR: [
           {
@@ -39,7 +25,46 @@ export default class PincodeService {
           }
         ]
       },
-      _count: {
+      select: {
+        pincode: true,
+        Admin2: {
+          select: {
+            name: true,
+            code: true,
+            tags: true,
+            Admin1: {
+              select: {
+                name: true,
+                code: true,
+                tags: true
+              }
+            }
+          }
+        }
+      }
+    })
+    return pincodeInfo;
+  }
+
+  public async pincodeServiceability({ sourcePincode, destinationPincode } : PincodeServiceabilityInput): Promise<{ info: { [key: string]: PincodeAvailability[] }, isServiceable: boolean}> {
+    let matchCount = 2;
+    const pincodeList = await this.prisma.pincodeAvailability.findMany({
+      where: { 
+        OR: [
+          {
+            pincode: sourcePincode,
+          },
+          {
+            pincode: destinationPincode
+          }
+        ]
+      },
+      select: {
+        isPrepaid: true,
+        isCash: true,
+        isCod: true,
+        isOda: false,
+        courierId: true,
         pincode: true
       }
     })
@@ -48,8 +73,20 @@ export default class PincodeService {
       matchCount = 1;
     }
 
+    // groupby courierId
+    const infoItems = pincodeList.reduce((acc, item) => {
+      if(!acc[item.courierId]) {
+        acc[item.courierId] = []
+      }
+      acc[item.courierId].push(item as PincodeAvailability)
+      return acc
+    }, {} as { [key: string]: PincodeAvailability[] })
 
-    return pincodeList.some(item => item._count.pincode >= matchCount);
+    return {
+      info: infoItems,
+      isServiceable: Object.values(infoItems).some(list => list.length >= matchCount),
+    }
+    
   }  
 
   public async loadPincode({ courierId, data }: { courierId: string; data: PincodeAvailability[] }) {

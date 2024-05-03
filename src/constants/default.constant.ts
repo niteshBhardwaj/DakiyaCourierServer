@@ -8,3 +8,10 @@ export enum CountryCode {
 export enum PhoneLocalAlias {
   IN = "en-IN"
 } 
+
+export const PRISMA = 'prisma';
+export const LOGGER = 'logger';
+export const MAILER = 'mailer';
+export const COURIER_PARTNER = 'courierPartner';
+export const RATE_CARDS = 'rateCards';
+export const APP_CONFIG = 'appConfig';
