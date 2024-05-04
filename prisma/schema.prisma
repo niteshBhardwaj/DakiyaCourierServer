@@ -698,7 +698,7 @@ model Admin2 {
 model Pincode {
   pincode            Int                   @id @map("_id")
   admin1Code         String
-  admin1             Admin1                @relation(fields: [admin1Code], references: [code])
+  Admin1             Admin1                @relation(fields: [admin1Code], references: [code])
   admin2Code         String
   Admin2             Admin2                @relation(fields: [admin2Code], references: [code])
   admin3Name         String?

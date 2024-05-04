@@ -2,6 +2,27 @@ import { ObjectType, Field } from "type-graphql";
 import { MessageType } from "./common.type";
 
 @ObjectType()
+export class Admin {
+  @Field()
+  name: string;
+}
+
+@ObjectType()
+export class PincodeInfoType {
+  @Field()
+  pincode: string;
+
+  @Field()
+  admin3Name: string | null;
+
+  @Field()
+  Admin1: Admin
+
+  @Field()
+  Admin2: Admin;
+}
+
+@ObjectType()
 export class PincodeServiceabilityType extends MessageType {
   @Field()
   isServiceable: boolean;

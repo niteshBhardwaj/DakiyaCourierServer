@@ -139,3 +139,11 @@ export class RateCalculatorInput {
     @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.codAmount)
     codAmount!: number;
 }
+
+@InputType()
+export class PincodeInfoInput {
+    @Field(() => Int, ADDRESS_VALIDATION.pincode)
+    @IsInt(ADDRESS_VALIDATION.pincode)
+    @IsNotEmpty(ADDRESS_VALIDATION.pincode)
+    pincode: number;
+}

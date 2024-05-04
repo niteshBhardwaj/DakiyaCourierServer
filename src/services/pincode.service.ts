@@ -4,14 +4,23 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import { PincodeAvailability, PrismaClient } from '@prisma/client';
 import { PincodeServiceabilityInput, RateCalculatorInput } from '@/graphql-type/args/order.input';
 import { LOGGER, PRISMA } from '@/constants';
+import { badUserInputException } from '@/utils/exceptions.util';
 
 @Service()
 export default class PincodeService {
-  constructor(
+constructor(
     @Inject(PRISMA) private prisma: PrismaClient,
     @Inject(LOGGER) private logger: typeof LoggerInstance,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
+
+  public async getPincodeInfo({ pincode }: { pincode: number }) {
+    const pincodeInfo = await this.prisma.pincode.findUnique({ where: { pincode }, include: { Admin2: true, Admin1: true } })
+    if(!pincodeInfo) {
+      throw badUserInputException('Pincode not found')
+    }
+    return pincodeInfo;
+  }
 
   public async getPincodeInfoBySourceAndDestination({ sourcePincode, destinationPincode }: { sourcePincode: number, destinationPincode: number }) {
     const pincodeInfo = await this.prisma.pincode.findMany({
