@@ -8,9 +8,17 @@ export const OrderInputConstant = {
         description: 'The quantity of the product',
         message: 'Invalid quantity'
     },
+    invoiceNo: {
+        description: 'The invoice number of the order',
+        message: 'Invalid invoice number'
+    },
     category: {
         description: 'The category of the product',
         message: 'Invalid category'
+    },
+    sku: {
+        description: 'The SKU of the product',
+        message: 'Invalid SKU'
     },
     amount: {
         description: 'The amount of the product',

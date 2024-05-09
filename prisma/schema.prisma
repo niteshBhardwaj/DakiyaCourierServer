@@ -333,6 +333,8 @@ model Order {
   // Waybill number
   waybill String?
 
+  // incoice number
+  invoiceNo   String?
   // Total amount
   totalAmount Int
 
@@ -380,8 +382,9 @@ enum ShippingMode {
 type Products {
   name     String
   quantity Int
-  category String
+  category String?
   amount   Int
+  sku      String?
 }
 
 model PickupAddress {

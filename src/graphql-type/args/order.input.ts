@@ -14,9 +14,13 @@ class ProductInput {
     @IsNumber(undefined, { message: OrderInputConstant.quantity.message})
     quantity!: number;
 
-    @Field(OrderInputConstant.category)
+    @Field({ ...OrderInputConstant.category, nullable: true })
     @IsString({ message: OrderInputConstant.quantity.message})
-    category!: string;
+    category: string;
+
+    @Field({ ...OrderInputConstant.category, nullable: true })
+    @IsString({ message: OrderInputConstant.quantity.message})
+    sku: string;
 
     @Field(OrderInputConstant.amount)
     @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.amount)
@@ -79,6 +83,10 @@ export class CreateOrderInput {
     @IsNumber({ maxDecimalPlaces: 2 }, OrderInputConstant.totalAmount)
     totalAmount!: number;
 
+    @Field({ ...OrderInputConstant.invoiceNo, nullable: true })
+    @IsString({ message: OrderInputConstant.invoiceNo.message })
+    invoiceNo: string;
+    
     @Field(() => [ProductInput], OrderInputConstant.products)
     @ValidateNested({ each: true })
     @IsArray(OrderInputConstant.products)

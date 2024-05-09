@@ -12,7 +12,7 @@ export class PincodeInfoType {
   @Field()
   pincode: string;
 
-  @Field()
+  @Field({ nullable: true })
   admin3Name: string | null;
 
   @Field()
