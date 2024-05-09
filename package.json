@@ -65,6 +65,7 @@
   "dependencies": {
     "@apollo/server": "^4.9.5",
     "@as-integrations/fastify": "^2.1.1",
+    "@paljs/plugins": "^6.0.7",
     "@prisma/client": "^5.10.2",
     "@sinclair/typebox": "^0.31.26",
     "@types/nodemailer": "^6.4.14",

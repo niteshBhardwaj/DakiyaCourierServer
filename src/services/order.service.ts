@@ -7,6 +7,9 @@ import { badRequestException } from '@/utils/exceptions.util';
 import { createOrderSelector } from '@/db-selectors/order.selector';
 import CourierPartnerService from './courier-partners.service';
 import CounterService from './counter.service';
+import { OrderType } from '@/graphql-type/typedefs/order.type';
+import { PrismaSelect } from '@paljs/plugins/dist/select';
+import { ParameterDecorator } from 'type-graphql';
 
 @Service()
 export default class OrderService {
@@ -19,6 +22,7 @@ export default class OrderService {
   ) {}
 
   public async getOrderCount({ userId, where } : { userId: string, where?: Record<string, any> }) {
+    
     return this.prisma.order.count({
       where: {
         userId,
@@ -26,15 +30,19 @@ export default class OrderService {
       }
     })
   }
-  public async getOrderList({ input, userId} : { input: CreateOrderInput; userId: string }) {
-    return this.prisma.order.findMany({
+  public async getOrderList({ input, userId} : { input: any; userId: string }, info: ParameterDecorator) {
+    const select = new PrismaSelect(info as any).value
+    const orders = await this.prisma.order.findMany({
       where: {
         userId,
-      }
+      },
+      ...select
     })
+    return orders as unknown as OrderType[]
   }
 
-  public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
+  public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: ParameterDecorator) {
+    const select = new PrismaSelect(info as any).value
     const courier = await this.prisma.courierPartner.findFirst();
     const courierId = courier?.id
     const { orderId, awb } = (await this.counterService.generateAwbAndOrderId({ count: 1 }))[0];
@@ -46,15 +54,17 @@ export default class OrderService {
         ...input,
         status: OrderStatus.Manifested,
       },
-      select: createOrderSelector
+      ...select
     })
     if(!courierId) {
       throw badRequestException('Courier not found');
     }
     this.courierPartnerService.createOrder({ order, courierId })
+    return order as unknown as OrderType;
   }
 
-  public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }) {
+  public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: ParameterDecorator) {
+    const select = new PrismaSelect(info as any).value
     return this.prisma.order.update({
       where: {
         id: "",
@@ -63,7 +73,8 @@ export default class OrderService {
       data: {
         userId,
         ...input,
-      }
+      },
+      ...select
     })
   }
 
