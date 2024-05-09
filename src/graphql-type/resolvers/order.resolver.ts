@@ -6,6 +6,7 @@ import { CreateOrderInput } from '../args/order.input';
 import OrderService from '@/services/order.service';
 import { MessageType } from '../typedefs/common.type';
 import { OrderType } from '../typedefs/order.type';
+import { OffsetInput } from '../args/common.input';
 
 @Service()
 @Resolver()
@@ -18,10 +19,11 @@ export class orderResolver {
     description: QUERY_DESC.CREATE_ORDER,
   })
   async getOrderList(
+    @Arg(REQUEST) args: OffsetInput,
     @Ctx() { user: { userId } }: { user: UserContext },
     @Info() info: ParameterDecorator,
     ): Promise<OrderType[]> {
-    return this.orderService.getOrderList({input: null, userId }, info);
+    return this.orderService.getOrderList({input: args, userId }, info);
   }
 
   @Authorized()

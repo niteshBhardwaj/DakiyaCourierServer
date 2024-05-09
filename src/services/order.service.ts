@@ -31,11 +31,14 @@ export default class OrderService {
     })
   }
   public async getOrderList({ input, userId} : { input: any; userId: string }, info: ParameterDecorator) {
+    const { take = 10, skip = 0 } = input
     const select = new PrismaSelect(info as any).value
     const orders = await this.prisma.order.findMany({
       where: {
         userId,
       },
+      take,
+      skip,
       ...select
     })
     return orders as unknown as OrderType[]
@@ -65,7 +68,7 @@ export default class OrderService {
 
   public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: ParameterDecorator) {
     const select = new PrismaSelect(info as any).value
-    return this.prisma.order.update({
+    const order = await this.prisma.order.update({
       where: {
         id: "",
         userId
@@ -75,7 +78,7 @@ export default class OrderService {
         ...input,
       },
       ...select
-    })
+    }) as unknown as OrderType
   }
 
   public async updateOrder({ data, id} : { data: Order; id: string }) {
