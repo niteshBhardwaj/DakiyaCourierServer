@@ -2,6 +2,25 @@ import { Field, ObjectType } from "type-graphql";
 import { PickupAddressType } from "./pickup-address.type";
 import { DropAddressType } from "./drop-address.type";
 
+@ObjectType()
+export class Products {
+
+    @Field({ nullable: true })
+    name: string;
+
+    @Field({ nullable: true })
+    quantity: number;
+
+    @Field({ nullable: true })
+    category: string;
+
+    @Field({ nullable: true })
+    sku: string;
+
+    @Field({ nullable: true })
+    amount: number;
+}
+
 @ObjectType() 
 export class OrderType {
     @Field({ nullable: true })
@@ -69,6 +88,8 @@ export class OrderType {
 
     @Field({ nullable: true })
     createdAt: string;
-    // products: any[];
+    
+    @Field(() => [Products])
+    products: Products[];
     // tracking: any[];
 }

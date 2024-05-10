@@ -4,12 +4,11 @@ import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDis
 import { type Order, OrderStatus, PrismaClient } from '@prisma/client';
 import { CreateOrderInput } from '@/graphql-type/args/order.input';
 import { badRequestException } from '@/utils/exceptions.util';
-import { createOrderSelector } from '@/db-selectors/order.selector';
 import CourierPartnerService from './courier-partners.service';
 import CounterService from './counter.service';
 import { OrderType } from '@/graphql-type/typedefs/order.type';
 import { PrismaSelect } from '@paljs/plugins/dist/select';
-import { ParameterDecorator } from 'type-graphql';
+import { GraphQLResolveInfo } from 'graphql';
 
 @Service()
 export default class OrderService {
@@ -30,7 +29,7 @@ export default class OrderService {
       }
     })
   }
-  public async getOrderList({ input, userId} : { input: any; userId: string }, info: ParameterDecorator) {
+  public async getOrderList({ input, userId} : { input: any; userId: string }, info: GraphQLResolveInfo) {
     const { take = 10, skip = 0 } = input
     const select = new PrismaSelect(info as any).value
     const orders = await this.prisma.order.findMany({
@@ -39,12 +38,13 @@ export default class OrderService {
       },
       take,
       skip,
+      orderBy: { createdAt: 'desc' },
       ...select
     })
     return orders as unknown as OrderType[]
   }
 
-  public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: ParameterDecorator) {
+  public async createOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: GraphQLResolveInfo) {
     const select = new PrismaSelect(info as any).value
     const courier = await this.prisma.courierPartner.findFirst();
     const courierId = courier?.id
@@ -66,8 +66,8 @@ export default class OrderService {
     return order as unknown as OrderType;
   }
 
-  public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: ParameterDecorator) {
-    const select = new PrismaSelect(info as any).value
+  public async editOrder({ input, userId} : { input: CreateOrderInput; userId: string }, info: GraphQLResolveInfo) {
+    const select = new PrismaSelect(info).value
     const order = await this.prisma.order.update({
       where: {
         id: "",
@@ -78,7 +78,8 @@ export default class OrderService {
         ...input,
       },
       ...select
-    }) as unknown as OrderType
+    }) 
+    return order as unknown as OrderType
   }
 
   public async updateOrder({ data, id} : { data: Order; id: string }) {
