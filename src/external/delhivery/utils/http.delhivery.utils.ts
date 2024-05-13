@@ -4,6 +4,7 @@ import { DELIVERY_API_URL } from "../delhivery.constant";
 import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping } from "../delhivery.mapping";
 import { httpGet, httpPost } from "@/utils";
 import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
+import delhiveryPincode from '../../../../prisma/seed/data/delivery-pincode'
 
 const getUrl = (url: string) => {
     return `${env.DELHIVERY_HOST}${url}`
@@ -26,7 +27,8 @@ export const getPincodeServiceability = async ({ courierId }: { courierId: strin
     try {
         const {url, headers } = createRequest({ path: DELIVERY_API_URL.PINCODE_SERVICEABILITY });
         const { response: responseMapping } = pincodeServiceabilityMapping;
-        let { data } = await httpGet(url, { headers });
+        // let { data } = await httpGet(url, { headers });
+        const data = delhiveryPincode;
         const expression = jsonata(responseMapping);
         const result = await expression.evaluate(data, { courierId });
         return result

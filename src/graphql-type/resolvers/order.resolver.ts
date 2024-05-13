@@ -14,7 +14,7 @@ export class orderResolver {
   @Inject()
   orderService: OrderService;
 
-  @Authorized()
+@Authorized()
   @Query(() => [OrderType], {
     description: QUERY_DESC.CREATE_ORDER,
   })

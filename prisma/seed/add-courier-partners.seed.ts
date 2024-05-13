@@ -10,7 +10,7 @@ export async function addCourierPartners() {
             data: [
                 {
                     name: "Delivery",
-                    slug: 'delivery',
+                    slug: 'delhivery',
                     isActive: true,
                     rateCard: rateCardData[0].userRateCard,
                 }

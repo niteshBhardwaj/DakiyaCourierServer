@@ -19,9 +19,8 @@ export default class DelhiveryService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
 
-  public async loadPincode({ courierPartnerInfo }: { courierPartnerInfo: CourierPartner }) {
+  public async loadPincode({ id: courierId }: CourierPartner) {
     try {
-      const { id: courierId } = courierPartnerInfo
       const data = await getPincodeServiceability({ courierId });
 
       // send event to update pincode's availability
