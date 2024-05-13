@@ -9,7 +9,7 @@
     "lint:fix": "eslint . --fix",
     "check:types": "tsc --noEmit",
     "build": "tsc && tsc-alias",
-    "build-i": "npm install -g bun && bun install && bun run generate",
+    "build-i": "npm install -g bun@latest && bun install && bun run generate",
     "build:docker:prod": "docker build . -t my-fastify-app --build-arg APP_ENV=production",
     "start": "bun src/app.ts",
     "dev": "bun --watch src/app.ts",
