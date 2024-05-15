@@ -11,7 +11,7 @@
     "build": "tsc && tsc-alias",
     "build-i": "npm install -g bun@latest && bun install && bun run generate",
     "build:docker:prod": "docker build . -t my-fastify-app --build-arg APP_ENV=production",
-    "start": "bun src/app.ts",
+    "start": "node build/app.js",
     "dev": "bun --watch src/app.ts",
     "devi": "bun --watch --inspect src/app.ts",
     "pretest": "npm run build",

@@ -3,13 +3,13 @@ import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import TokenService from './token.service';
 import { USER_ERROR_KEYS } from '@/constants';
-import { LoginSuccessResp } from '@graphql/typedefs/auth.type';
-import { CreateAccountInput, LoginRequest } from '@graphql/args/auth.input';
 import { PrismaClient, UsedForType, User } from '@prisma/client';
 import { badUserInputException } from '@/utils/exceptions.util';
 import UserService from './user.service';
 import { validateAndComparePassword } from '@/utils/password.util';
 import OtpService from './otp.service';
+import { LoginRequest, CreateAccountInput } from '@/graphql-type/args/auth.input';
+import { LoginSuccessResp } from '@/graphql-type/typedefs/auth.type';
 
 @Service()
 export default class AuthService {

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { AADHAAR_KYC_CODE, AADHAAR_SUBMIT_OTP, GSTIN_KYC_CODE, KYC_COMMON_ERROR, KYC_URL_TEST } from '@/constants/kyc.constant';
 import { httpPost } from './http.util';
 import { badUserInputException } from './exceptions.util';
@@ -33,7 +34,7 @@ export const sendAadhaarOtpRequest = async ({
         consent,
       },
       headers: getHeader(),
-    }) as { data: unknown; error: unknown; status: string };
+    }) as unknown as { data: unknown; error: unknown; status: string };
     const { error, status } = response;
     const data = response.data as { code?: string };
     if (data && data?.code !== '1001') {

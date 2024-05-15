@@ -6,7 +6,7 @@ import { USER_ERROR_KEYS } from '@/constants';
 import { checkForSelfiePhone, checkForSkipStatus, getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '@/utils/kyc.util';
 import OtpService from './otp.service';
 import { KYC_COMMON_ERROR, KYC_PRE_VALIDATION } from '@/constants/kyc.constant';
-import { UserKycType } from '@graphql/typedefs/kyc.type';
+import { UserKycType } from '@/graphql-type/typedefs/kyc.type';
 
 @Service()
 export default class KycService {

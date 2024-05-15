@@ -1,4 +1,3 @@
-import { Identifier } from '@graphql/args/auth.input';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
@@ -6,6 +5,7 @@ import { EVENTS, USER_ERROR_KEYS } from '@/constants';
 import { Otp, PrismaClient, VerificationType } from '@prisma/client';
 import { generateOTP, getOtpExpirationTime, getPreviousTimeInMinutes } from '@/utils';
 import { badUserInputException } from '@/utils/exceptions.util';
+import { Identifier } from '@/graphql-type/args/auth.input';
 
 @Service()
 export default class OtpService {

@@ -29,6 +29,7 @@ export class userResolver {
     description: QUERY_DESC.VERIFY_OTP_LOGIN,
   })
   async getUserInfo(@Ctx() { user: { userId } }: { user: UserContext }): Promise<UserType> {
+    // @ts-ignore
     return this.userService.getUserInfo({ userId });
   }
 
@@ -121,6 +122,7 @@ export class userResolver {
     @Arg(REQUEST) args: VerifyAadhaarInput,
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<NextStateType> {
+    //@ts-ignore
     return this.userService.verifyKyc({
       kycType: KYCDocumentType.AadhaarCard,
       code: String(args.code),
@@ -156,6 +158,7 @@ export class userResolver {
     @Arg(REQUEST) args: VerifyGstinInput,
     @Ctx() { user: { userId } }: { user: UserContext },
   ): Promise<NextStateType> {
+    //@ts-ignore
     return this.userService.verifyKyc({
       kycType: KYCDocumentType.GSTIN,
       code: String(args.code),

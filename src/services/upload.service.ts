@@ -1,5 +1,4 @@
 import { httpPost } from './../utils/http.util';
-import { UploadResponseType, UploadFileType, UploadFileResponseType } from '@interfaces/upload.interface';
 import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
@@ -8,6 +7,7 @@ import { badUserInputException } from '@/utils/exceptions.util';
 import { USER_ERROR_KEYS } from '@/constants';
 import { PrismaClient } from '@prisma/client';
 import { getRequireFieldFromResponse } from '@/utils';
+import { UploadFileType, UploadResponseType, UploadFileResponseType } from '@/interfaces/upload.interface';
 
 @Service()
 export default class UploadService {
@@ -22,7 +22,7 @@ export default class UploadService {
     const url = `${env.FILE_UPLOAD_HOST}/image/process`;
     try {
       console.log('url', url)
-      const data = await httpPost(url, { body: file }) as UploadResponseType;
+      const data = (await httpPost(url, { body: file })) as UploadResponseType;
       const response = data?.response as UploadFileResponseType;
       if (!data.error) {
         await this.prisma.uploadedFiles.create({

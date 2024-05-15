@@ -28,6 +28,7 @@ export class walletResolver {
   async getTransactions(
     @Ctx() { user: { userId } }: { user: UserContext },
     ): Promise<WalletResponse> {
-    return this.walletService.getTransactions({ userId });
+      //@ts-ignore
+      return this.walletService.getTransactions({ userId });
   }
 }

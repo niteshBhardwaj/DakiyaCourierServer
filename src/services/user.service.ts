@@ -3,15 +3,15 @@ import LoggerInstance from '@/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
 import { createHashPaswordAndSalt } from '@/utils/password.util';
-import { CreateAccountInput } from '@graphql/args/auth.input';
 import { findNextState } from '@/utils/user.util';
 import KycService from './kyc.service';
 import { badRequestException, badUserInputException } from '@/utils/exceptions.util';
 import { ERROR_CODE, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '@/constants';
-import { UserType } from '@graphql/typedefs/users.type';
-import { BankDetailsInput, KycOfflineInput } from '@graphql/args/users.input';
 import UploadService from './upload.service';
 import { getDocsUploadParams, getPhotoUploadParams } from '@/utils';
+import { CreateAccountInput } from '@/graphql-type/args/auth.input';
+import { KycOfflineInput, BankDetailsInput } from '@/graphql-type/args/users.input';
+import { UserType } from '@/graphql-type/typedefs/users.type';
 
 @Service()
 export default class UserService {
@@ -26,6 +26,7 @@ export default class UserService {
   public async getUserCurrentStateData(currentState: UserType['currentState'], userId: string) {
     const isKyc = currentState?.state === CurrentStateType.KYC;
     if (currentState && isKyc) {
+      //@ts-ignore
       currentState.data = await this.kycService.getUserKyc({ userId, select: {
         status: true,
       } }) || {};

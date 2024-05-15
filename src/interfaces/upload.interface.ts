@@ -22,6 +22,6 @@ export type UploadFileResponseType = {
 
 export interface UploadResponseType {
     error?: any;
-    message: string;
+    message?: string;
     response?: unknown;
 }
