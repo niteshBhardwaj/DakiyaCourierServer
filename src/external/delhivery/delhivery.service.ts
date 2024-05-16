@@ -1,14 +1,14 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { type CourierPartner, type Order, type PickupAddress, type PickupProvider, PrismaClient } from '@prisma/client';
 import { createOrder, createPickupRequest, createWarehouse, getPincodeServiceability as getPincodeServiceability, updateWarehouse } from './utils/http.delhivery.utils';
-import { EVENTS } from '@/constants';
+import { EVENTS } from '~/constants';
 import { PickupResponseType } from './delhivery.type';
 import { checkPickupForGivenDate } from './utils/pickup.delhivery.utils';
 import { isArray } from 'class-validator';
-import { checkDateIsBefore, createFutureDate, getDateAndTimeByDate } from '@/utils/date.utils';
-import { DateType } from '@/types/common.type';
+import { checkDateIsBefore, createFutureDate, getDateAndTimeByDate } from '~/utils/date.utils';
+import { DateType } from '~/types/common.type';
 
 
 @Service()

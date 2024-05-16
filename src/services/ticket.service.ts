@@ -1,8 +1,8 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { PrismaClient } from '@prisma/client';
-import { TicketInput } from '@/graphql-type/args/ticket.input';
+import { TicketInput } from '~/graphql-type/args/ticket.input';
 
 @Service()
 export default class TicketService {

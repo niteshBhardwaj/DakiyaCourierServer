@@ -1,12 +1,12 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { type Order, OrderStatus, PrismaClient } from '@prisma/client';
-import { CreateOrderInput } from '@/graphql-type/args/order.input';
-import { badRequestException } from '@/utils/exceptions.util';
+import { CreateOrderInput } from '~/graphql-type/args/order.input';
+import { badRequestException } from '~/utils/exceptions.util';
 import CourierPartnerService from './courier-partners.service';
 import CounterService from './counter.service';
-import { OrderType } from '@/graphql-type/typedefs/order.type';
+import { OrderType } from '~/graphql-type/typedefs/order.type';
 import { PrismaSelect } from '@paljs/plugins/dist/select';
 import { GraphQLResolveInfo } from 'graphql';
 

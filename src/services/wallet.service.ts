@@ -1,6 +1,6 @@
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import LoggerInstance from '@/plugins/logger';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
+import LoggerInstance from '~/plugins/logger';
 import { PrismaClient } from '@prisma/client';
 
 @Service()

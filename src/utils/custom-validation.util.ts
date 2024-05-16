@@ -1,6 +1,6 @@
 import { ValidatorConstraint, ValidatorConstraintInterface, isEmail, isMobilePhone } from 'class-validator';
 import { GovernmentIdType } from '@prisma/client';
-import { KycOfflineInput } from '@/graphql-type/args/users.input';
+import { KycOfflineInput } from '~/graphql-type/args/users.input';
 
 @ValidatorConstraint({ name: 'otpLength', async: false })
 export class OtpLength implements ValidatorConstraintInterface {

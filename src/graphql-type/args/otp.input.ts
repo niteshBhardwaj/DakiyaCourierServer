@@ -1,5 +1,5 @@
-import { VALIDATION_MSG } from "@/constants";
-import { OtpLength } from "@/utils";
+import { VALIDATION_MSG } from "~/constants";
+import { OtpLength } from "~/utils";
 import { Validate } from "class-validator";
 import { InputType, Field } from "type-graphql";
 import { Identifier } from "./auth.input";

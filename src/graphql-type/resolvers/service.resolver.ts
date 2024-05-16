@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
-import AuthService from '@/services/auth.service';
-import { QUERY_DESC, REQUEST } from '@/constants';
+import AuthService from '~/services/auth.service';
+import { QUERY_DESC, REQUEST } from '~/constants';
 import { LoginSuccessResp } from '../typedefs/auth.type';
 import { LoginRequest } from '../args/auth.input';
 

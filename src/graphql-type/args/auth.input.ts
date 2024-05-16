@@ -1,5 +1,5 @@
-import { CountryCode, PhoneLocalAlias, VALIDATION_MSG } from "@/constants";
-import { EmailOrPhone, OtpLength } from "@/utils";
+import { CountryCode, PhoneLocalAlias, VALIDATION_MSG } from "~/constants";
+import { EmailOrPhone, OtpLength } from "~/utils";
 import { IsEmail, IsEnum, IsMobilePhone, IsMongoId, IsNotEmpty, MaxLength, Validate } from "class-validator";
 import { Field, InputType } from "type-graphql";
 

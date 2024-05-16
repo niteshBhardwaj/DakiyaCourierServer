@@ -1,4 +1,4 @@
-import { USER_TYPE } from '@/constants';
+import { USER_TYPE } from '~/constants';
 export interface DataStoredInToken {
   id: string;
   v: number;

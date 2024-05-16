@@ -1,4 +1,4 @@
-import { ADDRESS_VALIDATION } from "@/constants/address.constant";
+import { ADDRESS_VALIDATION } from "~/constants/address.constant";
 import {
     IsEmail,
     IsInt,

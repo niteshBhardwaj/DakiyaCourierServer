@@ -1,17 +1,17 @@
 import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma, KycDocumentStatus } from '@prisma/client';
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { createHashPaswordAndSalt } from '@/utils/password.util';
-import { findNextState } from '@/utils/user.util';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
+import { createHashPaswordAndSalt } from '~/utils/password.util';
+import { findNextState } from '~/utils/user.util';
 import KycService from './kyc.service';
-import { badRequestException, badUserInputException } from '@/utils/exceptions.util';
-import { ERROR_CODE, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '@/constants';
+import { badRequestException, badUserInputException } from '~/utils/exceptions.util';
+import { ERROR_CODE, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '~/constants';
 import UploadService from './upload.service';
-import { getDocsUploadParams, getPhotoUploadParams } from '@/utils';
-import { CreateAccountInput } from '@/graphql-type/args/auth.input';
-import { KycOfflineInput, BankDetailsInput } from '@/graphql-type/args/users.input';
-import { UserType } from '@/graphql-type/typedefs/users.type';
+import { getDocsUploadParams, getPhotoUploadParams } from '~/utils';
+import { CreateAccountInput } from '~/graphql-type/args/auth.input';
+import { KycOfflineInput, BankDetailsInput } from '~/graphql-type/args/users.input';
+import { UserType } from '~/graphql-type/typedefs/users.type';
 
 @Service()
 export default class UserService {

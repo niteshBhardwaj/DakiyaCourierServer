@@ -1,4 +1,4 @@
-import { TicketConstant } from "@/constants/ticket.constant";
+import { TicketConstant } from "~/constants/ticket.constant";
 import { Ticket } from "@prisma/client";
 import { IsMongoId, IsNotEmpty } from "class-validator";
 import { InputType, Field } from "type-graphql";

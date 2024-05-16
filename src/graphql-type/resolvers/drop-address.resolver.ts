@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
-import { REQUEST } from '@/constants';
+import { REQUEST } from '~/constants';
 import { DropAddressInput, DropDeleteInput, DropUpdatedInput } from '../args/drop-address.input';
-import DropAddressService from '@/services/drop-address.service';
-import { UserContext } from '@/interfaces/auth.interface';
+import DropAddressService from '~/services/drop-address.service';
+import { UserContext } from '~/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
 import { DropAddressType, DropAddressUpdateType } from '../typedefs/drop-address.type';
 import { MessageType } from '../typedefs/common.type';

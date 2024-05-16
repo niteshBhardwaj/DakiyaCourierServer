@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
-import { REQUEST } from '@/constants';
+import { REQUEST } from '~/constants';
 import { PickupAddressInput, PickupDeleteInput, PickupUpdatedInput } from '../args/pickup-address.input';
-import PickupAddressService from '@/services/pickup-address.service';
-import { UserContext } from '@/interfaces/auth.interface';
+import PickupAddressService from '~/services/pickup-address.service';
+import { UserContext } from '~/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
 import { PickupAddressType, PickupAddressUpdateType } from '../typedefs/pickup-address.type';
 import { MessageType } from '../typedefs/common.type';

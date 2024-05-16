@@ -1,4 +1,4 @@
-import { NodeEnv } from "@/plugins/config";
+import { NodeEnv } from "~/plugins/config";
 
 declare namespace NodeJS {
     export interface ProcessEnv {

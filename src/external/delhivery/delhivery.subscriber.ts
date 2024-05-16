@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import DelhiveryService from './delhivery.service';
 import { EVENTS_ACTIONS, getDelhiveryEvent } from '../events';
 

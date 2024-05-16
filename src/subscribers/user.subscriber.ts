@@ -1,8 +1,8 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import { IUser } from '@/interfaces/user.interface';
-import { EVENTS } from '@/constants';
-import Logger from '@/plugins/logger';
+import { IUser } from '~/interfaces/user.interface';
+import { EVENTS } from '~/constants';
+import Logger from '~/plugins/logger';
 
 @EventSubscriber()
 export default class UserSubscriber {

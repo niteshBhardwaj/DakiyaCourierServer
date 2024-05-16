@@ -4,8 +4,8 @@ import {
   BANK_NAME_VALIDATION,
   IFSC_CODE_VALIDATION,
   VALIDATION_MSG,
-} from '@/constants';
-import { KycDocuments, OtpLength } from '@/utils';
+} from '~/constants';
+import { KycDocuments, OtpLength } from '~/utils';
 import { GovernmentIdType } from '@prisma/client';
 import { IsEmpty, IsEnum, IsMobilePhone, IsNotEmpty, IsString, MaxLength, Validate, isEnum, maxLength } from 'class-validator';
 import { InputType, Field } from 'type-graphql';

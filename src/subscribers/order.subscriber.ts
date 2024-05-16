@@ -1,10 +1,10 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import { EVENTS } from '@/constants';
-import LoggerInstance from '@/plugins/logger';
-import PincodeService from '@/services/pincode.service';
+import { EVENTS } from '~/constants';
+import LoggerInstance from '~/plugins/logger';
+import PincodeService from '~/services/pincode.service';
 import { Order } from '@prisma/client';
-import OrderService from '@/services/order.service';
+import OrderService from '~/services/order.service';
 
 @EventSubscriber()
 export default class PincodeSubscriber {

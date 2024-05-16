@@ -1,9 +1,9 @@
-import { type UserContext } from '@/interfaces/auth.interface';
+import { type UserContext } from '~/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { QUERY_DESC, REQUEST } from '@/constants';
+import { QUERY_DESC, REQUEST } from '~/constants';
 import { MessageType } from '../typedefs/common.type';
-import TicketService from '@/services/ticket.service';
+import TicketService from '~/services/ticket.service';
 import { TicketInput } from '../args/ticket.input';
 
 @Service()

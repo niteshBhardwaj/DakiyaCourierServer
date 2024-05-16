@@ -1,8 +1,8 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import { EVENTS } from '@/constants';
-import LoggerInstance from '@/plugins/logger';
-import PickupAddressService from '@/services/pickup-address.service';
+import { EVENTS } from '~/constants';
+import LoggerInstance from '~/plugins/logger';
+import PickupAddressService from '~/services/pickup-address.service';
 import { type PickupProvider } from '@prisma/client';
 
 @EventSubscriber()

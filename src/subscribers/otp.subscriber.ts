@@ -1,9 +1,9 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import { CountryCode, EVENTS } from '@/constants';
-import LoggerInstance from '@/plugins/logger';
-import SMSService from '@/services/sms.service';
-import MailerService from '@/services/mailer.service';
+import { CountryCode, EVENTS } from '~/constants';
+import LoggerInstance from '~/plugins/logger';
+import SMSService from '~/services/sms.service';
+import MailerService from '~/services/mailer.service';
 
 @EventSubscriber()
 export default class OtpSubscriber {

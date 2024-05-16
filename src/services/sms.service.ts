@@ -1,12 +1,12 @@
 import { httpPost } from '../utils/http.util';
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
-import { SMS_SENDER, SMS_URL } from '@/constants';
-import { getOtpMessage } from '@/utils';
-import { env } from '@/plugins/config';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
+import { SMS_SENDER, SMS_URL } from '~/constants';
+import { getOtpMessage } from '~/utils';
+import { env } from '~/plugins/config';
 import { Otp } from '@prisma/client';
-import { UploadResponseType } from '@/interfaces/upload.interface';
+import { UploadResponseType } from '~/interfaces/upload.interface';
 
 @Service()
 export default class SMSService {

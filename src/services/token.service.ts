@@ -1,8 +1,8 @@
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { Inject, Service } from 'typedi';
 import jwt, { verify } from 'jsonwebtoken';
-import LoggerInstance from '@/plugins/logger';
-import { DataStoredInToken } from '@/interfaces/auth.interface';
+import LoggerInstance from '~/plugins/logger';
+import { DataStoredInToken } from '~/interfaces/auth.interface';
 import { User } from '@prisma/client';
 
 @Service()

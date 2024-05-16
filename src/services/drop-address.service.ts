@@ -1,12 +1,12 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { PrismaClient } from '@prisma/client';
 import OrderService from './order.service';
-import { badUserInputException } from '@/utils/exceptions.util';
-import { USER_ERROR_KEYS } from '@/constants';
-import { DropAddressInput } from '@/graphql-type/args/drop-address.input';
-import { DropAddressType } from '@/graphql-type/typedefs/drop-address.type';
+import { badUserInputException } from '~/utils/exceptions.util';
+import { USER_ERROR_KEYS } from '~/constants';
+import { DropAddressInput } from '~/graphql-type/args/drop-address.input';
+import { DropAddressType } from '~/graphql-type/typedefs/drop-address.type';
 
 @Service()
 export default class DropAddressService {

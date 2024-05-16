@@ -1,15 +1,15 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import TokenService from './token.service';
-import { USER_ERROR_KEYS } from '@/constants';
+import { USER_ERROR_KEYS } from '~/constants';
 import { PrismaClient, UsedForType, User } from '@prisma/client';
-import { badUserInputException } from '@/utils/exceptions.util';
+import { badUserInputException } from '~/utils/exceptions.util';
 import UserService from './user.service';
-import { validateAndComparePassword } from '@/utils/password.util';
+import { validateAndComparePassword } from '~/utils/password.util';
 import OtpService from './otp.service';
-import { LoginRequest, CreateAccountInput } from '@/graphql-type/args/auth.input';
-import { LoginSuccessResp } from '@/graphql-type/typedefs/auth.type';
+import { LoginRequest, CreateAccountInput } from '~/graphql-type/args/auth.input';
+import { LoginSuccessResp } from '~/graphql-type/typedefs/auth.type';
 
 @Service()
 export default class AuthService {

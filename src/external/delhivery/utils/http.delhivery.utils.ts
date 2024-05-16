@@ -1,8 +1,8 @@
 import jsonata from "jsonata";
-import { env } from "@/plugins/config";
+import { env } from "~/plugins/config";
 import { DELIVERY_API_URL } from "../delhivery.constant";
 import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping } from "../delhivery.mapping";
-import { httpGet, httpPost } from "@/utils";
+import { httpGet, httpPost } from "~/utils";
 import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
 import delhiveryPincode from '../../../../prisma/seed/data/delivery-pincode'
 

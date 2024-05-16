@@ -1,16 +1,16 @@
 import { Inject, Service } from 'typedi';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import OtpService from '@/services/otp.service';
-import UserService from '@/services/user.service';
-import { QUERY_DESC, REQUEST } from '@/constants';
+import OtpService from '~/services/otp.service';
+import UserService from '~/services/user.service';
+import { QUERY_DESC, REQUEST } from '~/constants';
 import { BankDetailsInput, KycAadhaarInput, KycGstinInput, KycOfflineInput, SelfieKycInput, VerifyAadhaarInput, VerifyGstinInput } from '../args/users.input';
-import { UserContext } from '@/interfaces/auth.interface';
+import { UserContext } from '~/interfaces/auth.interface';
 import { KYCDocumentType, VerificationType } from '@prisma/client';
 import { OtpVerifyInput } from '../args/otp.input';
 import { MessageType } from '../typedefs/common.type';
 import { CurrentStateType, NextStateType, UserType } from '../typedefs/users.type';
-import { KYC_MESSAGE } from '@/constants/messages.contant';
-import KycService from '@/services/kyc.service';
+import { KYC_MESSAGE } from '~/constants/messages.contant';
+import KycService from '~/services/kyc.service';
 import { UserKycType } from '../typedefs/kyc.type';
 
 @Service()

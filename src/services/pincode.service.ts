@@ -1,10 +1,10 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import Container, { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { PincodeAvailability, PrismaClient } from '@prisma/client';
-import { PincodeServiceabilityInput, RateCalculatorInput } from '@/graphql-type/args/order.input';
-import { LOGGER, PRISMA } from '@/constants';
-import { badUserInputException } from '@/utils/exceptions.util';
+import { PincodeServiceabilityInput, RateCalculatorInput } from '~/graphql-type/args/order.input';
+import { LOGGER, PRISMA } from '~/constants';
+import { badUserInputException } from '~/utils/exceptions.util';
 
 @Service()
 export default class PincodeService {

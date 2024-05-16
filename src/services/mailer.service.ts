@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
-import { IUser } from '@/interfaces/user.interface';
-import { type MailerInstance } from '@/plugins/mailer';
-import { createOtpOptionForMailer } from '@/utils';
+import { IUser } from '~/interfaces/user.interface';
+import { type MailerInstance } from '~/plugins/mailer';
+import { createOtpOptionForMailer } from '~/utils';
 
 @Service()
 export default class MailerService {

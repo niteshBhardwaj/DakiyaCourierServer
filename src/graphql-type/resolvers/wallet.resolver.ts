@@ -1,9 +1,9 @@
 import { Resolver, Ctx, Query, Authorized } from 'type-graphql';
-import { QUERY_DESC } from '@/constants';
+import { QUERY_DESC } from '~/constants';
 import { WalletResponse } from '../typedefs/wallet.type';
 import { Inject, Service } from 'typedi';
-import WalletService from '@/services/wallet.service';
-import { UserContext } from '@/interfaces/auth.interface';
+import WalletService from '~/services/wallet.service';
+import { UserContext } from '~/interfaces/auth.interface';
 
 @Service()
 @Resolver()

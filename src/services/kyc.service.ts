@@ -1,12 +1,12 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { GovernmentIdType, KYCDocumentType, KYCStatus, Prisma, PrismaClient, UsedForType, UserKYC } from '@prisma/client';
-import { badUserInputException } from '@/utils/exceptions.util';
-import { USER_ERROR_KEYS } from '@/constants';
-import { checkForSelfiePhone, checkForSkipStatus, getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '@/utils/kyc.util';
+import { badUserInputException } from '~/utils/exceptions.util';
+import { USER_ERROR_KEYS } from '~/constants';
+import { checkForSelfiePhone, checkForSkipStatus, getGstinDetail, sendAadhaarOtpRequest, submitAadhaarOtp } from '~/utils/kyc.util';
 import OtpService from './otp.service';
-import { KYC_COMMON_ERROR, KYC_PRE_VALIDATION } from '@/constants/kyc.constant';
-import { UserKycType } from '@/graphql-type/typedefs/kyc.type';
+import { KYC_COMMON_ERROR, KYC_PRE_VALIDATION } from '~/constants/kyc.constant';
+import { UserKycType } from '~/graphql-type/typedefs/kyc.type';
 
 @Service()
 export default class KycService {

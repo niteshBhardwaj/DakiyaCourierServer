@@ -1,5 +1,5 @@
-import { OrderInputConstant } from "@/constants";
-import { ADDRESS_VALIDATION } from "@/constants/address.constant";
+import { OrderInputConstant } from "~/constants";
+import { ADDRESS_VALIDATION } from "~/constants/address.constant";
 import { PaymentMode, ShippingMode } from "@prisma/client";
 import { IsArray, IsBoolean, IsEnum, IsInt, IsMongoId, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Field, InputType, Int, registerEnumType } from "type-graphql";

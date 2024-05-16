@@ -1,9 +1,9 @@
-import { type UserContext } from '@/interfaces/auth.interface';
+import { type UserContext } from '~/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
 import { Arg, Authorized, Ctx, Info, Mutation, Query, Resolver } from 'type-graphql';
-import { QUERY_DESC, REQUEST } from '@/constants';
+import { QUERY_DESC, REQUEST } from '~/constants';
 import { CreateOrderInput } from '../args/order.input';
-import OrderService from '@/services/order.service';
+import OrderService from '~/services/order.service';
 import { OrderType } from '../typedefs/order.type';
 import { OffsetInput } from '../args/common.input';
 import { type GraphQLResolveInfo } from 'graphql';

@@ -1,4 +1,4 @@
-import { METHOD } from '@/constants';
+import { METHOD } from '~/constants';
 
 type HttpOptions = { method?: METHOD; body?: string | object, headers?: object, responseType?: string; }
 export const httpRequest = async (url: string, { method = METHOD.POST, body = {}, headers = {}, responseType = 'json'}: HttpOptions) => {

@@ -1,8 +1,8 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { CounterType, PrismaClient } from '@prisma/client';
-import { getAwbAndOrderUtil } from '@/utils/order.util';
+import { getAwbAndOrderUtil } from '~/utils/order.util';
 
 @Service()
 export default class CounterService {

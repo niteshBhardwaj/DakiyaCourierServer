@@ -1,9 +1,9 @@
-import { PAYMENT_MODE } from '@/constants/payment.constant';
-// import WalletService from '@/services/wallet.service';
+import { PAYMENT_MODE } from '~/constants/payment.constant';
+// import WalletService from '~/services/wallet.service';
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import { EVENTS, PAYMENT_SOURCE, EARN_TYPE } from '@/constants';
-import LoggerInstance from '@/plugins/logger';
+import { EVENTS, PAYMENT_SOURCE, EARN_TYPE } from '~/constants';
+import LoggerInstance from '~/plugins/logger';
 
 @EventSubscriber()
 export default class PartnerSubscriber {

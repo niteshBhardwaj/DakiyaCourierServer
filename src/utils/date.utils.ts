@@ -1,4 +1,4 @@
-import { DateType } from "@/types/common.type";
+import { DateType } from "~/types/common.type";
 import dayjs, { ManipulateType } from "dayjs"
 import isToday from 'dayjs/plugin/isToday';
 dayjs.extend(isToday)

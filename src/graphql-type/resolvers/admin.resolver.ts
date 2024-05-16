@@ -1,6 +1,6 @@
 import { Inject, Service } from 'typedi';
 import { Resolver } from 'type-graphql';
-import UserService from '@/services/user.service';
+import UserService from '~/services/user.service';
 
 @Service()
 @Resolver()

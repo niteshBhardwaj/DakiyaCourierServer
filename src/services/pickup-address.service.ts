@@ -1,13 +1,13 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { PickupProvider, PrismaClient } from '@prisma/client';
-import { PickupAddressInput } from '@/graphql-type/args/pickup-address.input';
+import { PickupAddressInput } from '~/graphql-type/args/pickup-address.input';
 import { nanoid } from 'nanoid';
-import { PickupAddressType } from '@/graphql-type/typedefs/pickup-address.type';
+import { PickupAddressType } from '~/graphql-type/typedefs/pickup-address.type';
 import OrderService from './order.service';
-import { badUserInputException } from '@/utils/exceptions.util';
-import { USER_ERROR_KEYS } from '@/constants';
+import { badUserInputException } from '~/utils/exceptions.util';
+import { USER_ERROR_KEYS } from '~/constants';
 
 @Service()
 export default class PickupAddressService {

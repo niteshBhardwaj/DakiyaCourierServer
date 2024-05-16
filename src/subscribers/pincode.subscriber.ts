@@ -1,8 +1,8 @@
 import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
-import { EVENTS } from '@/constants';
-import LoggerInstance from '@/plugins/logger';
-import PincodeService from '@/services/pincode.service';
+import { EVENTS } from '~/constants';
+import LoggerInstance from '~/plugins/logger';
+import PincodeService from '~/services/pincode.service';
 import { PincodeAvailability } from '@prisma/client';
 
 @EventSubscriber()

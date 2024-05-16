@@ -1,5 +1,5 @@
-// import Logger from '@/plugins/logger';
-// import { EVENTS } from '@/constants';
+// import Logger from '~/plugins/logger';
+// import { EVENTS } from '~/constants';
 // import Queue from 'bull';
 // import { EventDispatcher } from 'event-dispatch';
 // import { config } from './config';

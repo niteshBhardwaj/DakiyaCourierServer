@@ -1,11 +1,11 @@
-import { HTTP_CODE, AUTH_ERROR_KEYS, ERROR_CODE } from '@/constants';
+import { HTTP_CODE, AUTH_ERROR_KEYS, ERROR_CODE } from '~/constants';
 import { Container } from 'typedi';
 import { type AuthChecker } from 'type-graphql';
-import { AuthContext, ContextInvalidToken, UserContext } from '@/interfaces/auth.interface';
-import LoggerInstance from '@/plugins/logger';
-import TokenService from '@/services/token.service';
+import { AuthContext, ContextInvalidToken, UserContext } from '~/interfaces/auth.interface';
+import LoggerInstance from '~/plugins/logger';
+import TokenService from '~/services/token.service';
 import { FastifyRequest } from 'fastify';
-import { badRequestException } from '@/utils/exceptions.util';
+import { badRequestException } from '~/utils/exceptions.util';
 
 // Verify a user's token.
 export const authMiddleware = async (req: FastifyRequest) => {

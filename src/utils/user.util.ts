@@ -1,4 +1,4 @@
-import { CURRENT_STATE_CONFIG, USER_ACCOUNT_STEPS } from "@/constants";
+import { CURRENT_STATE_CONFIG, USER_ACCOUNT_STEPS } from "~/constants";
 import { CurrentState, CurrentStateType } from "@prisma/client";
 
 export const findNextState = (type: CurrentStateType): CurrentState | null => {

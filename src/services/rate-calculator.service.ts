@@ -1,11 +1,11 @@
-import LoggerInstance from '@/plugins/logger';
+import LoggerInstance from '~/plugins/logger';
 import Container, { Service, Inject } from 'typedi';
-import { EventDispatcher, EventDispatcherInterface } from '@/decorators/eventDispatcher';
+import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { AppConfig, PincodeAvailability, PrismaClient, RateCard } from '@prisma/client';
-import { PincodeServiceabilityInput, RateCalculatorInput } from '@/graphql-type/args/order.input';
-import { APP_CONFIG, LOGGER, PRISMA, RATE_CARDS } from '@/constants';
-import { addTaxesCodCharges, findZoneAndAmount, getActualWeight } from '@/utils';
-import { badUserInputException } from '@/utils/exceptions.util';
+import { PincodeServiceabilityInput, RateCalculatorInput } from '~/graphql-type/args/order.input';
+import { APP_CONFIG, LOGGER, PRISMA, RATE_CARDS } from '~/constants';
+import { addTaxesCodCharges, findZoneAndAmount, getActualWeight } from '~/utils';
+import { badUserInputException } from '~/utils/exceptions.util';
 import PincodeService from './pincode.service';
 
 @Service()

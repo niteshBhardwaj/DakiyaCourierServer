@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import fastify, { FastifyInstance } from 'fastify';
-import { env } from '@/plugins/config';
-import loaders from "@/plugins/loaders";
+import loaders from "./plugins/loaders";
 
 const fastifyOption: any = {
   ajv: {

@@ -1,10 +1,10 @@
 //@ts-nocheck
-import { AADHAAR_KYC_CODE, AADHAAR_SUBMIT_OTP, GSTIN_KYC_CODE, KYC_COMMON_ERROR, KYC_URL_TEST } from '@/constants/kyc.constant';
+import { AADHAAR_KYC_CODE, AADHAAR_SUBMIT_OTP, GSTIN_KYC_CODE, KYC_COMMON_ERROR, KYC_URL_TEST } from '~/constants/kyc.constant';
 import { httpPost } from './http.util';
 import { badUserInputException } from './exceptions.util';
 import { isMobilePhone } from 'class-validator';
 import { KYCStatus, UserKYC } from '@prisma/client';
-import { USER_ERROR_KEYS } from '@/constants';
+import { USER_ERROR_KEYS } from '~/constants';
 
 const URL = KYC_URL_TEST;
 
