@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import fastify, { FastifyInstance } from 'fastify';
-import loaders from "./plugins/loaders";
+import loaders, { loadAppData } from "./plugins/loaders";
 
 const fastifyOption: any = {
   ajv: {
@@ -29,6 +29,7 @@ const startApp = async () => {
     void app.listen(
       { port: app.config.API_PORT ?? 5050, host: app?.config?.API_HOST },
       (_err, address) => {
+        loadAppData();
         console.log(`Server started at: ${address}`);
       },
     );

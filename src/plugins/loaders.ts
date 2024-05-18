@@ -17,8 +17,14 @@ export default async ({ app }: { app: FastifyInstance }) => {
   //* initialize apollo
   await apolloLoader(app);
 
-  // cache records
-  Container.set(APP_CONFIG, await prisma.appConfig.findMany());
-  Container.set(COURIER_PARTNER, await prisma.courierPartner.findMany());
-  Container.set(RATE_CARDS, await prisma.rateCard.findMany());
 };
+
+export const loadAppData = async () => {
+  try {
+    Container.set(APP_CONFIG, await prisma.appConfig.findMany());
+    Container.set(COURIER_PARTNER, await prisma.courierPartner.findMany());
+    Container.set(RATE_CARDS, await prisma.rateCard.findMany());
+  } catch(e) {
+    console.log(e)
+  }
+}
