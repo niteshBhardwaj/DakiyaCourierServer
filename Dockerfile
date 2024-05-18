@@ -33,5 +33,5 @@ RUN bun install --frozen-lockfile --production
 RUN bun run generate
 
 USER bun
-EXPOSE 5050/tcp
+EXPOSE 8080/tcp
 ENTRYPOINT [ "bun", "run", "src/app.ts" ]
