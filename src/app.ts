@@ -27,7 +27,7 @@ const startApp = async () => {
     });
 
     void app.listen(
-      { port: app.config.API_PORT ?? 5050, host: app?.config?.API_HOST },
+      { port: app.config.PORT ?? 5050, host: app?.config?.HOST },
       (_err, address) => {
         loadAppData();
         console.log(`Server started at: ${address}`);

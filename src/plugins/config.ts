@@ -2,7 +2,7 @@ import { CONFIG_ERRORS } from './../constants/errors.constant';
 import "dotenv/config";
 import fp from "fastify-plugin";
 import { FastifyPluginAsync } from "fastify";
-import { Static, Type } from "@sinclair/typebox";
+import { Optional, Static, Type } from "@sinclair/typebox";
 import Ajv from "ajv";
 
 export enum NodeEnv {
@@ -15,8 +15,8 @@ const ConfigSchema = Type.Strict(
   Type.Object({
     NODE_ENV: Type.Enum(NodeEnv),
     LOG_LEVEL: Type.String(),
-    API_HOST: Type.String(),
-    API_PORT: Type.Number(),
+    HOST: Type.String().optional(),
+    PORT: Type.Number().optional(),
     DATABASE_URL: Type.String(),
   })
 );
