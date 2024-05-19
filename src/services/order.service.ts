@@ -3,12 +3,14 @@ import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { type Order, OrderStatus, PrismaClient } from '@prisma/client';
 import { CreateOrderInput } from '~/graphql-type/args/order.input';
-import { badRequestException } from '~/utils/exceptions.util';
+import { badRequestException, badUserInputException } from '~/utils/exceptions.util';
 import CourierPartnerService from './courier-partners.service';
 import CounterService from './counter.service';
 import { OrderType } from '~/graphql-type/typedefs/order.type';
 import { PrismaSelect } from '@paljs/plugins/dist/select';
 import { GraphQLResolveInfo } from 'graphql';
+import { OrderInputConstant } from '~/constants';
+import { createOrderSelector } from '~/db-selectors/order.selector';
 
 @Service()
 export default class OrderService {
@@ -49,7 +51,10 @@ export default class OrderService {
     const courier = await this.prisma.courierPartner.findFirst();
     const courierId = courier?.id
     const { orderId, awb } = (await this.counterService.generateAwbAndOrderId({ count: 1 }))[0];
-    const order = await this.prisma.order.create({
+    console.log('userinput', input)
+    let order;
+    try {
+    order = await this.prisma.order.create({
       data: {
         userId,
         orderId,
@@ -59,6 +64,10 @@ export default class OrderService {
       },
       ...select
     })
+    } catch(e) {
+      console.log(e)
+      throw badUserInputException('Order creation failed')
+    }
     if(!courierId) {
       throw badRequestException('Courier not found');
     }

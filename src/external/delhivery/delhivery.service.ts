@@ -34,7 +34,7 @@ export default class DelhiveryService {
   }
 
   public async createOrUpdateWarehouse({ pickupAddress }: { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }) {
-    const pickupProvider = pickupAddress.pickupProvider[0];
+    const pickupProvider = pickupAddress?.pickupProvider?.[0];
     if (!pickupProvider) {
       const { error } = await createWarehouse({ warehouseData: pickupAddress })
       if (error) {
