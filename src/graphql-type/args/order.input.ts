@@ -3,6 +3,7 @@ import { ADDRESS_VALIDATION } from "~/constants/address.constant";
 import { PaymentMode, ShippingMode } from "@prisma/client";
 import { IsArray, IsBoolean, IsEnum, IsInt, IsMongoId, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Field, InputType, Int, registerEnumType } from "type-graphql";
+import { isMongoId } from "validator";
 
 @InputType()
 class ProductInput {
@@ -154,4 +155,15 @@ export class PincodeInfoInput {
     @IsInt(ADDRESS_VALIDATION.pincode)
     @IsNotEmpty(ADDRESS_VALIDATION.pincode)
     pincode: number;
+}
+
+@InputType() 
+export class OrderDetailInput {
+
+    @Field({ nullable: true })
+    @IsMongoId({message: OrderInputConstant.pickupId.message})
+    courierId?: string;
+
+    @Field({ nullable: true })
+    awb?: string;
 }

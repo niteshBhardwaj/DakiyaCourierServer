@@ -2,7 +2,7 @@ import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { type Order, OrderStatus, PrismaClient } from '@prisma/client';
-import { CreateOrderInput } from '~/graphql-type/args/order.input';
+import { CreateOrderInput, OrderDetailInput } from '~/graphql-type/args/order.input';
 import { badRequestException, badUserInputException } from '~/utils/exceptions.util';
 import CourierPartnerService from './courier-partners.service';
 import CounterService from './counter.service';
@@ -11,6 +11,7 @@ import { PrismaSelect } from '@paljs/plugins/dist/select';
 import { GraphQLResolveInfo } from 'graphql';
 import { OrderInputConstant } from '~/constants';
 import { createOrderSelector } from '~/db-selectors/order.selector';
+import { OffsetInput } from '~/graphql-type/args/common.input';
 
 @Service()
 export default class OrderService {
@@ -22,6 +23,32 @@ export default class OrderService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
 
+  public async getOrderDetail({ input, userId }: { input: OrderDetailInput, userId: string}, info: GraphQLResolveInfo) {
+    const select = new PrismaSelect(info as any).value
+    const where = {} as Record<string, any>;
+    if(!(input.awb || input.courierId)) {
+      throw badRequestException('Please provide awb id.')
+    }
+    if(input.courierId) {
+      where.id = input.courierId;
+    } else if(input.awb) {
+      where.awb = input.awb;
+    }
+
+    // TODO:// remove some of the field if user is not logged in;
+
+    const data = await this.prisma.order.findFirst({
+      where,
+      ...select
+    })
+
+    if(!data) {
+      throw badUserInputException('Courier not found.')
+    }
+    console.log(data)
+    return data as unknown as OrderType;
+  }
+
   public async getOrderCount({ userId, where } : { userId: string, where?: Record<string, any> }) {
     
     return this.prisma.order.count({
@@ -31,7 +58,7 @@ export default class OrderService {
       }
     })
   }
-  public async getOrderList({ input, userId} : { input: any; userId: string }, info: GraphQLResolveInfo) {
+  public async getOrderList({ input, userId} : { input: OffsetInput; userId: string }, info: GraphQLResolveInfo) {
     const { take = 10, skip = 0 } = input
     const select = new PrismaSelect(info as any).value
     const orders = await this.prisma.order.findMany({
@@ -51,7 +78,6 @@ export default class OrderService {
     const courier = await this.prisma.courierPartner.findFirst();
     const courierId = courier?.id
     const { orderId, awb } = (await this.counterService.generateAwbAndOrderId({ count: 1 }))[0];
-    console.log('userinput', input)
     let order;
     try {
     order = await this.prisma.order.create({

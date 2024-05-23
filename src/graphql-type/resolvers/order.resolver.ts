@@ -2,7 +2,7 @@ import { type UserContext } from '~/interfaces/auth.interface';
 import { Inject, Service } from 'typedi';
 import { Arg, Authorized, Ctx, Info, Mutation, Query, Resolver } from 'type-graphql';
 import { QUERY_DESC, REQUEST } from '~/constants';
-import { CreateOrderInput } from '../args/order.input';
+import { CreateOrderInput, OrderDetailInput } from '../args/order.input';
 import OrderService from '~/services/order.service';
 import { OrderType } from '../typedefs/order.type';
 import { OffsetInput } from '../args/common.input';
@@ -14,7 +14,18 @@ export class orderResolver {
   @Inject()
   orderService: OrderService;
 
-@Authorized()
+  @Query(() => OrderType, {
+    description: QUERY_DESC.CREATE_ORDER,
+  })
+  async getOrderDetails(
+    @Arg(REQUEST) args: OrderDetailInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+    @Info() info: GraphQLResolveInfo,
+    ): Promise<OrderType> {
+    return this.orderService.getOrderDetail({input: args, userId }, info);
+  }
+
+  @Authorized()
   @Query(() => [OrderType], {
     description: QUERY_DESC.CREATE_ORDER,
   })
