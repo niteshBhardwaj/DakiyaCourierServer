@@ -1,8 +1,8 @@
 import LoggerInstance from '~/plugins/logger';
 import Container, { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
-import { AppConfig, PincodeAvailability, PrismaClient, RateCard } from '@prisma/client';
-import { PincodeServiceabilityInput, RateCalculatorInput } from '~/graphql-type/args/order.input';
+import { AppConfig, PrismaClient, RateCard } from '@prisma/client';
+import { RateCalculatorInput } from '~/graphql-type/args/order.input';
 import { APP_CONFIG, LOGGER, PRISMA, RATE_CARDS } from '~/constants';
 import { addTaxesCodCharges, findZoneAndAmount, getActualWeight } from '~/utils';
 import { badUserInputException } from '~/utils/exceptions.util';
@@ -55,7 +55,6 @@ export default class RateCalculatorService {
 
     // get actual price breakup
     const priceBreakup = addTaxesCodCharges({ amount, appConfig: appConfig[0], paymentMode, codAmount });
-    // console.log(JSON.stringify(pincodeInfo, null, 2))
     return {
       chargedWeight,
       zone,

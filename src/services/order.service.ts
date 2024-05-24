@@ -45,7 +45,6 @@ export default class OrderService {
     if(!data) {
       throw badUserInputException('Courier not found.')
     }
-    console.log(data)
     return data as unknown as OrderType;
   }
 

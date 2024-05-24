@@ -22,7 +22,8 @@ export default [
         "name": "Chandigarh",
         "countryCode": "IN",
         "tags": [
-            "UT"
+            "UT",
+            "City"
         ]
     },
     {
@@ -30,6 +31,7 @@ export default [
         "name": "Delhi",
         "countryCode": "IN",
         "tags": [
+            "City",
             "Metro",
             "UT"
         ]
@@ -115,7 +117,8 @@ export default [
         "name": "Pondicherry",
         "countryCode": "IN",
         "tags": [
-            "UT"
+            "UT",
+            "City"
         ]
     },
     {
