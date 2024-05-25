@@ -87,7 +87,7 @@ export default class OrderService {
         ...input,
         status: OrderStatus.Manifested,
       },
-      ...select
+      select: createOrderSelector
     })
     } catch(e) {
       console.log(e)
