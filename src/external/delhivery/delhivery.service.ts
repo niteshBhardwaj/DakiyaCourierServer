@@ -2,7 +2,7 @@ import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { type CourierPartner, type Order, type PickupAddress, type PickupProvider, PrismaClient } from '@prisma/client';
-import { createOrder, createPickupRequest, createWarehouse, getPincodeServiceability as getPincodeServiceability, updateWarehouse } from './utils/http.delhivery.utils';
+import { createOrder, createPickupRequest, createWarehouse, getPincodeServiceability as getPincodeServiceability, getTracking, updateWarehouse } from './utils/http.delhivery.utils';
 import { EVENTS } from '~/constants';
 import { PickupResponseType } from './delhivery.type';
 import { checkPickupForGivenDate } from './utils/pickup.delhivery.utils';
@@ -74,6 +74,21 @@ export default class DelhiveryService {
     return data;
   }
 
+  public async getTrackingDetails({ packageList, updateRecord }: { packageList: { waybill: string }[], updateRecord?: boolean }) {
+
+    const trackings = await getTracking({ waybill: packageList.map(({ waybill }) => waybill).join(',') })
+    if(trackings) {
+        const trackingList = isArray(trackings) ? trackings: [trackings];
+
+        if(updateRecord) {
+          this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
+            trackingList
+          })
+        }
+        return trackingList;
+    }
+  }
+
   public async createOrder({ order, courierPartner }: { order: Order & { pickupAddress: PickupAddress & { pickupProvider: PickupProvider[] } }, courierPartner: CourierPartner }) {
     const { id: courierId } = courierPartner;
     try {
@@ -83,11 +98,6 @@ export default class DelhiveryService {
       const { data: responseData, orderData } = await createOrder({ orderData: order })
       if (!orderData) {
         throw new Error(responseData)
-      }
-      const orderUpdatedData = {
-        ...orderData.map(({ waybill }: { waybill: string }) => ({ waybill }))[0],
-        courierId,
-        courierResponseJson: responseData
       }
 
       const pickupProvider = order.pickupAddress.pickupProvider[0];
@@ -117,6 +127,16 @@ export default class DelhiveryService {
           id: pickupProvider.id,
           updateData
         })
+      }
+      const packageList = orderData.map(({ waybill }: { waybill: string }) => ({ waybill }));
+      const orderUpdatedData = {
+        ...packageList[0],
+        courierId,
+        courierResponseJson: responseData
+      }
+      const trackingDetails = await this.getTrackingDetails({ packageList, updateRecord: false })
+      if(trackingDetails) {
+        orderUpdatedData.tracking = trackingDetails[0].scans
       }
       // update order after created
       this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {

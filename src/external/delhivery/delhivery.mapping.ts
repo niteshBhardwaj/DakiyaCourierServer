@@ -114,3 +114,27 @@ export const pickupMapping = {
         "packageCount": package_count
     }`
 }
+
+export const trackingMapping = {
+    responseMapping: `$map(ShipmentData, function($item) {
+        {
+            "waybill": $item.Shipment.AWB,
+            "expectedDeliveryDate": $item.Shipment.ExpectedDeliveryDate,
+            "firstAttemptDate": $item.Shipment.FirstAttemptDate,
+            "promisedDeliveryDate": $item.Shipment.PromisedDeliveryDate,
+            "outDestinationDate": $item.Shipment.OutDestinationDate,
+            "rtoStartDate": $item.Shipment.RTOStartedDate,
+            "destinationRecieveDate": $item.Shipment.DestRecieveDate,
+            "ReverseInTransit": $item.Shipment.ReverseInTransit,
+            "scans": $map($item.Shipment.Scans, function($scan) {
+                {
+                    "dateTime": $scan.ScanDetail.ScanDateTime,
+                    "location": $scan.ScanDetail.ScannedLocation,
+                    "type": $scan.ScanDetail.ScanType,
+                    "status": $scan.ScanDetail.Scan,
+                    "instructions": $scan.ScanDetail.Instructions
+                }
+            })
+        }
+        })`
+}

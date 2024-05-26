@@ -10,6 +10,9 @@ export const EVENTS = {
     CREATED: 'onOrderCreated',
     UPDATE: 'onOrderUpdated',
   },
+  TRACKING: {
+    UPDATE: 'updateTracking'
+  },
   PICKUP_PROVIDER: {
     CREATED: 'onPickupProviderCreated',
     UPDATED: 'onPickupProviderUpdated',

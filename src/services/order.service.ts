@@ -9,7 +9,6 @@ import CounterService from './counter.service';
 import { OrderType } from '~/graphql-type/typedefs/order.type';
 import { PrismaSelect } from '@paljs/plugins/dist/select';
 import { GraphQLResolveInfo } from 'graphql';
-import { OrderInputConstant } from '~/constants';
 import { createOrderSelector } from '~/db-selectors/order.selector';
 import { OffsetInput } from '~/graphql-type/args/common.input';
 
@@ -114,6 +113,31 @@ export default class OrderService {
       ...select
     }) 
     return order as unknown as OrderType
+  }
+
+  public async getTracking({ input } : { input: CreateOrderInput, userId: string; }, info: GraphQLResolveInfo) {
+
+    const order = await this.prisma.order.findFirst({
+      where: {
+        id: input.courierId
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        currentStatusExtra: true,
+        tracking: {
+          orderBy: {
+            dateTime: 'asc'
+          }
+        }
+      }
+    })
+
+    if(!order) {
+      throw badUserInputException('Order not found')
+    }
+    
+    return order.tracking
   }
 
   public async updateOrder({ data, id} : { data: Order; id: string }) {

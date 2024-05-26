@@ -350,7 +350,7 @@ model Order {
 
   courierResponseJson Json?
 
-  tracking TrackingStates[]
+  tracking Tracking[]
   Ticket   Ticket[]
 
   user   User   @relation(fields: [userId], references: [id])
@@ -448,18 +448,22 @@ model DropAddress {
 }
 
 type CurrentStatusExtra {
-  remarks        String?
-  status         String?
-  statusDateTime DateTime?
-  statusType     String?
+  instructions String?
+  status   String?
+  dateTime DateTime?
+  type     String?
+  lastChecked    DateTime?
 }
 
-type TrackingStates {
-  location      String
-  scan          String
-  scanDateTime  String
-  scanNslRemark String
-  scanType      String
+model Tracking {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  Order        Order     @relation(fields: [orderId], references: [id])
+  orderId      String    @db.ObjectId
+  location     String?
+  type         String?
+  status       String?
+  dateTime     DateTime?
+  instructions String?
 }
 
 model Wallet {

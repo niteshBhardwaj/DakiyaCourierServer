@@ -7,6 +7,7 @@ import OrderService from '~/services/order.service';
 import { OrderType } from '../typedefs/order.type';
 import { OffsetInput } from '../args/common.input';
 import { type GraphQLResolveInfo } from 'graphql';
+import { TrackingInput } from '../typedefs/tracking.input';
 
 @Service()
 @Resolver()
@@ -23,6 +24,17 @@ export class orderResolver {
     @Info() info: GraphQLResolveInfo,
     ): Promise<OrderType> {
     return this.orderService.getOrderDetail({input: args, userId }, info);
+  }
+
+  @Query(() => [TrackingInput], {
+    description: QUERY_DESC.CREATE_ORDER,
+  })
+  async getTracking(
+    @Arg(REQUEST) args: OrderDetailInput,
+    @Ctx() { user: { userId } }: { user: UserContext },
+    @Info() info: GraphQLResolveInfo,
+    ): Promise<TrackingInput[]> {
+    return this.orderService.getTracking({input: args, userId }, info);
   }
 
   @Authorized()

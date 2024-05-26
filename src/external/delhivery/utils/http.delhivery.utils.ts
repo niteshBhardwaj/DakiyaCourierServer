@@ -1,7 +1,7 @@
 import jsonata from "jsonata";
 import { env } from "~/plugins/config";
 import { DELIVERY_API_URL } from "../delhivery.constant";
-import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping } from "../delhivery.mapping";
+import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping, trackingMapping } from "../delhivery.mapping";
 import { httpGet, httpPost } from "~/utils";
 import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
 import delhiveryPincode from '../../../../prisma/seed/data/delivery-pincode'
@@ -19,7 +19,7 @@ const getAuthHeader = () => {
 }
 
 export const createRequest = ({ path, queryString }: { path: string; queryString?: string; }) => {
-    const url = `${getUrl(path)}?${queryString ? `&${queryString}` : ''}`;
+    const url = `${getUrl(path)}${queryString ? `?${queryString}` : ''}`;
     return {url, headers: getAuthHeader()};
 }
 
@@ -110,6 +110,22 @@ export const createOrder = async ({ orderData }: { orderData: any }) => {
             data: null,
             orderData: null
         }
+    }
+}
+
+export const getTracking = async ({ waybill }: { waybill: string }) => {
+    try {
+        const {url, headers} = createRequest({ path: DELIVERY_API_URL.TRACKING, queryString: `waybill=${waybill}` });
+        const { data } = await httpGet(url, { headers });
+        if (data?.ShipmentData?.length) {
+            const { responseMapping } = trackingMapping;
+            const expression = jsonata(responseMapping);
+            const trackingData = await expression.evaluate(data?.ShipmentData);
+            return trackingData;
+        } 
+        throw new Error('shipments not found');
+    } catch (error) {
+        console.log(error);
     }
 }
 
