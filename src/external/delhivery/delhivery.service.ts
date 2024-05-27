@@ -74,9 +74,9 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async getTrackingDetails({ packageList, updateRecord }: { packageList: { waybill: string }[], updateRecord?: boolean }) {
+  public async getTrackingDetails({ orders }: { orders: { waybill: string }[] }) {
 
-    const trackings = await getTracking({ waybill: packageList.map(({ waybill }) => waybill).join(',') })
+    const trackings = await getTracking({ waybill: orders.map(({ waybill }) => waybill).join(',') })
     if(trackings) {
         const trackingList = isArray(trackings) ? trackings: [trackings];
 
@@ -134,7 +134,7 @@ export default class DelhiveryService {
         courierId,
         courierResponseJson: responseData
       }
-      const trackingDetails = await this.getTrackingDetails({ packageList, updateRecord: false })
+      const trackingDetails = await this.getTrackingDetails({ orders: packageList })
       if(trackingDetails) {
         orderUpdatedData.tracking = trackingDetails[0].scans
       }

@@ -6,6 +6,7 @@ import { CourierIdInput } from '~/graphql-type/args/courier-partner.input';
 import { badRequestException } from '~/utils/exceptions.util';
 import { CourierSlugType, EVENTS_ACTIONS, checkEventAvailability, getCourierEvent } from '~/external/events';
 import { COURIER_PARTNER, LOGGER, PRISMA } from '~/constants';
+import { withResolvers } from '~/utils';
 
 @Service()
 export default class CourierPartnerService {
@@ -58,14 +59,15 @@ export default class CourierPartnerService {
     this.eventDispatcher.dispatch(event, dataCollection);
   }
 
-  public async getTracking({ order, courierId }: { order: Order, courierId: string }) {
+  public async getTracking({ orders, courierId }: { orders: Pick<Order, "id" | "waybill"> & { lastStatusDateTime: typeof Date; }, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
     const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.TRACKING);
     if(!event) {
       return;
     }
-    const dataCollection = { order, courierPartnerInfo } as Record<string, any>;
-    this.eventDispatcher.dispatch(event, dataCollection);
+    const { promise, resolve, reject } = withResolvers();
+    this.eventDispatcher.dispatch(event, { orders, courierPartnerInfo, resolve, reject });
+    return promise;
   }
 
   public async pickupRequest({ pickupRequest, courierId }: { pickupRequest: Order, courierId: string }) {

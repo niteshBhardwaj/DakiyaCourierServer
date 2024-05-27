@@ -115,7 +115,7 @@ export default class OrderService {
     return order as unknown as OrderType
   }
 
-  public async getTracking({ input } : { input: CreateOrderInput, userId: string; }, info: GraphQLResolveInfo) {
+  public async getTracking({ input } : { input: OrderDetailInput, userId: string; }, info: GraphQLResolveInfo) {
 
     const order = await this.prisma.order.findFirst({
       where: {
@@ -125,6 +125,8 @@ export default class OrderService {
         id: true,
         createdAt: true,
         currentStatusExtra: true,
+        courierId: true,
+        waybill: true,
         tracking: {
           orderBy: {
             dateTime: 'asc'
@@ -136,6 +138,7 @@ export default class OrderService {
     if(!order) {
       throw badUserInputException('Order not found')
     }
+    const data = this.courierPartnerService.getTracking({ orders: [{ id: order.id, waybill: order.waybill, lastStatusDateTime: order?.currentStatusExtra.dateTime ?? order.createdAt  }], courierId: order.courierId });
     
     return order.tracking
   }

@@ -26,4 +26,9 @@ export default class DelhiverySubscriber {
     this.delhiveryService.loadPincode(data);
   }
 
+  @On(event[EVENTS_ACTIONS.TRACKING])
+  public tracking(data: any) {
+    this.delhiveryService.getTrackingDetails(data);
+  }
+
 }
