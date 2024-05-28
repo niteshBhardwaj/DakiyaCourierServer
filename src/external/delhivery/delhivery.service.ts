@@ -74,18 +74,29 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async getTrackingDetails({ orders }: { orders: { waybill: string }[] }) {
-
-    const trackings = await getTracking({ waybill: orders.map(({ waybill }) => waybill).join(',') })
+  public async getTrackingDetails({ orders, resolve }: { orders: { waybill: string, id: string; lastStatusDateTime: Date}[], resolve?: Function }) {
+    const trackingMapping = orders.reduce((acc, data) => {
+      acc[data.waybill] = data
+      return acc
+    }, {});
+    const trackings = await getTracking({ waybill: Object.keys(trackingMapping).join(',') })
     if(trackings) {
-        const trackingList = isArray(trackings) ? trackings: [trackings];
+      const trackingList = (isArray(trackings) ? trackings: [trackings]).map((tracking) => {
+        return {
+          ...tracking,
+          ...trackingMapping[tracking.waybill]}
+      });
 
-        if(updateRecord) {
-          this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
-            trackingList
-          })
+        this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
+          trackingList
+        })
+        if(resolve) {
+          resolve(trackingList)
         }
-        return trackingList;
+      return trackingList;
+    } else {
+      resolve(null);
+      return null;
     }
   }
 

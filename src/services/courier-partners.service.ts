@@ -59,7 +59,7 @@ export default class CourierPartnerService {
     this.eventDispatcher.dispatch(event, dataCollection);
   }
 
-  public async getTracking({ orders, courierId }: { orders: Pick<Order, "id" | "waybill"> & { lastStatusDateTime: typeof Date; }, courierId: string }) {
+  public async getTracking({ orders, courierId }: { orders: Pick<Order, "id" | "waybill"> & { lastStatusDateTime: Date; }, courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
     const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.TRACKING);
     if(!event) {

@@ -115,6 +115,24 @@ export const pickupMapping = {
     }`
 }
 
+export type TrackingMappingType = {
+    waybill: string;
+    expectedDeliveryDate: string;
+    firstAttemptDate: string;
+    promisedDeliveryDate: string;
+    outDestinationDate: string;
+    rtoStartDate: string;
+    destinationRecieveDate: string;
+    reverseInTransit: boolean;
+    scans: Array<{
+        dateTime: string;
+        location: string;
+        type: string;
+        status: string;
+        instructions: string;
+    }>;
+}
+
 export const trackingMapping = {
     responseMapping: `$map(ShipmentData, function($item) {
         {
@@ -125,7 +143,7 @@ export const trackingMapping = {
             "outDestinationDate": $item.Shipment.OutDestinationDate,
             "rtoStartDate": $item.Shipment.RTOStartedDate,
             "destinationRecieveDate": $item.Shipment.DestRecieveDate,
-            "ReverseInTransit": $item.Shipment.ReverseInTransit,
+            "reverseInTransit": $item.Shipment.ReverseInTransit,
             "scans": $map($item.Shipment.Scans, function($scan) {
                 {
                     "dateTime": $scan.ScanDetail.ScanDateTime,

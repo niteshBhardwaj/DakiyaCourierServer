@@ -4,7 +4,7 @@ type HttpOptions = { method?: METHOD; body?: string | object, headers?: object, 
 export const httpRequest = async (url: string, { method = METHOD.POST, body = {}, headers = {}, responseType = 'json'}: HttpOptions) => {
     const request = await fetch(url, {
         method: method,
-        body: typeof body === 'string' ? body : JSON.stringify(body),
+        body: method === METHOD.GET ? undefined : typeof body === 'string' ? body : JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json',
             ...headers

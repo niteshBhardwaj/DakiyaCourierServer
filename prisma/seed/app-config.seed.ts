@@ -7,6 +7,10 @@ export async function addConfig() {
     if (configCount < 1) {
         const configAdded = await prisma.appConfig.createMany({
             data: {
+                trackingRefresh: {
+                    single: 10, // in minutes
+                    all: 60 * 3
+                },
                 codCharges: {
                     minimum: "40",
                     percentage: "2"

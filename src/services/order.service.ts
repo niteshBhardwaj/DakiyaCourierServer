@@ -138,8 +138,8 @@ export default class OrderService {
     if(!order) {
       throw badUserInputException('Order not found')
     }
-    const data = this.courierPartnerService.getTracking({ orders: [{ id: order.id, waybill: order.waybill, lastStatusDateTime: order?.currentStatusExtra.dateTime ?? order.createdAt  }], courierId: order.courierId });
-    
+    const data = await this.courierPartnerService.getTracking({ orders: [{ id: order.id, waybill: order.waybill, lastStatusDateTime: order?.currentStatusExtra?.dateTime ?? order.createdAt  }], courierId: order.courierId });
+    console.log(data);
     return order.tracking
   }
 

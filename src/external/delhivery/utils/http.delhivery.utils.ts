@@ -1,7 +1,7 @@
 import jsonata from "jsonata";
 import { env } from "~/plugins/config";
 import { DELIVERY_API_URL } from "../delhivery.constant";
-import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping, trackingMapping } from "../delhivery.mapping";
+import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping, trackingMapping, TrackingMappingType } from "../delhivery.mapping";
 import { httpGet, httpPost } from "~/utils";
 import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
 import delhiveryPincode from '../../../../prisma/seed/data/delivery-pincode'
@@ -120,10 +120,9 @@ export const getTracking = async ({ waybill }: { waybill: string }) => {
         if (data?.ShipmentData?.length) {
             const { responseMapping } = trackingMapping;
             const expression = jsonata(responseMapping);
-            const trackingData = await expression.evaluate(data?.ShipmentData);
-            return trackingData;
-        } 
-        throw new Error('shipments not found');
+            const trackingData = await expression.evaluate(data);
+            return trackingData as TrackingMappingType;
+        }
     } catch (error) {
         console.log(error);
     }
