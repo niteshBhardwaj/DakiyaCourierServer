@@ -21,14 +21,17 @@ jobs:
         with:
           bun-version: latest
 
-      - name: bun install and build
-        run: |
-          bun install
-          bun generate
+      # - name: bun install and build
+      #   run: |
+      #     bun install
+      #     bun generate
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip .
-
+        run: |
+          zip -r release.zip .
+          echo "Size of release.zip:"
+          du -h release.zip
+          
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
