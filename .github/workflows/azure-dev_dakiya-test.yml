@@ -15,17 +15,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Bun version
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
 
-      - name: bun install, build
+      - name: bun install and build
         run: |
           bun install
           bun generate
+
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip .
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -40,7 +42,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
@@ -50,7 +52,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -58,13 +60,12 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E6DDE4A4DEFA4896A108A2E4CEB112F0 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E7F0B027D3FE4E25AF60F7F101A0F50E }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'dakiya-test'
-          slot-name: 'Production'
-          package: .
+          package: release.zip
           env:
             ASSET_HOST: ${{ vars.ASSET_HOST }}
             FILE_UPLOAD_HOST: ${{ vars.FILE_UPLOAD_HOST }}
