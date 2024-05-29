@@ -16,16 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Set up Bun version
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version: '20.x'
+            bun-version: latest
 
-      - name: npm install, build, and test
+      - name: bun install, build
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          bun install
+          bun generate
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -68,4 +67,20 @@ jobs:
           app-name: 'dakiya-test'
           slot-name: 'Production'
           package: .
+          env:
+            ASSET_HOST: ${{ vars.ASSET_HOST }}
+            FILE_UPLOAD_HOST: ${{ vars.FILE_UPLOAD_HOST }}
+            HOST: ${{ vars.HOST }}
+            LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+            NODE_ENV: ${{ vars.NODE_ENV }}
+            PORT: ${{ vars.PORT }}
+            WIN_LOG_LEVEL: ${{ vars.WIN_LOG_LEVEL }}
+          app-settings: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DELHIVERY_HOST=${{ secrets.OTHER_SETTING }}
+            DELHIVERY_TOKEN=${{ secrets.DELHIVERY_TOKEN }}
+            KYC_API_KEY=${{ secrets.KYC_API_KEY }}
+            MAILER_EMAIL=${{ secrets.MAILER_EMAIL }}
+            MAILER_PASSWORD=${{ secrets.MAILER_PASSWORD }}
+            SMS_API_KEY=${{ secrets.SMS_API_KEY }}
           
