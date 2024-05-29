@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Bun version
-      - uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
 
