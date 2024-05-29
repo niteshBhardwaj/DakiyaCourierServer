@@ -74,10 +74,10 @@ jobs:
           NODE_ENV: ${{ vars.NODE_ENV }}
           PORT: ${{ vars.PORT }}
           WIN_LOG_LEVEL: ${{ vars.WIN_LOG_LEVEL }}
-          DATABASE_URL=${{ secrets.DATABASE_URL }}
-          DELHIVERY_HOST=${{ secrets.OTHER_SETTING }}
-          DELHIVERY_TOKEN=${{ secrets.DELHIVERY_TOKEN }}
-          KYC_API_KEY=${{ secrets.KYC_API_KEY }}
-          MAILER_EMAIL=${{ secrets.MAILER_EMAIL }}
-          MAILER_PASSWORD=${{ secrets.MAILER_PASSWORD }}
-          SMS_API_KEY=${{ secrets.SMS_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DELHIVERY_HOST: ${{ secrets.OTHER_SETTING }}
+          DELHIVERY_TOKEN: ${{ secrets.DELHIVERY_TOKEN }}
+          KYC_API_KEY: ${{ secrets.KYC_API_KEY }}
+          MAILER_EMAIL: ${{ secrets.MAILER_EMAIL }}
+          MAILER_PASSWORD: ${{ secrets.MAILER_PASSWORD }}
+          SMS_API_KEY: ${{ secrets.SMS_API_KEY }}
