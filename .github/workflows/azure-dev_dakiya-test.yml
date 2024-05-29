@@ -18,13 +18,12 @@ jobs:
       - name: Set up Bun version
       - uses: oven-sh/setup-bun@v1
         with:
-            bun-version: latest
+          bun-version: latest
 
       - name: bun install, build
         run: |
           bun install
           bun generate
-
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
@@ -82,4 +81,3 @@ jobs:
             MAILER_EMAIL=${{ secrets.MAILER_EMAIL }}
             MAILER_PASSWORD=${{ secrets.MAILER_PASSWORD }}
             SMS_API_KEY=${{ secrets.SMS_API_KEY }}
-          
