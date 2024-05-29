@@ -74,7 +74,6 @@ jobs:
           NODE_ENV: ${{ vars.NODE_ENV }}
           PORT: ${{ vars.PORT }}
           WIN_LOG_LEVEL: ${{ vars.WIN_LOG_LEVEL }}
-        app-settings: |
           DATABASE_URL=${{ secrets.DATABASE_URL }}
           DELHIVERY_HOST=${{ secrets.OTHER_SETTING }}
           DELHIVERY_TOKEN=${{ secrets.DELHIVERY_TOKEN }}
