@@ -152,4 +152,8 @@ export default class OrderService {
     })
   }
 
+  public async updateTracking({ data, id} : { data: any; id: string }) {
+    
+  }
+
 }

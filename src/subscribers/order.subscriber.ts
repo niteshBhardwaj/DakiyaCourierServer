@@ -19,4 +19,9 @@ export default class PincodeSubscriber {
   public updateOrder({ data, id }: { data: Order; id: string }) {
     this.orderService.updateOrder({ data, id });
   }
+
+  @On(EVENTS.TRACKING.UPDATE)
+  public updateTracking({ data, id }: { data: Order; id: string }) {
+    this.orderService.updateTracking({ data, id });
+  }
 }

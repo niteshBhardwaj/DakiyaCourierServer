@@ -85,7 +85,7 @@ export default class DelhiveryService {
         return {
           ...tracking,
           ...trackingMapping[tracking.waybill]}
-      });
+      }).filter(tracking => checkDateIsBefore(tracking.scans[tracking.scans.length - 1].dateTime, tracking.lastStatusDateTime));
 
         this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
           trackingList
