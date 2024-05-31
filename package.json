@@ -15,10 +15,10 @@
     "dev": "bun --watch src/app.ts",
     "devi": "bun --watch --inspect src/app.ts",
     "pretest": "npm run build",
-    "generate": "bunx prisma format && npx prisma generate",
+    "generate": "bun prisma format && bun prisma generate",
     "seed": "bunx prisma db seed",
-    "studio": "bunx prisma studio --port 5000 --browser none",
-    "rebuild-bcrypt": "npm rebuild bcrypt",
+    "studio": "bun prisma studio --port 5000 --browser none",
+    "rebuild-bcrypt": "bun rebuild bcrypt",
     "test": "NODE_ENV=test tap",
     "test:watch": "NODE_ENV=test tap -w"
   },

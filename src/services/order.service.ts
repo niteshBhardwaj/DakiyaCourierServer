@@ -143,6 +143,10 @@ export default class OrderService {
     return order.tracking
   }
 
+  public async checkAllActiveOrdersTracking({ data, id} : { data: Order; id: string }) {
+    // return this.prisma.order.find()
+  }
+
   public async updateOrder({ data, id} : { data: Order; id: string }) {
     return this.prisma.order.update({
       where: {

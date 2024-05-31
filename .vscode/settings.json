@@ -3,5 +3,7 @@
     ],
     "files.exclude": {
         "**/prisma/seed/data": true
-    }
+    },
+    "IDX.aI.enableInlineCompletion": true,
+    "IDX.aI.enableCodebaseIndexing": true
 }
