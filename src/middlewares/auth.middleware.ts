@@ -4,13 +4,13 @@ import { type AuthChecker } from 'type-graphql';
 import { AuthContext, ContextInvalidToken, UserContext } from '~/interfaces/auth.interface';
 import LoggerInstance from '~/plugins/logger';
 import TokenService from '~/services/token.service';
-import { FastifyRequest } from 'fastify';
 import { badRequestException } from '~/utils/exceptions.util';
+import { HonoRequest } from 'hono';
 
 // Verify a user's token.
-export const authMiddleware = async (req: FastifyRequest) => {
+export const authMiddleware = async (req: HonoRequest) => {
   try {
-    const authorization = req?.headers?.authorization?.split('Bearer ')[1];
+    const authorization = req?.header?.authorization?.split('Bearer ')[1];
     if (authorization) {
       const tokenService = Container.get(TokenService);
       const {id: userId, t: userType} = await tokenService.verifyToken(authorization)
