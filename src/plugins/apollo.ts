@@ -1,5 +1,4 @@
 import LoggerInstance from '~/plugins/logger';
-import { FastifyInstance, FastifyRequest } from 'fastify';
 import { buildSchema } from 'type-graphql';
 import resolvers from '~/graphql-type/resolvers';
 import { authChecker } from '~/middlewares/auth.middleware';
@@ -7,11 +6,12 @@ import Container from 'typedi';
 import { MSG_SERVER_STARTUP } from '~/constants';
 import { formatError } from '~/middlewares/error.middleware';
 import { apolloContext } from '~/middlewares/user.middleware';
-import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastify';
 import { ApolloServer } from '@apollo/server';
 import GraphQLJSON from 'graphql-type-json';
+import { HonoBase } from 'hono/hono-base';
+import { honoApollo } from './hono-apollo';
 
-export default async (app: FastifyInstance) => { 
+export default async (app: HonoBase) => { 
   const schema = await buildSchema({
     resolvers,
     authChecker,
@@ -26,7 +26,6 @@ export default async (app: FastifyInstance) => {
     schema,
     formatError,
     plugins: [
-      fastifyApolloDrainPlugin(app),
       {
         async serverWillStart() {
           LoggerInstance.info(MSG_SERVER_STARTUP);
@@ -36,11 +35,12 @@ export default async (app: FastifyInstance) => {
     introspection: true, //config.NODE_ENV !== 'production'
     //csrfPrevention: true,
   });
+
   // Starts the server.
   await apollo.start();
-  await app.register(fastifyApollo(apollo), {
-    //@ts-ignore
-    context: apolloContext,
-  });
+  app.route(
+    '/graphql',
+    honoApollo(apollo, async ctx => apolloContext(ctx)),
+  );
   return apollo;
 };

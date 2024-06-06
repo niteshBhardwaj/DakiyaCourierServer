@@ -11,10 +11,16 @@ datasource db {
 }
 
 model AppConfig {
-  id           String         @id @default(auto()) @map("_id") @db.ObjectId
-  codCharges   CODCharges
-  taxCharges   TaxCharges[]
-  extraCharges ExtraCharges[] // Diesel Price Hike (DPH)
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  codCharges      CODCharges
+  taxCharges      TaxCharges[]
+  extraCharges    ExtraCharges[] // Diesel Price Hike (DPH)
+  trackingRefresh TrackingRefresh
+}
+
+type TrackingRefresh {
+  single Int
+  all    Int
 }
 
 model User {
@@ -449,10 +455,10 @@ model DropAddress {
 
 type CurrentStatusExtra {
   instructions String?
-  status   String?
-  dateTime DateTime?
-  type     String?
-  lastChecked    DateTime?
+  status       String?
+  dateTime     DateTime?
+  type         String?
+  lastChecked  DateTime?
 }
 
 model Tracking {

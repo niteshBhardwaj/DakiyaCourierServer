@@ -1,4 +1,4 @@
-export const MSG_SERVER_STARTUP = 'Server starting up!';
+export const MSG_SERVER_STARTUP = 'Apollo Server starting up!';
 export const MSG_DEP_LOADED = '✌️ dependency loaded';
 export const REQUEST = 'request';
 export enum CountryCode {

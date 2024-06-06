@@ -1,8 +1,6 @@
 import { CONFIG_ERRORS } from './../constants/errors.constant';
 import "dotenv/config";
-import fp from "fastify-plugin";
-import { FastifyPluginAsync } from "fastify";
-import { Optional, Static, Type } from "@sinclair/typebox";
+import { Static, Type } from "@sinclair/typebox";
 import Ajv from "ajv";
 
 export enum NodeEnv {
@@ -15,8 +13,8 @@ const ConfigSchema = Type.Strict(
   Type.Object({
     NODE_ENV: Type.Enum(NodeEnv),
     LOG_LEVEL: Type.String(),
-    // HOST: Type.String().Optional(),
-    // PORT: Type.Number().Optional(),
+    HOST: Type.Optional(Type.String()),
+    PORT: Type.Optional(Type.Number()),
     DATABASE_URL: Type.String(),
   })
 );
@@ -32,7 +30,7 @@ const ajv = new Ajv({
 export type Config = Static<typeof ConfigSchema>;
 
 // Validate the config
-const configPlugin: FastifyPluginAsync = async (server) => {
+const configPlugin = async (server) => {
   const validate = ajv.compile(ConfigSchema);
   const valid = validate(process.env);
   if (!valid) {
@@ -41,13 +39,4 @@ const configPlugin: FastifyPluginAsync = async (server) => {
   server.decorate("config", process.env as any);
 };
 
-declare module "fastify" {
-  interface FastifyInstance {
-    config: Config;
-  }
-  interface FastifyRequest {
-    isMultipart: boolean;
-  }
-}
 export const env = process.env;
-export default fp(configPlugin);

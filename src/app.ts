@@ -1,24 +1,11 @@
 import "reflect-metadata";
-import fastify, { FastifyInstance } from 'fastify';
 import loaders, { loadAppData } from "./plugins/loaders";
-
-const fastifyOption: any = {
-  ajv: {
-    customOptions: {
-      removeAdditional: "all",
-      coerceTypes: true,
-      useDefaults: true,
-    }
-  },
-  // logger: {
-  //   level: process.env.LOG_LEVEL,
-  // },
-};
+import hono from "./plugins/hono";
 
 const startApp = async () => {
-  const app = fastify(fastifyOption) as unknown as FastifyInstance;
+  const app = await hono();
   await loaders({ app });
-  await app.ready();
+  await loadAppData();
 
   if (process.env.NODE_ENV !== 'test') {
     process.on('unhandledRejection', (err) => {
@@ -26,13 +13,13 @@ const startApp = async () => {
       process.exit(1);
     });
 
-    void app.listen(
-      { port: app.config.PORT ?? 5050, host: app?.config?.HOST },
-      (_err, address) => {
-        loadAppData();
-        console.log(`Server started at: ${address}`);
-      },
-    );
+    // void app.listen(
+    //   { port: app.config.PORT ?? 5050, host: app?.config?.HOST },
+    //   (_err, address) => {
+    //     loadAppData();
+    //     console.log(`Server started at: ${address}`);
+    //   },
+    // );
 
     // for (const signal of ['SIGINT', 'SIGTERM']) {
     //   process.on(signal, () =>
@@ -43,6 +30,9 @@ const startApp = async () => {
     //   );
     // }
   }
-  return app;
+  return {
+    fetch: app.fetch,
+    development: true,
+  }
 }
-export default startApp();
+export default await startApp();

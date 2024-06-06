@@ -1,19 +1,15 @@
+import './events';
 import LoggerInstance from '~/plugins/logger';
 import apolloLoader from './apollo';
-import fastifyLoader from './fastify';
-import './events';
-import { FastifyInstance } from 'fastify';
 import Container from 'typedi';
 import prisma from './prisma';
 import mailer from './mailer';
 import { APP_CONFIG, COURIER_PARTNER, LOGGER, PRISMA, RATE_CARDS } from '~/constants';
-// Initializes the fastify, apollo server and load dependency.
+import { HonoBase } from 'hono/hono-base';
 Container.set(PRISMA, prisma);
 Container.set(LOGGER, LoggerInstance);
 Container.set('mailer', mailer())
-export default async ({ app }: { app: FastifyInstance }) => {
-  //* load fastify routes and other configuration
-  await fastifyLoader({ app });
+export default async ({ app }: { app: HonoBase }) => {
   //* initialize apollo
   await apolloLoader(app);
 

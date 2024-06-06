@@ -74,18 +74,29 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async getTrackingDetails({ packageList, updateRecord }: { packageList: { waybill: string }[], updateRecord?: boolean }) {
-
-    const trackings = await getTracking({ waybill: packageList.map(({ waybill }) => waybill).join(',') })
+  public async getTrackingDetails({ orders, resolve }: { orders: { waybill: string, id: string; lastStatusDateTime: Date}[], resolve?: Function }) {
+    const trackingMapping = orders.reduce((acc, data) => {
+      acc[data.waybill] = data
+      return acc
+    }, {});
+    const trackings = await getTracking({ waybill: Object.keys(trackingMapping).join(',') })
     if(trackings) {
-        const trackingList = isArray(trackings) ? trackings: [trackings];
+      const trackingList = (isArray(trackings) ? trackings: [trackings]).map((tracking) => {
+        return {
+          ...tracking,
+          ...trackingMapping[tracking.waybill]}
+      }).filter(tracking => checkDateIsBefore(tracking.scans[tracking.scans.length - 1].dateTime, tracking.lastStatusDateTime));
 
-        if(updateRecord) {
-          this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
-            trackingList
-          })
+        this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
+          trackingList
+        })
+        if(resolve) {
+          resolve(trackingList)
         }
-        return trackingList;
+      return trackingList;
+    } else {
+      resolve(null);
+      return null;
     }
   }
 
@@ -134,7 +145,7 @@ export default class DelhiveryService {
         courierId,
         courierResponseJson: responseData
       }
-      const trackingDetails = await this.getTrackingDetails({ packageList, updateRecord: false })
+      const trackingDetails = await this.getTrackingDetails({ orders: packageList })
       if(trackingDetails) {
         orderUpdatedData.tracking = trackingDetails[0].scans
       }
