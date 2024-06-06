@@ -5,6 +5,7 @@ import hono from "./plugins/hono";
 const startApp = async () => {
   const app = await hono();
   await loaders({ app });
+  await loadAppData();
 
   if (process.env.NODE_ENV !== 'test') {
     process.on('unhandledRejection', (err) => {
@@ -30,8 +31,8 @@ const startApp = async () => {
     // }
   }
   return {
-    PORT: 8080,
-    fetch: app.fetch
+    fetch: app.fetch,
+    development: true,
   }
 }
 export default await startApp();

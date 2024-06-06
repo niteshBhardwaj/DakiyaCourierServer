@@ -5,7 +5,7 @@ import { logger } from 'hono/logger'
 // Register Hone routes.
 export default async () => {
     const app = new Hono()
-    app.use(logger())
+    app.use(logger());
     app.use(cors({
         origin: '*',
         credentials: true,
