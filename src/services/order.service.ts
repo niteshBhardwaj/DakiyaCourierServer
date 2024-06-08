@@ -1,7 +1,7 @@
 import LoggerInstance from '~/plugins/logger';
-import { Service, Inject } from 'typedi';
+import Container, { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
-import { type Order, OrderStatus, PrismaClient } from '@prisma/client';
+import { type Order, OrderStatus, PrismaClient, AppConfig, Tracking } from '@prisma/client';
 import { CreateOrderInput, OrderDetailInput } from '~/graphql-type/args/order.input';
 import { badRequestException, badUserInputException } from '~/utils/exceptions.util';
 import CourierPartnerService from './courier-partners.service';
@@ -11,6 +11,8 @@ import { PrismaSelect } from '@paljs/plugins/dist/select';
 import { GraphQLResolveInfo } from 'graphql';
 import { createOrderSelector } from '~/db-selectors/order.selector';
 import { OffsetInput } from '~/graphql-type/args/common.input';
+import { APP_CONFIG } from '~/constants';
+import { checkDateIsBefore, createFutureDate } from '~/utils/date.utils';
 
 @Service()
 export default class OrderService {
@@ -127,20 +129,33 @@ export default class OrderService {
         currentStatusExtra: true,
         courierId: true,
         waybill: true,
-        tracking: {
-          orderBy: {
-            dateTime: 'asc'
-          }
-        }
       }
     })
 
     if(!order) {
       throw badUserInputException('Order not found')
     }
-    const data = await this.courierPartnerService.getTracking({ orders: [{ id: order.id, waybill: order.waybill, lastStatusDateTime: order?.currentStatusExtra?.dateTime ?? order.createdAt  }], courierId: order.courierId });
-    console.log(data);
-    return order.tracking
+    const { lastChecked } = order.currentStatusExtra ?? {};
+    const appConfig = Container.get(APP_CONFIG) as AppConfig[]; 
+    const { single } = appConfig[0].trackingRefresh;
+    const futureDate = createFutureDate(single, 'minutes')
+    if(!lastChecked || checkDateIsBefore(lastChecked, futureDate)) {
+      const data = await this.courierPartnerService.getTracking({ 
+        orders: [{ 
+          id: order.id, 
+          waybill: order.waybill, 
+          lastChecked: lastChecked ?? order.createdAt, 
+          lastStatusDateTime: order?.currentStatusExtra?.dateTime ?? order.createdAt  
+        }], 
+        courierId: order.courierId 
+      });
+      return data;
+    }
+    return this.prisma.tracking.findMany({
+      where: {
+        orderId: order.id
+      }
+    })
   }
 
   public async checkAllActiveOrdersTracking({ data, id} : { data: Order; id: string }) {
@@ -156,8 +171,13 @@ export default class OrderService {
     })
   }
 
-  public async updateTracking({ data, id} : { data: any; id: string }) {
-    
+  public async updateTracking({ trackingList }: { trackingList: Tracking[] }) {
+    if(!trackingList.length) {
+      return;
+    }
+    return this.prisma.tracking.createMany({
+      data: trackingList
+    })
   }
 
 }

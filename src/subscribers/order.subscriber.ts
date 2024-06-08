@@ -5,6 +5,8 @@ import LoggerInstance from '~/plugins/logger';
 import PincodeService from '~/services/pincode.service';
 import { Order } from '@prisma/client';
 import OrderService from '~/services/order.service';
+import { GetTrackingType, TrackingRecieveType } from '~/types/order.type';
+import { checkDateIsBefore } from '~/utils/date.utils';
 
 @EventSubscriber()
 export default class PincodeSubscriber {
@@ -21,7 +23,14 @@ export default class PincodeSubscriber {
   }
 
   @On(EVENTS.TRACKING.UPDATE)
-  public updateTracking({ data, id }: { data: Order; id: string }) {
-    this.orderService.updateTracking({ data, id });
+  public updateTracking({ ordersTracking }: { ordersTracking: (GetTrackingType & TrackingRecieveType)[] }) {
+    
+    const trackingList = [];
+
+    ordersTracking.forEach(order => {
+      const filterScans = order.scans.filter(scan => checkDateIsBefore(scan.dateTime, order.lastStatusDateTime));
+      trackingList.concat(filterScans)
+    })
+    this.orderService.updateTracking({ trackingList }) 
   }
 }

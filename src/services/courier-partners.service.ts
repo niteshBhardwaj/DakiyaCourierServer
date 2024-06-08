@@ -7,6 +7,7 @@ import { badRequestException } from '~/utils/exceptions.util';
 import { CourierSlugType, EVENTS_ACTIONS, checkEventAvailability, getCourierEvent } from '~/external/events';
 import { COURIER_PARTNER, LOGGER, PRISMA } from '~/constants';
 import { withResolvers } from '~/utils';
+import { GetTrackingType } from '~/types/order.type';
 
 @Service()
 export default class CourierPartnerService {
@@ -59,7 +60,7 @@ export default class CourierPartnerService {
     this.eventDispatcher.dispatch(event, dataCollection);
   }
 
-  public async getTracking({ orders, courierId }: { orders: Pick<Order, "id" | "waybill"> & { lastStatusDateTime: Date; }, courierId: string }) {
+  public async getTracking({ orders, courierId }: { orders: GetTrackingType[], courierId: string }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
     const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.TRACKING);
     if(!event) {

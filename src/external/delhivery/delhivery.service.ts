@@ -9,6 +9,7 @@ import { checkPickupForGivenDate } from './utils/pickup.delhivery.utils';
 import { isArray } from 'class-validator';
 import { checkDateIsBefore, createFutureDate, getDateAndTimeByDate } from '~/utils/date.utils';
 import { DateType } from '~/types/common.type';
+import { GetTrackingType } from '~/types/order.type';
 
 
 @Service()
@@ -61,7 +62,7 @@ export default class DelhiveryService {
       console.log('pickup already created for given date');
       return;
     }
-    const {date: pickupDate, time: pickupTime} = getDateAndTimeByDate(date);
+    const { date: pickupDate, time: pickupTime } = getDateAndTimeByDate(date);
 
     const { data } = await createPickupRequest({
       pickupData: {
@@ -74,28 +75,36 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async getTrackingDetails({ orders, resolve }: { orders: { waybill: string, id: string; lastStatusDateTime: Date}[], resolve?: Function }) {
+  public async getTrackingDetails({ orders, resolve }: { orders: GetTrackingType[], resolve?: Function }) {
     const trackingMapping = orders.reduce((acc, data) => {
       acc[data.waybill] = data
       return acc
     }, {});
     const trackings = await getTracking({ waybill: Object.keys(trackingMapping).join(',') })
-    if(trackings) {
-      const trackingList = (isArray(trackings) ? trackings: [trackings]).map((tracking) => {
+    if (trackings) {
+      const ordersTracking = (isArray(trackings) ? trackings : [trackings]).map((tracking) => {
+        const orderInfo = trackingMapping[tracking.waybill];
         return {
           ...tracking,
-          ...trackingMapping[tracking.waybill]}
-      }).filter(tracking => checkDateIsBefore(tracking.scans[tracking.scans.length - 1].dateTime, tracking.lastStatusDateTime));
-
-        this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
-          trackingList
-        })
-        if(resolve) {
-          resolve(trackingList)
+          ...orderInfo,
+          scan: tracking.scans.map((scan) => ({
+            ...scan,
+            orderId: orderInfo.id
+          }))
         }
-      return trackingList;
+      });
+
+      this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
+        ordersTracking
+      })
+      if (resolve) {
+        resolve(ordersTracking)
+      }
+      return ordersTracking;
     } else {
-      resolve(null);
+      if (resolve) {
+        resolve(null);
+      }
       return null;
     }
   }
@@ -145,10 +154,9 @@ export default class DelhiveryService {
         courierId,
         courierResponseJson: responseData
       }
-      const trackingDetails = await this.getTrackingDetails({ orders: packageList })
-      if(trackingDetails) {
-        orderUpdatedData.tracking = trackingDetails[0].scans
-      }
+      // get and udate tracking details
+      await this.getTrackingDetails({ orders: packageList })
+
       // update order after created
       this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {
         data: orderUpdatedData,

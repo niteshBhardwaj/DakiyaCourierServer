@@ -115,24 +115,6 @@ export const pickupMapping = {
     }`
 }
 
-export type TrackingMappingType = {
-    waybill: string;
-    expectedDeliveryDate: string;
-    firstAttemptDate: string;
-    promisedDeliveryDate: string;
-    outDestinationDate: string;
-    rtoStartDate: string;
-    destinationRecieveDate: string;
-    reverseInTransit: boolean;
-    scans: Array<{
-        dateTime: string;
-        location: string;
-        type: string;
-        status: string;
-        instructions: string;
-    }>;
-}
-
 export const trackingMapping = {
     responseMapping: `$map(ShipmentData, function($item) {
         {

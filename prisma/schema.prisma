@@ -19,8 +19,8 @@ model AppConfig {
 }
 
 type TrackingRefresh {
-  single Int
-  all    Int
+  single Int // minutes
+  all    Int // minutes
 }
 
 model User {
