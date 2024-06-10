@@ -12,7 +12,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { createOrderSelector } from '~/db-selectors/order.selector';
 import { OffsetInput } from '~/graphql-type/args/common.input';
 import { APP_CONFIG } from '~/constants';
-import { checkDateIsBefore, createFutureDate } from '~/utils/date.utils';
+import { checkDateIsBefore, createFutureDate, dateDifference } from '~/utils/date.utils';
 
 @Service()
 export default class OrderService {
@@ -138,8 +138,7 @@ export default class OrderService {
     const { lastChecked } = order.currentStatusExtra ?? {};
     const appConfig = Container.get(APP_CONFIG) as AppConfig[]; 
     const { single } = appConfig[0].trackingRefresh;
-    const futureDate = createFutureDate(single, 'minutes')
-    if(!lastChecked || checkDateIsBefore(lastChecked, futureDate)) {
+    if(!lastChecked || dateDifference(lastChecked, new Date()) > single) {
       const data = await this.courierPartnerService.getTracking({ 
         orders: [{ 
           id: order.id, 
@@ -149,13 +148,15 @@ export default class OrderService {
         }], 
         courierId: order.courierId 
       });
-      return data;
+      return data[0]?.scans;
     }
-    return this.prisma.tracking.findMany({
+
+    const scans = this.prisma.tracking.findMany({
       where: {
         orderId: order.id
       }
     })
+    return scans;
   }
 
   public async checkAllActiveOrdersTracking({ data, id} : { data: Order; id: string }) {

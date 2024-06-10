@@ -28,7 +28,7 @@ export default class PincodeSubscriber {
     const trackingList = [];
 
     ordersTracking.forEach(order => {
-      const filterScans = order.scans.filter(scan => checkDateIsBefore(scan.dateTime, order.lastStatusDateTime));
+      const filterScans = order.scans.filter(scan => checkDateIsBefore(order.lastStatusDateTime, scan.dateTime));
       trackingList.concat(filterScans)
     })
     this.orderService.updateTracking({ trackingList }) 

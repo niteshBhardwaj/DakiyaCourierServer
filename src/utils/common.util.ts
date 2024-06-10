@@ -7,3 +7,10 @@ export const withResolvers = function withResolvers() {
     });
     return {resolve: a, reject: b, promise: c};
   };
+
+  export const convertToArray = (data: any) => {
+    if (data) {
+      return Array.isArray(data) ? data : [data];
+    }
+    return [];
+  }

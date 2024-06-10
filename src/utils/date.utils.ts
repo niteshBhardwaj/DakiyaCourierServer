@@ -31,3 +31,8 @@ export const checkDateIsBefore = (date1: DateType, date2: DateType) => {
     if(!date1 || !date2) return false
     return dayjs(date1).isBefore(dayjs(date2))
 }
+
+export const dateDifference = (date1: DateType, date2: DateType, unit?: ManipulateType) => {
+    if(!date1 || !date2) return 0
+    return dayjs(date1).diff(dayjs(date2), unit ?? 'minute')
+}

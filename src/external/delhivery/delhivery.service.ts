@@ -10,6 +10,7 @@ import { isArray } from 'class-validator';
 import { checkDateIsBefore, createFutureDate, getDateAndTimeByDate } from '~/utils/date.utils';
 import { DateType } from '~/types/common.type';
 import { GetTrackingType } from '~/types/order.type';
+import { convertToArray } from '~/utils';
 
 
 @Service()
@@ -82,12 +83,12 @@ export default class DelhiveryService {
     }, {});
     const trackings = await getTracking({ waybill: Object.keys(trackingMapping).join(',') })
     if (trackings) {
-      const ordersTracking = (isArray(trackings) ? trackings : [trackings]).map((tracking) => {
+      const ordersTracking = convertToArray(trackings).map((tracking) => {
         const orderInfo = trackingMapping[tracking.waybill];
         return {
           ...tracking,
           ...orderInfo,
-          scan: tracking.scans.map((scan) => ({
+          scans: convertToArray(tracking.scans).map((scan) => ({
             ...scan,
             orderId: orderInfo.id
           }))
