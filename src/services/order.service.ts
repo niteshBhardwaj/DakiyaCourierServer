@@ -12,7 +12,8 @@ import { GraphQLResolveInfo } from 'graphql';
 import { createOrderSelector } from '~/db-selectors/order.selector';
 import { OffsetInput } from '~/graphql-type/args/common.input';
 import { APP_CONFIG } from '~/constants';
-import { checkDateIsBefore, createFutureDate, dateDifference } from '~/utils/date.utils';
+import { dateDifference } from '~/utils/date.utils';
+import { withResolvers } from '~/utils';
 
 @Service()
 export default class OrderService {
@@ -138,17 +139,20 @@ export default class OrderService {
     const { lastChecked } = order.currentStatusExtra ?? {};
     const appConfig = Container.get(APP_CONFIG) as AppConfig[]; 
     const { single } = appConfig[0].trackingRefresh;
-    if(!lastChecked || dateDifference(lastChecked, new Date()) > single) {
-      const data = await this.courierPartnerService.getTracking({ 
+    console.log(lastChecked, dateDifference(lastChecked, new Date()), single);
+    if(!lastChecked || dateDifference(new Date(), lastChecked) > single) {
+      const { promise, resolve } = withResolvers();
+      this.courierPartnerService.getTracking({ 
         orders: [{ 
           id: order.id, 
           waybill: order.waybill, 
           lastChecked: lastChecked ?? order.createdAt, 
           lastStatusDateTime: order?.currentStatusExtra?.dateTime ?? order.createdAt  
         }], 
-        courierId: order.courierId 
+        courierId: order.courierId,
+        resolveAll: resolve,
       });
-      return data[0]?.scans;
+      await promise;
     }
 
     const scans = this.prisma.tracking.findMany({
@@ -179,6 +183,12 @@ export default class OrderService {
     return this.prisma.tracking.createMany({
       data: trackingList
     })
+  }
+
+  public async updateMultipleOrders({ orders }: { orders: any[]}) {
+    return this.prisma.$transaction(
+      orders.map((order) => this.prisma.order.update(order))
+    )
   }
 
 }

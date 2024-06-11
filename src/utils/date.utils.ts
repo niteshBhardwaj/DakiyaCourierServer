@@ -12,7 +12,7 @@ export const isTodayDate = (date?: DateType) => {
 
 export const isSameDate = (date?: DateType, date1?: DateType) => {
     if(!date || date1) return false;
-    return dayjs(date).isSame(date1)
+    return dayjs(date).isSame(dayjs(date1))
 }
 
 export const createFutureDate = (value: number, unit: ManipulateType) => {

@@ -2,11 +2,10 @@ import { Container } from 'typedi';
 import { EventSubscriber, On } from 'event-dispatch';
 import { EVENTS } from '~/constants';
 import LoggerInstance from '~/plugins/logger';
-import PincodeService from '~/services/pincode.service';
 import { Order } from '@prisma/client';
 import OrderService from '~/services/order.service';
-import { GetTrackingType, TrackingRecieveType } from '~/types/order.type';
-import { checkDateIsBefore } from '~/utils/date.utils';
+import { GetTrackingType, TrackingReceiveType } from '~/types/order.type';
+import { checkDateIsBefore, isSameDate } from '~/utils/date.utils';
 
 @EventSubscriber()
 export default class PincodeSubscriber {
@@ -23,14 +22,43 @@ export default class PincodeSubscriber {
   }
 
   @On(EVENTS.TRACKING.UPDATE)
-  public updateTracking({ ordersTracking }: { ordersTracking: (GetTrackingType & TrackingRecieveType)[] }) {
+  public async updateTracking({ ordersTracking, resolveAll }: { ordersTracking: (GetTrackingType & TrackingReceiveType)[]; resolveAll?: Function }) {
     
-    const trackingList = [];
+    // update all orders status
+    await this.orderService.updateMultipleOrders({
+      orders: ordersTracking.map((order) => {
+        const data = {
+          reverseInTransit: order.reverseInTransit,
+        } as Record<string, string | number | boolean | any>
+        if(order.expectedDeliveryDate) {
+          data.expectedDeliveryDate = order.expectedDeliveryDate
+        }
+        const lastScan = order.scans[order.scans.length - 1];
+        if(lastScan && !isSameDate(lastScan.dateTime, order.lastStatusDateTime)) {  
+          data.currentStatusExtra = {
+            ...lastScan,
+            lastChecked: new Date()
+          }
+          // delete id
+          delete data.currentStatusExtra.orderId
+        }
+        return {
+          where: {
+            id: order.id
+          },
+          data
+        }
+      })
+    })
 
+    // update tracking
+    let trackingList = [];
     ordersTracking.forEach(order => {
       const filterScans = order.scans.filter(scan => checkDateIsBefore(order.lastStatusDateTime, scan.dateTime));
-      trackingList.concat(filterScans)
+      trackingList = trackingList.concat(filterScans)
     })
-    this.orderService.updateTracking({ trackingList }) 
+    await this.orderService.updateTracking({ trackingList }) 
+    if(resolveAll) resolveAll(ordersTracking)
+    // nexttracking
   }
 }

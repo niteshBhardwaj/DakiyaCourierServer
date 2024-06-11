@@ -60,14 +60,14 @@ export default class CourierPartnerService {
     this.eventDispatcher.dispatch(event, dataCollection);
   }
 
-  public async getTracking({ orders, courierId }: { orders: GetTrackingType[], courierId: string }) {
+  public async getTracking({ orders, courierId, resolveAll }: { orders: GetTrackingType[], courierId: string, resolveAll?: Function }) {
     const courierPartnerInfo = await this.findCourierPartnerById({ courierId });
     const event = getCourierEvent(courierPartnerInfo.slug as CourierSlugType, EVENTS_ACTIONS.TRACKING);
     if(!event) {
       return;
     }
     const { promise, resolve, reject } = withResolvers();
-    this.eventDispatcher.dispatch(event, { orders, courierPartnerInfo, resolve, reject });
+    this.eventDispatcher.dispatch(event, { orders, courierPartnerInfo, resolveAll, resolve, reject });
     return promise;
   }
 

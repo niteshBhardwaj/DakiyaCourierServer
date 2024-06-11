@@ -1,6 +1,6 @@
 import { Order } from "@prisma/client";
 
-export type TrackingRecieveType = {
+export type TrackingReceiveType = {
     waybill: string;
     expectedDeliveryDate: string | null;
     firstAttemptDate: string | null;

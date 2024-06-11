@@ -456,6 +456,7 @@ model DropAddress {
 type CurrentStatusExtra {
   instructions String?
   status       String?
+  location     String?
   dateTime     DateTime?
   type         String?
   lastChecked  DateTime?

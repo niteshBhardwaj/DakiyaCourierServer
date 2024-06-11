@@ -76,7 +76,7 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async getTrackingDetails({ orders, resolve }: { orders: GetTrackingType[], resolve?: Function }) {
+  public async getTrackingDetails({ orders, resolve, resolveAll, ...otherOptions }: { orders: GetTrackingType[], resolve?: Function, resolveAll: Function }) {
     const trackingMapping = orders.reduce((acc, data) => {
       acc[data.waybill] = data
       return acc
@@ -90,13 +90,16 @@ export default class DelhiveryService {
           ...orderInfo,
           scans: convertToArray(tracking.scans).map((scan) => ({
             ...scan,
+            dateTime: new Date(scan.dateTime),
             orderId: orderInfo.id
           }))
         }
       });
 
       this.eventDispatcher.dispatch(EVENTS.TRACKING.UPDATE, {
-        ordersTracking
+        ordersTracking,
+        resolveAll,
+        ...otherOptions
       })
       if (resolve) {
         resolve(ordersTracking)
@@ -105,6 +108,9 @@ export default class DelhiveryService {
     } else {
       if (resolve) {
         resolve(null);
+      }
+      if(resolveAll) {
+        resolveAll(null)
       }
       return null;
     }
