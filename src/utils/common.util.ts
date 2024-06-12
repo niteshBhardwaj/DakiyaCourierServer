@@ -14,3 +14,10 @@ export const withResolvers = function withResolvers() {
     }
     return [];
   }
+
+  export const groupBy = <T = any>(xs: T[], key: string): Record<string, T[]> => {
+    return xs.reduce(function (rv, x) {
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
+  }

@@ -5,6 +5,7 @@ import { PincodeAvailability, PrismaClient } from '@prisma/client';
 import { PincodeServiceabilityInput, RateCalculatorInput } from '~/graphql-type/args/order.input';
 import { LOGGER, PRISMA } from '~/constants';
 import { badUserInputException } from '~/utils/exceptions.util';
+import { groupBy } from '~/utils';
 
 @Service()
 export default class PincodeService {
@@ -81,15 +82,8 @@ constructor(
     if(sourcePincode === destinationPincode) {
       matchCount = 1;
     }
-
     // groupby courierId
-    const infoItems = pincodeList.reduce((acc, item) => {
-      if(!acc[item.courierId]) {
-        acc[item.courierId] = []
-      }
-      acc[item.courierId].push(item as PincodeAvailability)
-      return acc
-    }, {} as { [key: string]: PincodeAvailability[] })
+    const infoItems = groupBy<PincodeAvailability>(pincodeList as PincodeAvailability[], 'courierId')
 
     return {
       info: infoItems,

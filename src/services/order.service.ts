@@ -13,7 +13,7 @@ import { createOrderSelector } from '~/db-selectors/order.selector';
 import { OffsetInput } from '~/graphql-type/args/common.input';
 import { APP_CONFIG } from '~/constants';
 import { dateDifference } from '~/utils/date.utils';
-import { withResolvers } from '~/utils';
+import { groupBy, withResolvers } from '~/utils';
 
 @Service()
 export default class OrderService {
@@ -120,6 +120,7 @@ export default class OrderService {
 
   public async getTracking({ input } : { input: OrderDetailInput, userId: string; }, info: GraphQLResolveInfo) {
 
+    // get order info
     const order = await this.prisma.order.findFirst({
       where: {
         id: input.courierId
@@ -133,16 +134,18 @@ export default class OrderService {
       }
     })
 
+    // check order exist
     if(!order) {
       throw badUserInputException('Order not found')
     }
+    // check if tracking last checked is expired
     const { lastChecked } = order.currentStatusExtra ?? {};
     const appConfig = Container.get(APP_CONFIG) as AppConfig[]; 
     const { single } = appConfig[0].trackingRefresh;
-    console.log(lastChecked, dateDifference(lastChecked, new Date()), single);
+    console.log(lastChecked, dateDifference(new Date(), lastChecked), single);
     if(!lastChecked || dateDifference(new Date(), lastChecked) > single) {
       const { promise, resolve } = withResolvers();
-      this.courierPartnerService.getTracking({ 
+      this.courierPartnerService.getTracking({
         orders: [{ 
           id: order.id, 
           waybill: order.waybill, 
@@ -163,8 +166,73 @@ export default class OrderService {
     return scans;
   }
 
-  public async checkAllActiveOrdersTracking({ data, id} : { data: Order; id: string }) {
-    // return this.prisma.order.find()
+  public async checkAllActiveOrdersTracking() {
+    const appConfig = Container.get(APP_CONFIG) as AppConfig[]; 
+    const { all } = appConfig[0].trackingRefresh; // all minutes
+    const orders = await this.prisma.order.findMany({
+      where: {
+        status: {
+          notIn: [
+            OrderStatus.Delivered,
+            OrderStatus.Cancelled
+          ]
+        },
+        currentStatusExtra: {
+          is: {
+            lastChecked: {
+              lt: new Date(Date.now() - all * 60 * 1000)
+            }
+          }
+        }
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        currentStatusExtra: true,
+        courierId: true,
+        waybill: true,
+      },
+      // limit
+      take: 20
+    })
+
+    if(orders.length) {
+      // update last checked date
+      await this.prisma.order.updateMany({
+        where: {
+          id: {
+            in: orders.map(order => order.id)
+          }
+        },
+        data: {
+          currentStatusExtra: {
+            set: {
+              lastChecked: new Date()
+            }
+          }
+        }
+      })
+      const orderGroupBy = groupBy(orders, "courierId");
+      const allPromises = [];
+      Object.keys(orderGroupBy).forEach(courierId => {
+        const ordersList = orderGroupBy[courierId];
+        const { promise, resolve } = withResolvers();
+        allPromises.push(promise);
+        this.courierPartnerService.getTracking({
+          orders: ordersList.map(order => ({ 
+            id: order.id, 
+            waybill: order.waybill, 
+            lastChecked: order.currentStatusExtra?.lastChecked ?? order.createdAt, 
+            lastStatusDateTime: order?.currentStatusExtra?.dateTime ?? order.createdAt  
+          })), 
+          courierId: courierId,
+          resolveAll: resolve,
+        });    
+      })
+      await Promise.all(allPromises);
+    } else {
+      console.log('no more orders found to check tracking');
+    }
   }
 
   public async updateOrder({ data, id} : { data: Order; id: string }) {
