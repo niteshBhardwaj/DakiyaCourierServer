@@ -10,7 +10,7 @@ import { HonoRequest } from 'hono';
 // Verify a user's token.
 export const authMiddleware = async (req: HonoRequest) => {
   try {
-    const authorization = req?.header?.authorization?.split('Bearer ')[1];
+    const authorization = req.raw.headers.get('authorization')?.split('Bearer ')[1];
     if (authorization) {
       const tokenService = Container.get(TokenService);
       const {id: userId, t: userType} = await tokenService.verifyToken(authorization)

@@ -40,7 +40,7 @@ export default async (app: HonoBase) => {
   await apollo.start();
   app.route(
     '/graphql',
-    honoApollo(apollo, async ctx => apolloContext(ctx)),
+    honoApollo(apollo, async ctx => apolloContext(ctx.req)),
   );
   return apollo;
 };

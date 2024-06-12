@@ -21,3 +21,12 @@ export const withResolvers = function withResolvers() {
       return rv;
     }, {});
   }
+
+export const pickKeyFromObject = (obj: any, keys: string[]): any => {
+    return keys.reduce((result, key) => {
+      if (obj.hasOwnProperty(key)) {
+        result[key] = obj[key];
+      }
+      return result;
+    }, {});
+  };

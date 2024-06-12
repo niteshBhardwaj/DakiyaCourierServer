@@ -42,6 +42,8 @@
       onCreate = {
         # Example: install JS dependencies from NPM
         npm-install = "bun install";
+        bun-start = "bun start";
+        bun-studio = "bun studio";
       };
       # Runs when the workspace is (re)started
       onStart = {

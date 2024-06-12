@@ -11,6 +11,8 @@ import {
   import type { BlankSchema, Env } from 'hono/types';
   import type { StatusCode } from 'hono/utils/http-status';
   
+export type ApolloHonoContextType = ContextFunction<[HonoContext], any>;
+
   export function honoApollo(
     server: ApolloServer<BaseContext>,
     getContext?: ContextFunction<[HonoContext], BaseContext>,
@@ -33,7 +35,7 @@ import {
     // This `any` is safe because the overload above shows that context can
     // only be left out if you're using BaseContext as your context, and {} is a
     // valid BaseContext.
-    const defaultContext: ContextFunction<[HonoContext], any> = async () => ({});
+    const defaultContext: ApolloHonoContextType = async () => ({});
     const context = getContext ?? defaultContext;
   
     app.on(['GET', 'POST'], '/', async ctx => {
@@ -52,7 +54,6 @@ import {
         method: ctx.req.method,
         search: new URL(ctx.req.url).search,
       };
-  
       const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
         httpGraphQLRequest,
         context: () => context(ctx),

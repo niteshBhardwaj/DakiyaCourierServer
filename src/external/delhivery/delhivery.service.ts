@@ -76,7 +76,7 @@ export default class DelhiveryService {
     return data;
   }
 
-  public async getTrackingDetails({ orders, resolve, resolveAll, ...otherOptions }: { orders: GetTrackingType[], resolve?: Function, resolveAll: Function }) {
+  public async getTrackingDetails({ orders, resolve, resolveAll, ...otherOptions }: { orders: GetTrackingType[], resolve?: Function, resolveAll?: Function }) {
     const trackingMapping = orders.reduce((acc, data) => {
       acc[data.waybill] = data
       return acc
@@ -155,14 +155,20 @@ export default class DelhiveryService {
           updateData
         })
       }
-      const packageList = orderData.map(({ waybill }: { waybill: string }) => ({ waybill }));
+      const packageList = orderData.map(({ waybill }) => ({ waybill })) as { waybill: string }[];
       const orderUpdatedData = {
         ...packageList[0],
         courierId,
         courierResponseJson: responseData
       }
-      // get and udate tracking details
-      await this.getTrackingDetails({ orders: packageList })
+      // get and update tracking details
+      this.getTrackingDetails({ orders: packageList.map(orderItem => ({
+        id: order.id,
+        waybill: order.waybill, 
+        lastChecked: order.currentStatusExtra?.lastChecked ?? order.createdAt, 
+        lastStatusDateTime: order?.currentStatusExtra?.dateTime ?? order.createdAt,
+        ...orderItem
+      }))})
 
       // update order after created
       this.eventDispatcher.dispatch(EVENTS.ORDER.UPDATE, {

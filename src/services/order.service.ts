@@ -119,7 +119,8 @@ export default class OrderService {
   }
 
   public async getTracking({ input } : { input: OrderDetailInput, userId: string; }, info: GraphQLResolveInfo) {
-
+    this.checkAllActiveOrdersTracking();
+    return []
     // get order info
     const order = await this.prisma.order.findFirst({
       where: {
@@ -182,7 +183,7 @@ export default class OrderService {
             lastChecked: {
               lt: new Date(Date.now() - all * 60 * 1000)
             }
-          }
+          },
         }
       },
       select: {
@@ -193,11 +194,12 @@ export default class OrderService {
         waybill: true,
       },
       // limit
-      take: 20
+      take: 1
     })
 
     if(orders.length) {
       // update last checked date
+      console.log('checking tracking - ', orders.length)
       await this.prisma.order.updateMany({
         where: {
           id: {
@@ -230,6 +232,8 @@ export default class OrderService {
         });    
       })
       await Promise.all(allPromises);
+      // call next iteration
+      this.checkAllActiveOrdersTracking();
     } else {
       console.log('no more orders found to check tracking');
     }
@@ -254,6 +258,7 @@ export default class OrderService {
   }
 
   public async updateMultipleOrders({ orders }: { orders: any[]}) {
+    console.log(JSON.stringify(orders, null, 2));
     return this.prisma.$transaction(
       orders.map((order) => this.prisma.order.update(order))
     )
