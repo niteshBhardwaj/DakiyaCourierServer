@@ -119,8 +119,6 @@ export default class OrderService {
   }
 
   public async getTracking({ input } : { input: OrderDetailInput, userId: string; }, info: GraphQLResolveInfo) {
-    this.checkAllActiveOrdersTracking();
-    return []
     // get order info
     const order = await this.prisma.order.findFirst({
       where: {
@@ -202,7 +200,7 @@ export default class OrderService {
         courierId: true,
         waybill: true,
       },
-      take: 1
+      take: 10
     })
 
     if(orders.length) {
