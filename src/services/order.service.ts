@@ -172,19 +172,28 @@ export default class OrderService {
     const { all } = appConfig[0].trackingRefresh; // all minutes
     const orders = await this.prisma.order.findMany({
       where: {
+        courierId: {
+          not: null
+        },
         status: {
           notIn: [
             OrderStatus.Delivered,
             OrderStatus.Cancelled
           ]
         },
-        currentStatusExtra: {
-          is: {
-            lastChecked: {
-              lt: new Date(Date.now() - all * 60 * 1000)
+        OR: [{
+            currentStatusExtra: null
+        },
+          {
+            currentStatusExtra: {
+              is: {
+                  lastChecked: {
+                    lt: new Date(Date.now() - all * 60 * 1000)
+                  },
+              },
             }
-          },
-        }
+          }
+        ]
       },
       select: {
         id: true,
@@ -193,13 +202,12 @@ export default class OrderService {
         courierId: true,
         waybill: true,
       },
-      // limit
       take: 1
     })
 
     if(orders.length) {
       // update last checked date
-      console.log('checking tracking - ', orders.length)
+      console.log('checking tracking - ', orders.length, orders?.map(order => order.id));
       await this.prisma.order.updateMany({
         where: {
           id: {

@@ -4,7 +4,7 @@ import { DELIVERY_API_URL } from "../delhivery.constant";
 import { createOrderMapping, createWarehouseMapping, pickupMapping, pincodeServiceabilityMapping, updateWarehouseMapping, trackingMapping, TrackingMappingType } from "../delhivery.mapping";
 import { httpGet, httpPost } from "~/utils";
 import { mappingEvaluate, parseJson } from "./common.delhivery.utils";
-import { TrackingRecieveType } from "~/types/order.type";
+import { TrackingReceiveType } from "~/types/order.type";
 // import delhiveryPincode from '../../../../prisma/seed/data/delivery-pincode'
 
 const getUrl = (url: string) => {
@@ -122,7 +122,7 @@ export const getTracking = async ({ waybill }: { waybill: string }) => {
             const { responseMapping } = trackingMapping;
             const expression = jsonata(responseMapping);
             const trackingData = await expression.evaluate(data);
-            return trackingData as TrackingRecieveType[] | TrackingRecieveType;
+            return trackingData as TrackingReceiveType[] | TrackingReceiveType;
         }
     } catch (error) {
         console.log(error);
