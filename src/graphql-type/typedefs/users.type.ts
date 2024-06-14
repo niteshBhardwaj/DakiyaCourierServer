@@ -1,6 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 import { UserKycType } from './kyc.type';
-import GraphQLJSON from 'graphql-type-json';
+import { AccountDetailsType } from './account-details.type';
+import { WalletType } from './wallet.type';
 
 @ObjectType()
 export class CurrentStateType {
@@ -8,8 +9,8 @@ export class CurrentStateType {
   isRequired: boolean;
   @Field()
   state: string;
-  @Field(type => GraphQLJSON, { nullable: true })
-  data?: Object;
+  // @Field(type => GraphQLJSON, { nullable: true })
+  // data?: Object;
 }
 
 @ObjectType()
@@ -30,5 +31,11 @@ export class UserType extends NextStateType {
   phone?: string;
   @Field()
   phoneCountry?: string;
+  @Field({ nullable: true })
+  UserKYC?: UserKycType;
+  @Field({ nullable: true })
+  AccountDetails?: AccountDetailsType;
+  @Field({ nullable: true })
+  Wallet?: WalletType
 }
 

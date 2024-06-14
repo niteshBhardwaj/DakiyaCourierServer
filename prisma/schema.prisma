@@ -228,6 +228,8 @@ model AccountDetails {
   // Account type
   accountType AccountType @default(Standard)
 
+  status AccountStatus @default(PENDING)
+
   // Account holder name
   accountHolderName String
 
@@ -248,6 +250,12 @@ model AccountDetails {
 
   // Updated at
   updatedAt DateTime @default(now())
+}
+
+enum AccountStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum AccountType {

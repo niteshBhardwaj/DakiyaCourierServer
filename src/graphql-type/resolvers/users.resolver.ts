@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi';
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Info, Mutation, Query, Resolver } from 'type-graphql';
 import OtpService from '~/services/otp.service';
 import UserService from '~/services/user.service';
 import { QUERY_DESC, REQUEST } from '~/constants';
@@ -12,6 +12,7 @@ import { CurrentStateType, NextStateType, UserType } from '../typedefs/users.typ
 import { KYC_MESSAGE } from '~/constants/messages.contant';
 import KycService from '~/services/kyc.service';
 import { UserKycType } from '../typedefs/kyc.type';
+import { type GraphQLResolveInfo } from 'graphql';
 
 @Service()
 @Resolver()
@@ -28,9 +29,12 @@ export class userResolver {
   @Query(() => UserType, {
     description: QUERY_DESC.VERIFY_OTP_LOGIN,
   })
-  async getUserInfo(@Ctx() { user: { userId } }: { user: UserContext }): Promise<UserType> {
+  async getUserInfo(
+    @Ctx() { user: { userId } }: { user: UserContext },
+    @Info() info: GraphQLResolveInfo,
+  ): Promise<UserType> {
     // @ts-ignore
-    return this.userService.getUserInfo({ userId });
+    return this.userService.getUserInfo({ userId }, info);
   }
 
   /* verify email */
