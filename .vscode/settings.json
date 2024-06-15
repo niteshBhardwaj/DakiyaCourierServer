@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "pincode"
     ],
     "files.exclude": {
         "**/prisma/seed/data": true

@@ -7,6 +7,7 @@ import { APP_CONFIG, LOGGER, PRISMA, RATE_CARDS } from '~/constants';
 import { addTaxesCodCharges, findZoneAndAmount, getActualWeight } from '~/utils';
 import { badUserInputException } from '~/utils/exceptions.util';
 import PincodeService from './pincode.service';
+import RateCardService from './rate-card-service';
 
 @Service()
 export default class RateCalculatorService {
@@ -14,19 +15,9 @@ export default class RateCalculatorService {
     @Inject(PRISMA) private prisma: PrismaClient,
     @Inject(LOGGER) private logger: typeof LoggerInstance,
     private pincodeService: PincodeService,
+    private rateCardService: RateCardService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
-
-
-  public async findRateCard({ id }: { id?: string }) {
-    const rateCards = Container.get(RATE_CARDS) as RateCard[];
-    const rateCard = rateCards.find((card) => card.id === id);
-    if(id && !rateCard) {
-      throw badUserInputException('Rate card not found');
-    }
-    // get default rate card
-    return rateCards.find(card => card.tags.includes('default'));
-  }
 
   public async rateCalculator(input : RateCalculatorInput) {
     const { sourcePincode, destinationPincode, paymentMode, shippingMode, weight, boxHeight, boxWidth, boxLength, codAmount } = input
@@ -35,7 +26,7 @@ export default class RateCalculatorService {
       throw badUserInputException('Pincode not serviceable');
     }
     const pincodeInfo = await this.pincodeService.getPincodeInfoBySourceAndDestination({ sourcePincode, destinationPincode })
-    const rateCard = await this.findRateCard({});
+    const rateCard = await this.rateCardService.findRateCard({});
     if(!rateCard) {
       throw badUserInputException('Rate card not found');
     } 

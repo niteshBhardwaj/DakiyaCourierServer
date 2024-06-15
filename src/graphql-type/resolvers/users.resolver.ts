@@ -212,5 +212,14 @@ export class userResolver {
       });
     }
 
+    // @Authorized()
+    // @Query(() => BankDetailsType, {
+    //   description: QUERY_DESC.INIT_AUTH
+    // })
+    // async getAccountDetails(@Ctx() { user: { userId } }: { user: UserContext }): Promise<BankDetailsType> {
+    //   return this.userService.getAccountDetails({
+    //     userId
+    //   });
+    
 
 }

@@ -53,20 +53,25 @@ model User {
   // User type
   userType UserType @default(STANDARD)
 
-  currentState   CurrentState?
+  currentState CurrentState?
+
   // Created date
-  createdAt      DateTime         @default(now())
-  Otp            Otp[]
-  Wallet         Wallet[]
-  Ticket         Ticket[]
-  UserKYC        UserKYC[]        @relation("user")
-  UserVerified   UserKYC[]        @relation("verifiedUser")
-  AccountDetails AccountDetails[]
-  UploadedFiles  UploadedFiles[]
-  Order          Order[]
-  PickupAddress  PickupAddress[]
-  DropAddress    DropAddress[]
-  Transaction    Transaction[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  rateCardId    String?         @db.ObjectId
+  RateCard      RateCard?       @relation(fields: [rateCardId], references: [id])
+  Otp           Otp[]
+  Wallet        Wallet[]
+  Ticket        Ticket[]
+  UserKYC       UserKYC[]       @relation("user")
+  UserVerified  UserKYC[]       @relation("verifiedUser")
+  BankDetails   BankDetails[]
+  UploadedFiles UploadedFiles[]
+  Order         Order[]
+  PickupAddress PickupAddress[]
+  DropAddress   DropAddress[]
+  Transaction   Transaction[]
 }
 
 type CurrentState {
@@ -219,16 +224,16 @@ enum UploadServiceType {
   IMAGEKIT
 }
 
-model AccountDetails {
+model BankDetails {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String      @unique @db.ObjectId
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String          @unique @db.ObjectId
   // Account type
-  accountType AccountType @default(Standard)
+  accountType BankDetailsType @default(Standard)
 
-  status AccountStatus @default(PENDING)
+  status BankDetailsStatus @default(PENDING)
 
   // Account holder name
   accountHolderName String
@@ -252,13 +257,13 @@ model AccountDetails {
   updatedAt DateTime @default(now())
 }
 
-enum AccountStatus {
+enum BankDetailsStatus {
   PENDING
   APPROVED
   REJECTED
 }
 
-enum AccountType {
+enum BankDetailsType {
   Standard
   Premium
   Business
@@ -672,6 +677,8 @@ model RateCard {
   createdAt    DateTime       @default(now())
   // Updated at
   updatedAt    DateTime       @default(now())
+
+  User User[]
 }
 
 type UserRateCard {

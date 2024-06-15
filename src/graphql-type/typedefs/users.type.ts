@@ -1,7 +1,8 @@
 import { Field, ObjectType } from 'type-graphql';
 import { UserKycType } from './kyc.type';
-import { AccountDetailsType } from './account-details.type';
+import { BankDetailsType } from './bank-details.type';
 import { WalletType } from './wallet.type';
+import { RateCardType } from './rate-card.type';
 
 @ObjectType()
 export class CurrentStateType {
@@ -34,8 +35,10 @@ export class UserType extends NextStateType {
   @Field({ nullable: true })
   UserKYC?: UserKycType;
   @Field({ nullable: true })
-  AccountDetails?: AccountDetailsType;
+  BankDetails?: BankDetailsType;
   @Field({ nullable: true })
   Wallet?: WalletType
+  @Field({ nullable: true })
+  RateCard?: RateCardType
 }
 

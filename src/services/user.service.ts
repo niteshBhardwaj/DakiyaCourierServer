@@ -1,4 +1,4 @@
-import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma, KycDocumentStatus } from '@prisma/client';
+import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma, KycDocumentStatus, BankDetailsStatus } from '@prisma/client';
 import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
@@ -215,6 +215,7 @@ export default class UserService {
     });
   }
 
+
   /**
    * Adds or updates account details for a user.
    * @param userId - The ID of the user.
@@ -223,12 +224,13 @@ export default class UserService {
    */
   public async addUpdateAccountDetails({ userId, input }: { userId: string; input: BankDetailsInput }) {
 
-    await this.prisma.accountDetails.upsert({
+    await this.prisma.bankDetails.upsert({
       where: {
         id: userId
       },
       create: {
         userId,
+        status: BankDetailsStatus.APPROVED,
         ...input
       },
       update: {
