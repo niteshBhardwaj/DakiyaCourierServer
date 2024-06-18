@@ -530,6 +530,8 @@ model Transaction {
   wallet   Wallet @relation(fields: [walletId], references: [id])
   walletId String @db.ObjectId
 
+  //closing balance
+  closingBalance Int
   // Amount
   amount Int
 

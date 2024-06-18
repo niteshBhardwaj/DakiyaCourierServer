@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import LoggerInstance from '~/plugins/logger';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Transaction, TransactionType } from '@prisma/client';
 
 @Service()
 export default class WalletService {
@@ -39,11 +39,22 @@ export default class WalletService {
     });
   }
 
-//   public async saveTransaction(transaction: TransactionType, { userId }: Pick<WalletType, "userId">) {
-//     return walletModel.saveTransaction({
-//       userId
-//     },
-//       transaction
-//     );
-//   }
+  public async saveTransaction({ transaction } : { transaction: Transaction }) {
+    return this.prisma.$transaction(async (prisma) => {
+      await prisma.wallet.update({
+        where: {
+          userId: transaction.userId
+        },
+        data: {
+          balance: {
+            increment: transaction.amount
+          }
+        }
+      })
+      await prisma.tracking.create({
+        data: transaction
+      });
+    })
+     
+  }
 }
