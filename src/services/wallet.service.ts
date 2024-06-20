@@ -41,18 +41,45 @@ export default class WalletService {
 
   public async saveTransaction({ transaction } : { transaction: Transaction }) {
     return this.prisma.$transaction(async (prisma) => {
-      await prisma.wallet.update({
-        where: {
-          userId: transaction.userId
-        },
-        data: {
+      const { userId, transactionType, amount } = transaction;
+      const isCredit = transactionType === TransactionType.Credit;
+      const isDebit = transactionType === TransactionType.Debit;
+      let updateWalletData;
+      if(isCredit) {
+        updateWalletData = {
           balance: {
             increment: transaction.amount
           }
         }
+      } else if(isDebit) {
+        updateWalletData = {
+          balance: {
+            decrement: transaction.amount
+          }
+        }
+      }
+         // 1. Increment/Decrement amount from the sender.
+      const wallet = await prisma.wallet.update({
+        data: updateWalletData,
+        where: {
+          userId,
+        },
       })
+
+      if(!wallet) {
+        throw new Error(`Wallet for ${userId} not found`)
+      }
+
+      // 2. Verify that the sender's balance didn't go below zero.
+      if(isDebit && wallet.balance < 0) {
+        throw new Error(`User doesn't have enough amount ${amount}`)
+      }
+
       await prisma.tracking.create({
-        data: transaction
+        data: {
+          walletId: wallet.id,
+          ...transaction,
+        }
       });
     })
      
