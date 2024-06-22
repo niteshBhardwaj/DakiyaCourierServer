@@ -28,7 +28,7 @@ export default class OrderService {
     @Inject() private counterService: CounterService,
     @Inject() private rateCalculatorService: RateCalculatorService,
     @Inject() private pickupAddressService: PickupAddressService,
-    @Inject() private dropAddressService: DropAddressService,
+    // @Inject() private dropAddressService: DropAddressService,
     @Inject() private walletService: WalletService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }

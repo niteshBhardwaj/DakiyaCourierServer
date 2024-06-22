@@ -1,5 +1,5 @@
 import LoggerInstance from '~/plugins/logger';
-import { Service, Inject } from 'typedi';
+import Container, { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { PickupProvider, PrismaClient } from '@prisma/client';
 import { PickupAddressInput } from '~/graphql-type/args/pickup-address.input';
@@ -14,7 +14,6 @@ export default class PickupAddressService {
   constructor(
     @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
-    private orderService: OrderService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
 
@@ -39,7 +38,8 @@ export default class PickupAddressService {
 
   public async deletePickupAddress({ id, userId }: { id: string, userId: string }) {
     try {
-      const orderCount = await this.orderService.getOrderCount({
+      const orderService = Container.get(OrderService);
+      const orderCount = await orderService.getOrderCount({
         userId,
         where: {
           pickupId: id
@@ -72,7 +72,8 @@ export default class PickupAddressService {
   public async editPickupAddress({ input, userId }: { input: { id: string; updatedData: PickupAddressInput }, userId: string }) {
     const { id, updatedData } = input
     try {
-      const orderCount = await this.orderService.getOrderCount({
+      const orderService = Container.get(OrderService);
+      const orderCount = await orderService.getOrderCount({
         userId,
         where: {
           pickupId: id
