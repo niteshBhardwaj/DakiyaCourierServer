@@ -18,16 +18,16 @@ export async function addConfig() {
                 taxCharges: [{
                     name: "CGST",
                     percentage: "9",
-                    type: "GSt"
+                    type: "GST"
                 }, {
                     name: "SGST",
                     percentage: "9",
                     type: "GSt"
                 }],
                 extraCharges: [{
-                    name: "DPH",
+                    name: "Petrol & Diesel",
                     percentage: "1.5",
-                    type: "GSt"
+                    type: "DPH"
                 }]
             }
         })

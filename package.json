@@ -2,7 +2,7 @@
   "name": "dakiya-courier-server",
   "description": "Dakiya node js server",
   "prisma": {
-    "seed": "ts-node prisma/seed"
+    "seed": "bun run ./prisma/seed"
   },
   "scripts": {
     "lint": "eslint .",
