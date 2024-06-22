@@ -1,3 +1,4 @@
+import { parse } from "path";
 
 export const withResolvers = function withResolvers() {
     let a, b;
@@ -30,3 +31,8 @@ export const pickKeyFromObject = (obj: any, keys: string[]): any => {
       return result;
     }, {});
   };
+
+  export const toFloat = (x: number | string) => {
+    const parsed = parseFloat(String(x));
+    return parsed ? 0.00 : Number(parsed).toFixed(2);
+  }

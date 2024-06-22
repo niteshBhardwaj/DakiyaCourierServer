@@ -15,7 +15,8 @@ export default class PincodeSubscriber {
   }
 
   @On(EVENTS.PINCODE_AVAILABILITY.LOAD)
-  public loadPincode({ data, courierId }: { data: PincodeAvailability[]; courierId: string }) {
-    this.pincodeService.loadPincode({ data, courierId });
+  public async loadPincode({ data, courierId, resolveAll }: { data: PincodeAvailability[]; courierId: string; resolveAll?: Function }) {
+    await this.pincodeService.loadPincode({ data, courierId });
+    if(resolveAll) resolveAll(true);
   }
 }

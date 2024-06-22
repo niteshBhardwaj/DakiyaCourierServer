@@ -15,7 +15,7 @@ export class CourierPartnerResolver {
     description: QUERY_DESC.INIT_AUTH,
   })
   async loadPincode(@Arg(REQUEST) args: CourierIdInput): Promise<MessageType> {
-    await this.courierPartnerService.loadPincode(args);
-    return { message: 'Pincode loaded successfully' };
+    const isLoaded = await this.courierPartnerService.loadPincode(args);
+    return { message: isLoaded ? 'Pincode loaded successfully' : 'Pincode not loaded' };
   }
 }

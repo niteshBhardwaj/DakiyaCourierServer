@@ -32,12 +32,19 @@ export default class CourierPartnerService {
   }
 
   public async loadPincode({ courierId }: CourierIdInput) {
+    const { promise, resolve } = withResolvers();
     const courierPartner = await this.findCourierPartnerById({ courierId });
     const event = getCourierEvent(courierPartner.slug as CourierSlugType, EVENTS_ACTIONS.LOAD_PINCODE);
     if(!event) {
       return;
     }
-    this.eventDispatcher.dispatch(event, { ...courierPartner });
+    this.eventDispatcher.dispatch(event, { ...courierPartner, resolveAll: resolve });
+    try {
+      return promise;
+    } catch(e) {
+      this.logger.error(e);
+      return false;
+    }
   }
 
   public async createOrder({ order, courierId }: { order: Partial<Order>, courierId: string }) {
