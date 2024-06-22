@@ -32,6 +32,7 @@ export const USER_ERROR_KEYS = {
   UPLOAD_FAILED: "Upload failed. Please try again",
   PICKUP_ADDRESS_NOT_FOUND: "Pickup address not found",
   DROP_ADDRESS_NOT_FOUND: "Drop address not found",
+  EMAIL_SENT_FAILED: "Email sending failed. Please try again",
 };
 
 export const REQUIRED_FIELDS = {

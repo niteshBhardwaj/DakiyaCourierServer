@@ -22,7 +22,12 @@ export default class OtpSubscriber {
   }
 
   @On(EVENTS.OTP.ON_EMAIL)
-  public sendEmailOtp({ email, code }: { email: string; code: number }) {
-    this.mailerService.sendOtp(email, code);
+  public async sendEmailOtp({ email, code, resolve, reject }: { email: string; code: number, resolve?: Function, reject?: Function }) {
+    try {
+      const info = await this.mailerService.sendOtp(email, code);
+      resolve?.(info)
+    } catch(e) {
+      reject?.('Email sent failed.')
+    }
   }
 }

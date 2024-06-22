@@ -3,7 +3,7 @@ import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { EVENTS, USER_ERROR_KEYS } from '~/constants';
 import { Otp, PrismaClient, VerificationType } from '@prisma/client';
-import { generateOTP, getOtpExpirationTime, getPreviousTimeInMinutes } from '~/utils';
+import { generateOTP, getOtpExpirationTime, getPreviousTimeInMinutes, withResolvers } from '~/utils';
 import { badUserInputException } from '~/utils/exceptions.util';
 import { Identifier } from '~/graphql-type/args/auth.input';
 
@@ -34,19 +34,23 @@ export default class OtpService {
 
   // Send an OTP to the givenphone info.
   public async sendEmailOtp({ contactIdentifier, userId, usedFor }: Pick<Otp, 'contactIdentifier' | 'userId' | 'usedFor'>): Promise<Identifier> {
-    const otp = await this.create({
-      //@ts-ignore
-      userId,
-      contactIdentifier,
-      lastRequestIP: '',
-      verificationType: VerificationType.EMAIL,
-      usedFor
-    });
-    console.log(otp);
-    this.eventDispatcher.dispatch(EVENTS.OTP.ON_EMAIL, { email: contactIdentifier, code: otp.code });
-    return {
-      identifier: otp.id,
-    };
+    try {
+      const otp = await this.create({
+        userId,
+        contactIdentifier,
+        lastRequestIP: '',
+        verificationType: VerificationType.EMAIL,
+        usedFor
+      });
+      const { promise, resolve, reject } = withResolvers();
+      this.eventDispatcher.dispatch(EVENTS.OTP.ON_EMAIL, { email: contactIdentifier, code: otp.code, resolve, reject });
+      await promise;
+      return {
+        identifier: otp.id,
+      };
+    } catch(e) {
+      throw badUserInputException(USER_ERROR_KEYS.EMAIL_SENT_FAILED);
+    }
   }
 
   public async verifyOtp({
@@ -120,7 +124,7 @@ export default class OtpService {
   }
 
   private async create(
-    data: Pick<Otp, 'contactIdentifier' | 'lastRequestIP' | 'verificationType'>,
+    data: Pick<Otp, 'contactIdentifier' | 'lastRequestIP' | 'verificationType' | 'usedFor'> & { userId?: string },
   ): Promise<Otp> {
     return this.prisma.otp.create({
       data: {

@@ -4,7 +4,9 @@ import { env } from './config';
 export type MailerInstance = Transporter;
 export default () => {
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.zoho.in',
+    port: 465,
+    secure: true,
     auth: {
       user: env.MAILER_EMAIL,
       pass: env.MAILER_PASSWORD,

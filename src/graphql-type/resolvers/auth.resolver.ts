@@ -5,7 +5,7 @@ import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import AuthService from '~/services/auth.service';
 import { QUERY_DESC, REQUEST } from '~/constants';
 import { LoginSuccessResp, OtpResp } from '../typedefs/auth.type';
-import { CreateAccountInput, InitEmailRequest, InitPhoneRequest, InitPhoneType, LoginRequest } from '../args/auth.input';
+import { CreateAccountInput, InitEmailRequest, InitPhoneRequest, InitAccountType, LoginRequest } from '../args/auth.input';
 import OtpService from '~/services/otp.service';
 import { OtpVerifyInput } from '../args/otp.input';
 import { UsedForType } from '@prisma/client';
@@ -43,13 +43,13 @@ export class authResolver {
     description: QUERY_DESC.INIT_AUTH,
   })
   async initPhone(@Arg(REQUEST) { phone, type }: InitPhoneRequest): Promise<OtpResp> {
-    if (type === String(InitPhoneType.CREATE_ACCOUNT)) {
+    if (type === String(InitAccountType.CREATE_ACCOUNT)) {
       await this.authService.isAccountExist({ phone });
     }
     return await this.otpService.sendPhoneOtp({
       contactIdentifier: phone.toString(),
       userId: null,
-      usedFor: InitPhoneType.CREATE_ACCOUNT,
+      usedFor: InitAccountType.CREATE_ACCOUNT,
     });
   }
 
@@ -62,7 +62,7 @@ export class authResolver {
     @Arg(REQUEST) { email, type }: InitEmailRequest,
     @Ctx() { userId }: UserContext,
   ): Promise<OtpResp> {
-    if (type === String(InitPhoneType.CREATE_ACCOUNT)) {
+    if (type === String(InitAccountType.CREATE_ACCOUNT)) {
       await this.authService.isAccountExist({ email });
     }
     return this.otpService.sendEmailOtp({ contactIdentifier: email, userId, usedFor: UsedForType.CREATE_ACCOUNT });

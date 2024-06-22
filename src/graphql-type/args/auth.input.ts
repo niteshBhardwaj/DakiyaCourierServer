@@ -1,12 +1,21 @@
 import { CountryCode, PhoneLocalAlias, VALIDATION_MSG } from "~/constants";
 import { EmailOrPhone, OtpLength } from "~/utils";
 import { IsEmail, IsEnum, IsMobilePhone, IsMongoId, IsNotEmpty, MaxLength, Validate } from "class-validator";
-import { Field, InputType } from "type-graphql";
+import { Field, InputType, registerEnumType } from "type-graphql";
 
-export enum InitPhoneType {
+export enum InitAccountType {
   LOGIN = 'LOGIN',
   CREATE_ACCOUNT = 'CREATE_ACCOUNT',
 }
+
+registerEnumType(InitAccountType, {
+  name: 'InitAccountType',
+});
+
+registerEnumType(CountryCode, {
+  name: 'CountryCode',
+})
+
 @InputType()
 export class EmailInput {
   @Field()
@@ -18,7 +27,7 @@ export class EmailInput {
 
 @InputType()
 export class PhoneInput {
-  @Field({ defaultValue: CountryCode.IN })
+  @Field(() => CountryCode, { defaultValue: CountryCode.IN })
   @IsEnum(CountryCode, {
     message: VALIDATION_MSG.COUNTRY_CODE,
   })
@@ -33,15 +42,15 @@ export class PhoneInput {
 
 @InputType()
 export class InitPhoneRequest extends PhoneInput {
-  @Field({ description: `Choose: ${Object.keys(InitPhoneType)}` })
-  @IsEnum(InitPhoneType)
+  @Field(() => InitAccountType)
+  @IsEnum(InitAccountType)
   type: string;
 }
 
 @InputType()
 export class InitEmailRequest extends EmailInput {
-  @Field({ description: `Choose: ${Object.keys(InitPhoneType)}` })
-  @IsEnum(InitPhoneType)
+  @Field(() => InitAccountType)
+  @IsEnum(InitAccountType)
   type: string;
 }
 

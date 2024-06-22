@@ -46,6 +46,7 @@ export default class MailerService {
       return info;
     } catch(e) {
       console.log(e)
+      throw new Error('Email sent failed.')
     }
   }
 }
