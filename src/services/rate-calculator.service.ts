@@ -47,6 +47,7 @@ export default class RateCalculatorService {
     // get actual price breakup
     const priceBreakup = addTaxesCodCharges({ amount, appConfig: appConfig[0], paymentMode, codAmount });
     return {
+      rateCardId: rateCard.id,
       chargedWeight,
       zone,
       ...priceBreakup

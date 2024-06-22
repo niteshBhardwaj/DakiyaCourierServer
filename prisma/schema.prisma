@@ -372,6 +372,8 @@ model Order {
   tracking Tracking[]
   Ticket   Ticket[]
 
+  charges OrderCharges
+
   user   User   @relation(fields: [userId], references: [id])
   userId String @db.ObjectId
 
@@ -383,7 +385,23 @@ model Order {
   Transaction    Transaction[]
 }
 
+type OrderCharges {
+  baseAmount         Int
+  totalAmount        Int
+  totalAmountWithTax Int
+  cod                Int
+  taxes              ChargesTaxType[]
+  extraCharges       ChargesTaxType[]
+}
+
+type ChargesTaxType {
+  name   String
+  amount Int
+  type   String
+}
+
 enum OrderStatus {
+  Created
   Manifested
   InTransit
   OutOfDelivery
@@ -500,10 +518,10 @@ model Wallet {
   currency String @default("INR")
 
   // Wallet type
-  walletType WalletType @default(Personal)
+  type WalletType @default(Personal)
 
   // Wallet status
-  walletStatus WalletStatus @default(Active)
+  status WalletStatus @default(Active)
 
   // Transaction history
   transactions Transaction[]
@@ -533,10 +551,10 @@ model Transaction {
   //closing balance
   closingBalance Int
   // Amount
-  amount Int
+  amount         Int
 
   // Transaction type
-  transactionType TransactionType @default(Debit)
+  type TransactionType @default(Debit)
 
   // Description
   description String?
@@ -547,7 +565,7 @@ model Transaction {
   // Updated at
   updatedAt DateTime @default(now())
 
-  reason TransationReason
+  reason TransationReason?
 
   order   Order?  @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId String? @db.ObjectId

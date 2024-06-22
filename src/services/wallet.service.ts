@@ -1,7 +1,7 @@
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import LoggerInstance from '~/plugins/logger';
-import { PrismaClient, Transaction, TransactionType } from '@prisma/client';
+import { PrismaClient, Transaction, TransactionType, Wallet } from '@prisma/client';
 
 @Service()
 export default class WalletService {
@@ -35,26 +35,51 @@ export default class WalletService {
     return this.prisma.wallet.create({
         data: {
             userId,
+            balance: 0
         }
     });
   }
 
-  public async saveTransaction({ transaction } : { transaction: Transaction }) {
+  public async checkWalletBalance ({ userId, amount }: { userId: string; amount: number }) {
+    const wallet = await this.prisma.wallet.findUnique({
+      where: {
+        userId
+      },
+      select: {
+        balance: true
+      }
+    })
+    if(wallet.balance < amount) {
+      return false
+    }
+    return true
+  }
+
+  public async updateTransaction({ data, id }: { data: Partial<Transaction>; id: string }) {
+    return this.prisma.transaction.update({
+      where: {
+        id
+      },
+      data
+    })
+  }
+
+  public async updateWalletAndSaveTransaction(transaction: Pick<Transaction, 'userId' | 'type' | 'amount' | 'orderId' | 'description'>) {
     return this.prisma.$transaction(async (prisma) => {
-      const { userId, transactionType, amount } = transaction;
-      const isCredit = transactionType === TransactionType.Credit;
-      const isDebit = transactionType === TransactionType.Debit;
+      const { type, amount, userId } = transaction;
+      const isCredit = type === TransactionType.Credit;
+      const isDebit = type === TransactionType.Debit;
       let updateWalletData;
       if(isCredit) {
         updateWalletData = {
           balance: {
-            increment: transaction.amount
+            increment: amount
           }
         }
       } else if(isDebit) {
         updateWalletData = {
           balance: {
-            decrement: transaction.amount
+            decrement: amount
           }
         }
       }
@@ -67,7 +92,7 @@ export default class WalletService {
       })
 
       if(!wallet) {
-        throw new Error(`Wallet for ${userId} not found`)
+        throw new Error(`Wallet not found`)
       }
 
       // 2. Verify that the sender's balance didn't go below zero.
@@ -75,12 +100,19 @@ export default class WalletService {
         throw new Error(`User doesn't have enough amount ${amount}`)
       }
 
-      await prisma.tracking.create({
+      const newTransaction = await this.prisma.transaction.create({
         data: {
           walletId: wallet.id,
-          ...transaction,
+          closingBalance: wallet.balance,
+          ...transaction
         }
-      });
+      })
+
+      return {
+        transaction: newTransaction,
+        wallet
+      }
+
     })
      
   }

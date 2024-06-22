@@ -17,6 +17,21 @@ export default class DropAddressService {
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
 
+  public async findById({ id, userId }: { id: string; userId: string }) {
+    const address = this.prisma.dropAddress.findFirst({
+      where: {
+        id,
+        userId
+      }
+    })
+
+    if (!address) {
+      throw badUserInputException(USER_ERROR_KEYS.DROP_ADDRESS_NOT_FOUND)
+    }
+
+    return address
+
+  }
   public async getDropAddresses({ userId }: { userId: string }) {
     return this.prisma.dropAddress.findMany({
       where: {

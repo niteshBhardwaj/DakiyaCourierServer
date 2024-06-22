@@ -30,6 +30,8 @@ export const USER_ERROR_KEYS = {
   EMAIL_EXISTS_ERROR: "Email address already in use.",
   PHONE_EXISTS_ERROR: "Phone number already in use.",
   UPLOAD_FAILED: "Upload failed. Please try again",
+  PICKUP_ADDRESS_NOT_FOUND: "Pickup address not found",
+  DROP_ADDRESS_NOT_FOUND: "Drop address not found",
 };
 
 export const REQUIRED_FIELDS = {

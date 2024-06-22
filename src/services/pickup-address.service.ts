@@ -109,6 +109,19 @@ export default class PickupAddressService {
     })
   }
 
+  public async findById({id, userId}: {id: string, userId?: string}) {
+    const address = await this.prisma.pickupAddress.findUnique({
+      where: {
+        id,
+        userId
+      }
+    })
+    if(!address) {
+      throw badUserInputException(USER_ERROR_KEYS.PICKUP_ADDRESS_NOT_FOUND);
+    }
+    return address;
+  }
+
   public async updatePickupProvider({ data, id }: { data: PickupProvider, id: string }) {
     return this.prisma.pickupProvider.update({
       where: {
