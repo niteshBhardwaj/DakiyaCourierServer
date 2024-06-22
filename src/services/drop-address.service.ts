@@ -1,5 +1,5 @@
 import LoggerInstance from '~/plugins/logger';
-import { Service, Inject } from 'typedi';
+import Container, { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
 import { PrismaClient } from '@prisma/client';
 import OrderService from './order.service';
@@ -13,7 +13,6 @@ export default class DropAddressService {
   constructor(
     @Inject('prisma') private prisma: PrismaClient,
     @Inject('logger') private logger: typeof LoggerInstance,
-    private orderService: OrderService,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) { }
 
@@ -52,7 +51,8 @@ export default class DropAddressService {
 
   public async deleteDropAddress({ id, userId }: { id: string, userId: string }) {
     try {
-      const orderCount = await this.orderService.getOrderCount({
+      const orderService = Container.get(OrderService);
+      const orderCount = await orderService.getOrderCount({
         userId,
         where: {
           dropId: id
@@ -85,7 +85,8 @@ export default class DropAddressService {
   public async editDropAddress({ input, userId }: { input: { id: string; updatedData: DropAddressInput }, userId: string }) {
     const { id, updatedData } = input
     try {
-      const orderCount = await this.orderService.getOrderCount({
+      const orderService = Container.get(OrderService);
+      const orderCount = await orderService.getOrderCount({
         userId,
         where: {
           dropId: id
