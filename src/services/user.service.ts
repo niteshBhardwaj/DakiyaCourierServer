@@ -6,7 +6,7 @@ import { createHashPaswordAndSalt } from '~/utils/password.util';
 import { findNextState } from '~/utils/user.util';
 import KycService from './kyc.service';
 import { badRequestException, badUserInputException } from '~/utils/exceptions.util';
-import { ERROR_CODE, EVENTS, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '~/constants';
+import { CountryCode, ERROR_CODE, EVENTS, KYC_PRE_VALIDATION, USER_ERROR_KEYS } from '~/constants';
 import UploadService from './upload.service';
 import { getDocsUploadParams, getPhotoUploadParams } from '~/utils';
 import { CreateAccountInput } from '~/graphql-type/args/auth.input';
@@ -117,7 +117,7 @@ export default class UserService {
       data: {
         fullName: input.fullName,
         phone: input.phone,
-        phoneCountry: '91',
+        phoneCountry: input.countryCode ?? CountryCode.IN,
         passwordHash,
         currentState: findNextState(CurrentStateType.PHONE),
         Wallet: {
