@@ -338,16 +338,16 @@ model Order {
   isFragile Boolean?
 
   // Box height
-  boxHeight Int
+  boxHeight Float
 
   // Box width
-  boxWidth Int
+  boxWidth Float
 
   // Box length
-  boxLength Int
+  boxLength Float
 
   // COD amount
-  codAmount Int
+  codAmount Float
 
   // Waybill number
   waybill String?
@@ -386,17 +386,17 @@ model Order {
 }
 
 type OrderCharges {
-  baseAmount         Int
-  totalAmount        Int
-  totalAmountWithTax Int
-  cod                Int
+  baseAmount         Float
+  totalAmount        Float
+  totalAmountWithTax Float
+  cod                Float
   taxes              ChargesTaxType[]
   extraCharges       ChargesTaxType[]
 }
 
 type ChargesTaxType {
   name   String
-  amount Int
+  amount Float
   type   String
 }
 
@@ -421,9 +421,9 @@ enum ShippingMode {
 
 type Products {
   name     String
-  quantity Int
+  quantity Float
   category String?
-  amount   Int
+  amount   Float
   sku      String?
 }
 
@@ -512,7 +512,7 @@ model Wallet {
   userId String @unique @db.ObjectId
 
   // Balance
-  balance Int @default(0)
+  balance Float @default(0)
 
   // Currency
   currency String @default("INR")
@@ -549,9 +549,9 @@ model Transaction {
   walletId String @db.ObjectId
 
   //closing balance
-  closingBalance Int
+  closingBalance Float
   // Amount
-  amount         Int
+  amount         Float
 
   // Transaction type
   type TransactionType @default(Debit)

@@ -75,8 +75,8 @@ export class RateCalculatorType extends MessageType {
   @Field(() => [TaxType])
   taxes: TaxType[];
 
-  // @Field(() => [ExtraChargeType])
-  // extraCharges: ExtraChargeType[];
+  @Field(() => [ExtraChargeType])
+  extraCharges: ExtraChargeType[];
 
 
 }

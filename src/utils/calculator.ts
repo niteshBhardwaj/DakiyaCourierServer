@@ -1,6 +1,7 @@
 import { Admin1, Admin2, AppConfig, PaymentMode, Pincode, RateCard, ShippingMode, Zone } from "@prisma/client";
+import numeral from 'numeral';
+import { toFixed } from "./common.util";
 type PincodeType = Pick<Pincode, "pincode"> & { Admin2: Pick<Admin2, "name" | "code" | "tags"> & { Admin1: Pick<Admin1, "name" | "code" | "tags"> } }
-
 
 const zoneConfig = {
     city: {},
@@ -69,7 +70,7 @@ const getZoneType = ({ source, destination }: { source: PincodeType, destination
 }
 
 export const getActualWeight = ({ weight, boxHeight, boxWidth, boxLength }: { weight: number, boxHeight: number, boxWidth: number, boxLength: number }) => {
-    const volumetricWeight = (boxHeight * boxWidth * boxLength) / 5000;
+    const volumetricWeight = toFixed((boxHeight * boxWidth * boxLength) / 5000);
     return volumetricWeight > weight ? volumetricWeight : weight;
 }
 
@@ -91,7 +92,7 @@ export const findZoneAndAmount = ({ weight, source, destination, shippingMode, r
     const amount = Number(baseRate) + incrementTotal;
     // console.log({zoneType, weight, baseRate, base: card.base, increment: card.increment, incrementRate, incrementTotal, price});
 
-    return { zone: zoneType, amount };
+    return { zone: zoneType, amount: toFixed(amount) };
 }
 
 export const addTaxesCodCharges = ({ amount, appConfig, paymentMode, codAmount }: { amount: number, appConfig: AppConfig, paymentMode: PaymentMode, codAmount: number }) => {
@@ -106,13 +107,13 @@ export const addTaxesCodCharges = ({ amount, appConfig, paymentMode, codAmount }
     const { codCharges, taxCharges, extraCharges } = appConfig
     // check of cod
     if (paymentMode === PaymentMode.CashOnDelivery) {
-        priceBreakup.cod = Math.max(Number(codCharges.minimum), (codAmount * Number(codCharges.percentage)) / 100)
+        priceBreakup.cod = toFixed(Math.max(Number(codCharges.minimum), (codAmount * Number(codCharges.percentage)) / 100))
         priceBreakup.totalAmount += priceBreakup.cod
     }
 
     // check for extra charges
     extraCharges.forEach(charge => {
-        let amt = (amount * Number(charge.percentage)) / 100
+        let amt = toFixed((amount * Number(charge.percentage)) / 100)
         if (amt > 0) {
             priceBreakup.extraCharges.push({ name: charge.name, amount: amt, type: charge.type })
             priceBreakup.totalAmount += amt;
@@ -122,13 +123,12 @@ export const addTaxesCodCharges = ({ amount, appConfig, paymentMode, codAmount }
     // tax calulation
     let totalTax = 0;
     taxCharges.forEach(charge => {
-        let amt = (priceBreakup.totalAmount * Number(charge.percentage)) / 100
+        let amt = toFixed((priceBreakup.totalAmount * Number(charge.percentage)) / 100)
         if (amt > 0) {
             priceBreakup.taxes.push({ name: charge.name, amount: amt, type: charge.type })
             totalTax += amt;
         }
     })
-    priceBreakup.totalAmountWithTax = priceBreakup.totalAmount + totalTax;
-
-    return priceBreakup
+    priceBreakup.totalAmountWithTax = toFixed(priceBreakup.totalAmount + totalTax);
+    return priceBreakup;
 }

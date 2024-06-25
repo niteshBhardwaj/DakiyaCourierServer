@@ -36,3 +36,8 @@ export const pickKeyFromObject = (obj: any, keys: string[]): any => {
     const parsed = parseFloat(String(x));
     return parsed ? 0.00 : Number(parsed).toFixed(2);
   }
+
+  export const toFixed = (x: number | string): number => {
+    const parsed = parseFloat(String(x));
+    return parsed ? Number(parsed.toFixed(2)) : 0;
+  }
