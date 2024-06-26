@@ -72,6 +72,7 @@ model User {
   PickupAddress PickupAddress[]
   DropAddress   DropAddress[]
   Transaction   Transaction[]
+  LabelConfig   LabelConfig[]
 }
 
 type CurrentState {
@@ -446,6 +447,26 @@ model PickupAddress {
   Order          Order[]
   user           User             @relation(fields: [userId], references: [id])
   userId         String           @db.ObjectId
+}
+
+model LabelConfig {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  businessName      String?
+  logo              String?
+  size              String?
+  font              String?
+  hideInvoiceNo     Boolean  @default(false)
+  hideReturnAddress Boolean  @default(false)
+  hideProductInfo   Boolean  @default(false)
+  hideTotalAmount   Boolean  @default(false)
+  hideTax           Boolean  @default(false)
+  hideWeight        Boolean  @default(false)
+  hideCOD           Boolean  @default(false)
+  template          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id])
+  userId            String   @unique @db.ObjectId
 }
 
 model PickupProvider {
