@@ -1,7 +1,6 @@
 import { Admin1, Admin2, AppConfig, PaymentMode, Pincode, RateCard, ShippingMode, Zone } from "@prisma/client";
-import numeral from 'numeral';
 import { toFixed } from "./common.util";
-type PincodeType = Pick<Pincode, "pincode"> & { Admin2: Pick<Admin2, "name" | "code" | "tags"> & { Admin1: Pick<Admin1, "name" | "code" | "tags"> } }
+type PincodeType = Pick<Pincode, "pincode"> & { admin2: Pick<Admin2, "name" | "code" | "tags"> & { admin1: Pick<Admin1, "name" | "code" | "tags"> } }
 
 const zoneConfig = {
     city: {},
@@ -27,12 +26,12 @@ const zoneConfig = {
 
 const getZoneType = ({ source, destination }: { source: PincodeType, destination: PincodeType }) => {
     let type: Zone = Zone.ZoneD;
-    const sourceState = source.Admin2.Admin1;
-    const destinationState = destination.Admin2.Admin1;
-    const isSameState = source.Admin2.Admin1.code === destination.Admin2.Admin1.code;
-    const isSourceStateCity = source.Admin2.Admin1.tags.includes('City');
-    const isDestinationStateCity = destination.Admin2.Admin1.tags.includes('City');
-    const isSameCity = source.Admin2.code === destination.Admin2.code || (isSameState && source.Admin2.Admin1.tags.includes('City') && destination.Admin2.Admin1.tags.includes('City'));
+    const sourceState = source.admin2.admin1;
+    const destinationState = destination.admin2.admin1;
+    const isSameState = source.admin2.admin1.code === destination.admin2.admin1.code;
+    const isSourceStateCity = source.admin2.admin1.tags.includes('City');
+    const isDestinationStateCity = destination.admin2.admin1.tags.includes('City');
+    const isSameCity = source.admin2.code === destination.admin2.code || (isSameState && source.admin2.admin1.tags.includes('City') && destination.admin2.admin1.tags.includes('City'));
     let isWithinKM = false;
     let isMetroToMetro = false;
     let isSpecialZones1 = false;
@@ -49,7 +48,7 @@ const getZoneType = ({ source, destination }: { source: PincodeType, destination
         isSpecialZones1 = true;
         type = Zone.ZoneE;
         // check for metro to metro city
-    } else if ((isSourceStateCity && sourceState.tags.includes('Metro')) || source.Admin2.tags.includes('Metro') && ((isDestinationStateCity && destinationState.tags.includes('Metro')) || destination.Admin2.tags.includes('Metro'))) {
+    } else if ((isSourceStateCity && sourceState.tags.includes('Metro')) || source.admin2.tags.includes('Metro') && ((isDestinationStateCity && destinationState.tags.includes('Metro')) || destination.admin2.tags.includes('Metro'))) {
         isMetroToMetro = true;
         type = Zone.ZoneC;
         // check for within 500 kms

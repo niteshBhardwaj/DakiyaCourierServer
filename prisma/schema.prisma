@@ -60,19 +60,19 @@ model User {
   updatedAt DateTime @default(now())
 
   rateCardId    String?         @db.ObjectId
-  RateCard      RateCard?       @relation(fields: [rateCardId], references: [id])
-  Otp           Otp[]
-  Wallet        Wallet[]
-  Ticket        Ticket[]
-  UserKYC       UserKYC[]       @relation("user")
-  UserVerified  UserKYC[]       @relation("verifiedUser")
-  BankDetails   BankDetails[]
-  UploadedFiles UploadedFiles[]
-  Order         Order[]
-  PickupAddress PickupAddress[]
-  DropAddress   DropAddress[]
-  Transaction   Transaction[]
-  LabelConfig   LabelConfig[]
+  rateCard      RateCard?       @relation(fields: [rateCardId], references: [id])
+  otp           Otp[]
+  wallet        Wallet?
+  ticket        Ticket[]
+  userKYC       UserKYC?
+  userVerified  UserKYC[]       @relation("verifiedUser")
+  bankDetails   BankDetails?
+  uploadedFiles UploadedFiles[]
+  order         Order[]
+  pickupAddress PickupAddress[]
+  dropAddress   DropAddress[]
+  transaction   Transaction[]
+  labelConfig   LabelConfig?
 }
 
 type CurrentState {
@@ -117,7 +117,7 @@ model UserKYC {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
-  user   User   @relation("user", fields: [userId], references: [id], onDelete: Cascade)
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.ObjectId
 
   // KYC status
@@ -274,7 +274,7 @@ model Otp {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
-  user   User?   @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String? @db.ObjectId
 
   // OTP code
@@ -371,7 +371,7 @@ model Order {
   courierResponseJson Json?
 
   tracking Tracking[]
-  Ticket   Ticket[]
+  ticket   Ticket[]
 
   charges OrderCharges
 
@@ -383,7 +383,7 @@ model Order {
 
   courierId      String?         @db.ObjectId
   courierPartner CourierPartner? @relation(fields: [courierId], references: [id])
-  Transaction    Transaction[]
+  transaction    Transaction[]
 }
 
 type OrderCharges {
@@ -445,7 +445,7 @@ model PickupAddress {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @default(now())
   Order          Order[]
-  user           User             @relation(fields: [userId], references: [id])
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         String           @db.ObjectId
 }
 
@@ -465,18 +465,18 @@ model LabelConfig {
   template          String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @default(now())
-  user              User     @relation(fields: [userId], references: [id])
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String   @unique @db.ObjectId
 }
 
 model PickupProvider {
   id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  courierPartner  CourierPartner @relation(fields: [courierId], references: [id])
+  courierPartner  CourierPartner @relation(fields: [courierId], references: [id], onDelete: Cascade)
   courierId       String         @db.ObjectId
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @default(now())
   pickupResponse  Json?
-  PickupAddress   PickupAddress? @relation(fields: [pickupAddressId], references: [id])
+  PickupAddress   PickupAddress? @relation(fields: [pickupAddressId], references: [id], onDelete: Cascade)
   pickupAddressId String?        @db.ObjectId
 }
 
@@ -501,7 +501,7 @@ model DropAddress {
   email     String
   isDeleted Boolean @default(false)
   Order     Order[]
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String  @db.ObjectId
 }
 
@@ -516,7 +516,7 @@ type CurrentStatusExtra {
 
 model Tracking {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  Order        Order     @relation(fields: [orderId], references: [id])
+  Order        Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId      String    @db.ObjectId
   location     String?
   type         String?
@@ -529,7 +529,7 @@ model Wallet {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // User ID
-  user   User   @relation(fields: [userId], references: [id])
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @db.ObjectId
 
   // Balance
@@ -566,7 +566,7 @@ model Transaction {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // Wallet ID
-  wallet   Wallet @relation(fields: [walletId], references: [id])
+  wallet   Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
   walletId String @db.ObjectId
 
   //closing balance
@@ -719,7 +719,7 @@ model RateCard {
   // Updated at
   updatedAt    DateTime       @default(now())
 
-  User User[]
+  user User[]
 }
 
 type UserRateCard {
@@ -746,7 +746,7 @@ model Country {
   code   String   @id @map("_id")
   name   String
   tags   String[]
-  Admin1 Admin1[]
+  admin1 Admin1[]
 }
 
 model Admin1 {
@@ -755,25 +755,25 @@ model Admin1 {
   countryCode String
   Country     Country   @relation(fields: [countryCode], references: [code])
   tags        String[]
-  Admin2      Admin2[]
-  Pincode     Pincode[]
+  admin2      Admin2[]
+  pincode     Pincode[]
 }
 
 model Admin2 {
   code       String    @id @map("_id")
   name       String
   admin1Code String
-  Admin1     Admin1    @relation(fields: [admin1Code], references: [code])
+  admin1     Admin1    @relation(fields: [admin1Code], references: [code])
   tags       String[]
-  Pincode    Pincode[]
+  pincode    Pincode[]
 }
 
 model Pincode {
   pincode            Int                   @id @map("_id")
   admin1Code         String
-  Admin1             Admin1                @relation(fields: [admin1Code], references: [code])
+  admin1             Admin1                @relation(fields: [admin1Code], references: [code])
   admin2Code         String
-  Admin2             Admin2                @relation(fields: [admin2Code], references: [code])
+  admin2             Admin2                @relation(fields: [admin2Code], references: [code])
   admin3Name         String?
   tags               String[]
   area               Area[]
@@ -818,8 +818,8 @@ model CourierPartner {
   extraCharges       ExtraCharges[]
   // apiConfigs         ApiConfig[]
   pincodeAvailablity PincodeAvailability[]
-  Order              Order[]
-  PickupProvider     PickupProvider[]
+  order              Order[]
+  pickupProvider     PickupProvider[]
 }
 
 type PartnerRateCard {

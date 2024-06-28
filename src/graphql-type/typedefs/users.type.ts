@@ -32,13 +32,13 @@ export class UserType extends NextStateType {
   phone?: string;
   @Field()
   phoneCountry?: string;
-  @Field({ nullable: true })
-  UserKYC?: UserKycType;
-  @Field({ nullable: true })
-  BankDetails?: BankDetailsType;
-  @Field({ nullable: true })
-  Wallet?: WalletType
-  @Field({ nullable: true })
-  RateCard?: RateCardType
+  @Field(() => UserKycType, { nullable: true })
+  userKYC?: UserKycType;
+  @Field(() => BankDetailsType, { nullable: true })
+  bankDetails?: BankDetailsType;
+  @Field(() => WalletType, { nullable: true })
+  wallet?: WalletType
+  @Field(() => RateCardType, { nullable: true })
+  rateCard?: RateCardType
 }
 

@@ -1,4 +1,4 @@
-import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma, KycDocumentStatus, BankDetailsStatus } from '@prisma/client';
+import { CurrentStateType, User, UserKYC, PrismaClient, GovernmentIdType, Prisma, KycDocumentStatus, BankDetailsStatus, KYCStatus } from '@prisma/client';
 import LoggerInstance from '~/plugins/logger';
 import { Service, Inject } from 'typedi';
 import { EventDispatcher, EventDispatcherInterface } from '~/decorators/eventDispatcher';
@@ -60,23 +60,13 @@ export default class UserService {
       where: {
         id: userId
       },
-      ...select
-      // select: select ?? {
-      //   id: true,
-      //   fullName: true,
-      //   phone: true,
-      //   phoneCountry: true,
-      //   email: true,
-      //   currentState: true,
-      // }
-    }) as UserType
+      ...select,
+    })
     if (!user) {
       throw badRequestException(USER_ERROR_KEYS.NOT_FOUND, ERROR_CODE.UNAUTHENTICATED);
     }
-    // if (user.currentState) {
-    //   user.currentState = await this.getUserCurrentStateData(user.currentState, userId)
-    // }
-    return user as UserType;
+    console.log(user, 'user')
+    return user;
   }
 
   public async 
@@ -124,7 +114,12 @@ export default class UserService {
           create: {
             balance: 0
           }
-        }
+        },
+        UserKYC: {
+          create: {
+            status: KYCStatus.Pending
+          }
+        },
       },
     });
     
@@ -194,8 +189,8 @@ export default class UserService {
   public async verifyKyc(
     props: Pick<UserKYC, 'kycType' | 'userId'> & { code: string }
   ) {
-    const kycInfo = await this.kycService.preKycValidation(props, KYC_PRE_VALIDATION.VERIFICAITON) as UserKYC;
-    await this.kycService.verifykyc(props, kycInfo);
+    const kycInfo = await this.kycService.preKycValidation(props, KYC_PRE_VALIDATION.VERIFICATION) as UserKYC;
+    await this.kycService.verifyKyc(props, kycInfo);
     return this.updateAndGetCurrentState({ userId: props.userId, type: CurrentStateType.KYC })
   }
 

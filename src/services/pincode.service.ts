@@ -16,7 +16,7 @@ constructor(
   ) {}
 
   public async getPincodeInfo({ pincode }: { pincode: number }) {
-    const pincodeInfo = await this.prisma.pincode.findUnique({ where: { pincode }, include: { Admin2: true, Admin1: true } })
+    const pincodeInfo = await this.prisma.pincode.findUnique({ where: { pincode }, include: { admin2: true, admin1: true } })
     if(!pincodeInfo) {
       throw badUserInputException('Pincode not found')
     }
@@ -37,12 +37,12 @@ constructor(
       },
       select: {
         pincode: true,
-        Admin2: {
+        admin2: {
           select: {
             name: true,
             code: true,
             tags: true,
-            Admin1: {
+            admin1: {
               select: {
                 name: true,
                 code: true,

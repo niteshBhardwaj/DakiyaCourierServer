@@ -30,7 +30,7 @@ export const GSTIN_KYC_CODE = {
 } as Record<string, string>
 
 export enum KYC_PRE_VALIDATION {
-  VERIFICAITON = 'VERIFICAITON',
+  VERIFICATION = 'VERIFICATION',
   SKIP = 'SKIP',
   SELFIE = 'SELFIE'
 }

@@ -16,10 +16,10 @@ export class PincodeInfoType {
   admin3Name: string | null;
 
   @Field()
-  Admin1: Admin
+  admin1: Admin
 
   @Field()
-  Admin2: Admin;
+  admin2: Admin;
 }
 
 @ObjectType()
@@ -77,6 +77,4 @@ export class RateCalculatorType extends MessageType {
 
   @Field(() => [ExtraChargeType])
   extraCharges: ExtraChargeType[];
-
-
 }

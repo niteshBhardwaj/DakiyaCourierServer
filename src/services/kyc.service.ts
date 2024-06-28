@@ -28,7 +28,7 @@ export default class KycService {
     { userId, kycType }: Pick<UserKYC, 'kycType' | 'userId'>,
     usedFor?: KYC_PRE_VALIDATION
   ) {
-    const isVerification = usedFor === KYC_PRE_VALIDATION.VERIFICAITON
+    const isVerification = usedFor === KYC_PRE_VALIDATION.VERIFICATION
     const isSkip = usedFor === KYC_PRE_VALIDATION.SKIP;
     const isSelfiePhoto = usedFor = KYC_PRE_VALIDATION.SELFIE;
     // Check if the government ID type is offline
@@ -81,7 +81,8 @@ export default class KycService {
    * @returns The KYC information for the specified user.
    */
   public async getUserKyc({ userId, select }: Pick<UserKYC, 'userId'> & { select?: Prisma.UserKYCSelect }) {
-      return this.prisma.userKYC.findFirst({ where: { userId }, select }) as unknown as UserKycType;
+    let kyc = await this.prisma.userKYC.findFirst({ where: { userId }, select });
+    return kyc ?? {};
   }
   
   /**
@@ -90,7 +91,7 @@ export default class KycService {
    * @param governmentIdType - The type of government ID.
    * @returns A Promise that resolves to the result of the KYC initiation.
    */
-  public async inititiateKyc({
+  public async initiateKyc({
     governmentIdNumber,
     kycType,
   }: Pick<UserKYC, 'kycType' | 'userId' | 'governmentIdNumber'>) {
@@ -119,7 +120,7 @@ export default class KycService {
     input: Pick<UserKYC, 'kycType' | 'userId' | 'governmentIdNumber'>,
   ) {
     // Initialize the KYC request
-    const request = await this.inititiateKyc(input);
+    const request = await this.initiateKyc(input);
   
     let identifier = request.transaction_id;
     let createData = {
@@ -175,7 +176,7 @@ export default class KycService {
    * @param input - The input object containing the code, identifier, governmentIdType, and userId.
    * @returns An object with the identifier.
    */
-  public async verifykyc(
+  public async verifyKyc(
     input: { code: string; } & Pick<UserKYC, 'kycType' | 'userId'>,
     kycInfo: UserKYC | undefined
   ) {
